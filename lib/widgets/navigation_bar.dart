@@ -10,26 +10,34 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200.0,
+      width: 300.0,
       color: const Color(0xFF0072BB),
       child: ListView(
         children: <Widget>[
-          ListTile(
-            title: Text('Home'),
-            selected: selectedIndex == 0,
-            onTap: () => onItemTapped(0),
-          ),
-          ListTile(
-            title: Text('Profile'),
-            selected: selectedIndex == 1,
-            onTap: () => onItemTapped(1),
-          ),
-          ListTile(
-            title: Text('Settings'),
-            selected: selectedIndex == 2,
-            onTap: () => onItemTapped(2),
-          ),
+          _buildNavItem('Home', Icons.home, 0),
+          _buildNavItem('Profile', Icons.person, 1),
+          _buildNavItem('Settings', Icons.settings, 2),
         ],
+      ),
+    );
+  }
+
+  Widget _buildNavItem(String title, IconData iconData, int index) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+      color: selectedIndex == index ? Colors.lightBlueAccent : null,
+      child: ListTile(
+        leading: Icon(
+          iconData,
+          color: selectedIndex == index ? Colors.black : Colors.lightBlueAccent,
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            color: selectedIndex == index ? Colors.black : Colors.lightBlueAccent,
+          ),
+        ),
+        onTap: () => onItemTapped(index),
       ),
     );
   }
