@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/model/stay.dart';
+import 'package:soigne_moi_web/widgets/custom_list_tile.dart';
 
 class HomePageBody extends StatelessWidget {
   const HomePageBody({super.key});
@@ -34,11 +36,15 @@ class HomePageBody extends StatelessWidget {
                             padding: EdgeInsets.zero,
                             itemCount: 2,
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text('Séjour ${index + 1}'),
-                                onTap: () {
-                                  // Action when first or second home item is tapped
-                                },
+                              return CustomListTile(
+                                stay: Stay(
+                                  title: 'Séjour ${index + 1}',
+                                  type: 'Type A',
+                                  date: '2024-04-15',
+                                  onTap: () {
+                                    // Action when first or second home item is tapped
+                                  },
+                                ),
                               );
                             },
                           ),
@@ -68,11 +74,15 @@ class HomePageBody extends StatelessWidget {
                             padding: EdgeInsets.zero,
                             itemCount: 2,
                             itemBuilder: (context, index) {
-                              return ListTile(
-                                title: Text('Séjour ${index + 3}'),
-                                onTap: () {
-                                  // Action when third or fourth home item is tapped
-                                },
+                              return CustomListTile(
+                                stay: Stay(
+                                  title: 'Séjour ${index + 3}',
+                                  type: 'Type B',
+                                  date: '2024-04-20',
+                                  onTap: () {
+                                    // Action when third or fourth home item is tapped
+                                  },
+                                ),
                               );
                             },
                           ),
@@ -105,11 +115,15 @@ class HomePageBody extends StatelessWidget {
                       padding: EdgeInsets.zero,
                       itemCount: 2,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text('Séjour ${index + 5}'),
-                          onTap: () {
-                            // Action when fifth or sixth home item is tapped
-                          },
+                        return CustomListTile(
+                          stay: Stay(
+                            title: 'Séjour ${index + 5}',
+                            type: 'Type C',
+                            date: '2024-04-25',
+                            onTap: () {
+                              // Action when fifth or sixth home item is tapped
+                            },
+                          ),
                         );
                       },
                     ),
