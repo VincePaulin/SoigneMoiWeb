@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/page/home/homepage_body.dart';
 import 'package:soigne_moi_web/widgets/navigation_bar.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -30,7 +31,7 @@ class _DashboardPageState extends State<DashboardPage> {
             child: IndexedStack(
               index: _selectedIndex,
               children: [
-                HomePage(),
+                HomePageBody(),
                 ProfilePage(),
                 SettingsPage(),
               ],
@@ -38,17 +39,6 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ],
       ),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Welcome to the Home Page!'),
     );
   }
 }
