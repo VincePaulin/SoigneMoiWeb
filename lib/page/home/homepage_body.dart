@@ -41,9 +41,6 @@ class HomePageBody extends StatelessWidget {
                                   title: 'Séjour ${index + 1}',
                                   type: 'Type A',
                                   date: '2024-04-15',
-                                  onTap: () {
-                                    // Action when first or second home item is tapped
-                                  },
                                 ),
                               );
                             },
@@ -79,9 +76,6 @@ class HomePageBody extends StatelessWidget {
                                   title: 'Séjour ${index + 3}',
                                   type: 'Type B',
                                   date: '2024-04-20',
-                                  onTap: () {
-                                    // Action when third or fourth home item is tapped
-                                  },
                                 ),
                               );
                             },
@@ -120,9 +114,6 @@ class HomePageBody extends StatelessWidget {
                             title: 'Séjour ${index + 5}',
                             type: 'Type C',
                             date: '2024-04-25',
-                            onTap: () {
-                              // Action when fifth or sixth home item is tapped
-                            },
                           ),
                         );
                       },
