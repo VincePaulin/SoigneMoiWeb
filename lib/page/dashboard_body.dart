@@ -28,15 +28,63 @@ class _DashboardPageState extends State<DashboardPage> {
             onItemTapped: _onItemTapped,
           ), // Navigation bar on the left
           Expanded(
-            child: IndexedStack(
-              index: _selectedIndex,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                HomePageBody(),
-                ProfilePage(),
-                SettingsPage(),
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 50.0, vertical: 20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Welcome',
+                          style: TextStyle(
+                              fontSize: 28.0, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      const Icon(
+                        Icons.notifications,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(
+                        width: 5.0,
+                      ),
+                      CircleAvatar(
+                        child: Text('A'),
+                      ),
+                      const SizedBox(
+                        width: 5.0,
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            'Olivier',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            'Patien',
+                            style: TextStyle(
+                                fontSize: 12.0, fontWeight: FontWeight.w300),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: IndexedStack(
+                    index: _selectedIndex,
+                    children: [
+                      HomePageBody(),
+                      ProfilePage(),
+                      SettingsPage(),
+                    ],
+                  ),
+                ),
               ],
             ),
-          ),
+          )
         ],
       ),
     );
