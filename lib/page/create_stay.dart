@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/model/medical_section.dart';
 
 class CreateStayPage extends StatefulWidget {
   const CreateStayPage({super.key});
@@ -10,7 +11,8 @@ class CreateStayPage extends StatefulWidget {
 class _CreateStayPageState extends State<CreateStayPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _titleController = TextEditingController();
-  String _selectedType = 'Type A';
+  String _selectedType =
+      medicalSections.isNotEmpty ? medicalSections[0].name : '';
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now()
       .add(Duration(days: 7)); // Default end date is 7 days from today
@@ -31,10 +33,10 @@ class _CreateStayPageState extends State<CreateStayPage> {
                   children: [
                     TextFormField(
                       controller: _titleController,
-                      decoration: InputDecoration(labelText: 'Title'),
+                      decoration: InputDecoration(labelText: 'Titre du séjour'),
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Please enter a title';
+                          return 'Un titre est requis';
                         }
                         return null;
                       },
@@ -47,18 +49,17 @@ class _CreateStayPageState extends State<CreateStayPage> {
                           _selectedType = newValue!;
                         });
                       },
-                      items: <String>['Type A', 'Type B', 'Type C', 'Type D']
-                          .map<DropdownMenuItem<String>>((String value) {
+                      items: medicalSections.map((section) {
                         return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
+                          value: section.name,
+                          child: Text(section.name),
                         );
                       }).toList(),
                       decoration: InputDecoration(
-                        labelText: 'Select Type',
+                        labelText: "Sélectionner le type d'intervention",
                         border: OutlineInputBorder(),
                       ),
-                    ),
+                    )
                   ],
                 ),
                 const SizedBox(height: 20),
