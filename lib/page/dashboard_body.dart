@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/page/create_stay.dart';
 import 'package:soigne_moi_web/page/home/homepage_body.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
 import 'package:soigne_moi_web/widgets/custom_app_bar.dart';
@@ -20,6 +21,21 @@ class _DashboardPageState extends State<DashboardPage> {
     });
   }
 
+  String getPageName(int index) {
+    switch (index) {
+      case 0:
+        return "Vue d'ensemble";
+      case 1:
+        return 'Réservation de séjour';
+      case 2:
+        return 'Profile';
+      case 3:
+        return 'Settings';
+      default:
+        return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final isSmallScreen = ScreenSizeUtil.isSmallScreen(context);
@@ -37,13 +53,13 @@ class _DashboardPageState extends State<DashboardPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const CustomAppBar(),
+                CustomAppBar(titlePage: getPageName(_selectedIndex)),
                 Expanded(
                   child: IndexedStack(
                     index: _selectedIndex,
                     children: [
                       HomePageBody(),
-                      BookStayPage(),
+                      CreateStayPage(),
                       ProfilePage(),
                       SettingsPage(),
                     ],
@@ -60,18 +76,6 @@ class _DashboardPageState extends State<DashboardPage> {
               onItemTapped: _onItemTapped,
             )
           : null,
-    );
-  }
-}
-
-// Todo: make BookStayPage simply
-class BookStayPage extends StatelessWidget {
-  const BookStayPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Welcome to the BookStay Page!'),
     );
   }
 }

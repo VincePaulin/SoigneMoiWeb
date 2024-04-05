@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({super.key});
+  final String titlePage;
+  const CustomAppBar({super.key, required this.titlePage});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,9 @@ class CustomAppBar extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'Welcome',
-                    style:
-                        TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+                    titlePage,
+                    style: const TextStyle(
+                        fontSize: 32.0, fontWeight: FontWeight.bold),
                   ),
                 ),
                 InkWell(
