@@ -91,6 +91,7 @@ class _DashboardPageState extends State<DashboardPage> {
   }
 }
 
+// Todo: make profile page simply
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -102,6 +103,7 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
+// Todo: make setting page simply
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
