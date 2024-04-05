@@ -11,6 +11,7 @@ class CreateStayPage extends StatefulWidget {
 class _CreateStayPageState extends State<CreateStayPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController _titleController = TextEditingController();
+  TextEditingController _precisionController = TextEditingController();
   String _selectedType =
       medicalSections.isNotEmpty ? medicalSections[0].name : '';
   DateTime _startDate = DateTime.now();
@@ -59,7 +60,12 @@ class _CreateStayPageState extends State<CreateStayPage> {
                         labelText: "Sélectionner le type d'intervention",
                         border: OutlineInputBorder(),
                       ),
-                    )
+                    ),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      controller: _precisionController,
+                      decoration: InputDecoration(labelText: 'Précision'),
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
