@@ -4,11 +4,14 @@ import 'dart:ui';
 class Stay {
   final String title;
   final String type;
-  final String date;
+  final DateTime date;
+  final DateTime endDate;
+  final String? precision;
 
-  Stay({
-    required this.title,
-    required this.type,
-    required this.date,
-  });
+  Stay(
+      {required this.title,
+      required this.type,
+      required this.date,
+      required this.endDate,
+      this.precision});
 }

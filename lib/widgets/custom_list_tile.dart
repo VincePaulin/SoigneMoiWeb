@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/model/stay.dart';
+import 'package:intl/intl.dart';
 
 // Custom class for ListTiles with title, type and date
 class CustomListTile extends StatelessWidget {
@@ -12,6 +13,9 @@ class CustomListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formattedDate = DateFormat('dd/MM/yyyy').format(stay.date);
+    String formattedEndDate = DateFormat('dd/MM/yyyy').format(stay.endDate);
+
     return InkWell(
       onTap: () {},
       child: Padding(
@@ -48,9 +52,18 @@ class CustomListTile extends StatelessWidget {
               flex: 1,
               child: SizedBox(
                 width: double.infinity,
-                child: Text(
-                  stay.date,
-                  overflow: TextOverflow.ellipsis,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Début: $formattedDate',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Text(
+                      'Fin: $formattedEndDate',
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
               ),
             ),

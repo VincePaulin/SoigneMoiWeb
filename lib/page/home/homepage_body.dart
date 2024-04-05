@@ -3,7 +3,7 @@ import 'package:soigne_moi_web/model/stay.dart';
 import 'package:soigne_moi_web/widgets/custom_list_tile.dart';
 
 class HomePageBody extends StatelessWidget {
-  const HomePageBody({Key? key}) : super(key: key);
+  const HomePageBody({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,9 @@ class HomePageBody extends StatelessWidget {
                                 stay: Stay(
                                   title: 'Séjour ${index + 1}',
                                   type: 'Type A',
-                                  date: '2024-04-15',
+                                  date: DateTime.now(),
+                                  endDate:
+                                      DateTime.now().add(Duration(days: 7)),
                                 ),
                               );
                             },
@@ -77,7 +79,9 @@ class HomePageBody extends StatelessWidget {
                                 stay: Stay(
                                   title: 'Séjour ${index + 3}',
                                   type: 'Type B',
-                                  date: '2024-04-20',
+                                  date: DateTime.now().add(Duration(days: 10)),
+                                  endDate:
+                                      DateTime.now().add(Duration(days: 17)),
                                 ),
                               );
                             },
@@ -115,7 +119,8 @@ class HomePageBody extends StatelessWidget {
                           stay: Stay(
                             title: 'Séjour ${index + 5}',
                             type: 'Type C',
-                            date: '2024-04-25',
+                            date: DateTime.now().add(Duration(days: 20)),
+                            endDate: DateTime.now().add(Duration(days: 27)),
                           ),
                         );
                       },
