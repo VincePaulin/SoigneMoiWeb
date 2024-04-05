@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/page/home/homepage_body.dart';
+import 'package:soigne_moi_web/utils/screen_size.dart';
 import 'package:soigne_moi_web/widgets/custom_app_bar.dart';
 import 'package:soigne_moi_web/widgets/navigation_bar.dart';
 
@@ -21,18 +22,22 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isSmallScreen = ScreenSizeUtil.isSmallScreen(context);
+
     return Scaffold(
       body: Row(
-        children: <Widget>[
-          NavBar(
-            selectedIndex: _selectedIndex,
-            onItemTapped: _onItemTapped,
-          ), // Navigation bar on the left
+        children: [
+          !isSmallScreen
+              ? NavBar(
+                  selectedIndex: _selectedIndex,
+                  onItemTapped: _onItemTapped,
+                )
+              : Container(),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                CustomAppBar(),
+                const CustomAppBar(),
                 Expanded(
                   child: IndexedStack(
                     index: _selectedIndex,
@@ -49,6 +54,12 @@ class _DashboardPageState extends State<DashboardPage> {
           )
         ],
       ),
+      drawer: isSmallScreen
+          ? NavBar(
+              selectedIndex: _selectedIndex,
+              onItemTapped: _onItemTapped,
+            )
+          : null,
     );
   }
 }

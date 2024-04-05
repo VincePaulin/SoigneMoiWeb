@@ -3,12 +3,12 @@ import 'package:soigne_moi_web/model/stay.dart';
 import 'package:soigne_moi_web/widgets/custom_list_tile.dart';
 
 class HomePageBody extends StatelessWidget {
-  const HomePageBody({super.key});
+  const HomePageBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.all(50.0),
+    return Padding(
+      padding: EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -17,6 +17,7 @@ class HomePageBody extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
+                  flex: 1,
                   child: Card(
                     elevation: 5,
                     child: Column(
@@ -50,8 +51,9 @@ class HomePageBody extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 20),
+                SizedBox(width: 20),
                 Expanded(
+                  flex: 1,
                   child: Card(
                     elevation: 5,
                     child: Column(
@@ -88,7 +90,7 @@ class HomePageBody extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
           Expanded(
             child: Card(
               elevation: 5,
