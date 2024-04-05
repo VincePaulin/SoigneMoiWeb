@@ -38,6 +38,7 @@ class _DashboardPageState extends State<DashboardPage> {
                     index: _selectedIndex,
                     children: [
                       HomePageBody(),
+                      BookStayPage(),
                       ProfilePage(),
                       SettingsPage(),
                     ],
@@ -48,6 +49,18 @@ class _DashboardPageState extends State<DashboardPage> {
           )
         ],
       ),
+    );
+  }
+}
+
+// Todo: make BookStayPage simply
+class BookStayPage extends StatelessWidget {
+  const BookStayPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text('Welcome to the BookStay Page!'),
     );
   }
 }

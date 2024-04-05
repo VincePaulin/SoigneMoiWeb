@@ -38,9 +38,10 @@ class NavBar extends StatelessWidget {
               ],
             ),
           ),
-          _buildNavItem('Home', Icons.home, 0),
-          _buildNavItem('Profile', Icons.person, 1),
-          _buildNavItem('Settings', Icons.settings, 2),
+          _buildNavItem("Vue d'ensemble", Icons.home, 0),
+          _buildNavItem('réserver un séjour', Icons.local_hospital, 1),
+          _buildNavItem('Profile', Icons.person, 2),
+          _buildNavItem('Paramètres', Icons.settings, 3),
         ],
       ),
     );
