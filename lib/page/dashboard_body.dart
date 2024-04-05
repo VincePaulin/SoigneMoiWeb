@@ -26,7 +26,7 @@ class _DashboardPageState extends State<DashboardPage> {
       case 0:
         return "Vue d'ensemble";
       case 1:
-        return 'Réservation de séjour';
+        return "Réservation d'un séjour";
       case 2:
         return 'Profile';
       case 3:

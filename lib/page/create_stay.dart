@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/model/medical_section.dart';
 
 class CreateStayPage extends StatefulWidget {
@@ -14,9 +15,34 @@ class _CreateStayPageState extends State<CreateStayPage> {
   TextEditingController _precisionController = TextEditingController();
   String _selectedType =
       medicalSections.isNotEmpty ? medicalSections[0].name : '';
+  String _selectedDoctor = 'Pas de préférence';
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now()
       .add(Duration(days: 7)); // Default end date is 7 days from today
+
+  List<DropdownMenuItem<String>> _getDoctorDropdownItems() {
+    List<DropdownMenuItem<String>> items = [];
+    if (_selectedType == 'Pas de préférence') {
+      items.add(DropdownMenuItem<String>(
+        value: 'Pas de préférence',
+        child: Text('Pas de préférence'),
+      ));
+    } else {
+      for (Doctor doctor in doctors) {
+        if (doctor.medicalSections.contains(_selectedType)) {
+          items.add(DropdownMenuItem<String>(
+            value: doctor.fullName,
+            child: Text(doctor.fullName),
+          ));
+        }
+      }
+      items.add(DropdownMenuItem<String>(
+        value: 'Pas de préférence',
+        child: Text('Pas de préférence'),
+      ));
+    }
+    return items;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +74,7 @@ class _CreateStayPageState extends State<CreateStayPage> {
                       onChanged: (String? newValue) {
                         setState(() {
                           _selectedType = newValue!;
+                          _selectedDoctor = 'Pas de préférence';
                         });
                       },
                       items: medicalSections.map((section) {
@@ -58,6 +85,20 @@ class _CreateStayPageState extends State<CreateStayPage> {
                       }).toList(),
                       decoration: InputDecoration(
                         labelText: "Sélectionner le type d'intervention",
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    DropdownButtonFormField<String>(
+                      value: _selectedDoctor,
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          _selectedDoctor = newValue!;
+                        });
+                      },
+                      items: _getDoctorDropdownItems(),
+                      decoration: InputDecoration(
+                        labelText: 'Sélectionner le médecin',
                         border: OutlineInputBorder(),
                       ),
                     ),
@@ -155,6 +196,7 @@ class _CreateStayPageState extends State<CreateStayPage> {
 
   // Method to submit form data
   void _submitForm() {
+    // Todo: make createStay function
     print('Title: ${_titleController.text}');
     print('Type: $_selectedType');
     print('Start Date: $_startDate');
