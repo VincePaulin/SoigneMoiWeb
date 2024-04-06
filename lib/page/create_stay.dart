@@ -60,10 +60,10 @@ class _CreateStayPageState extends State<CreateStayPage> {
                   children: [
                     TextFormField(
                       controller: _titleController,
-                      decoration: InputDecoration(labelText: 'Titre du séjour'),
+                      decoration: InputDecoration(labelText: 'Motif du séjour'),
                       validator: (value) {
                         if (value!.isEmpty) {
-                          return 'Un titre est requis';
+                          return 'Un motif est requis';
                         }
                         return null;
                       },
@@ -121,7 +121,15 @@ class _CreateStayPageState extends State<CreateStayPage> {
                           onPressed: () {
                             _selectStartDate(context);
                           },
-                          child: Text('Date de départ'),
+                          child: Row(
+                            children: [
+                              Icon(Icons.calendar_today),
+                              const SizedBox(
+                                width: 5.0,
+                              ),
+                              Text('Choisir la date de départ'),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -135,21 +143,36 @@ class _CreateStayPageState extends State<CreateStayPage> {
                           onPressed: () {
                             _selectEndDate(context);
                           },
-                          child: Text('Choisir la date de fin'),
+                          child: Row(
+                            children: [
+                              Icon(Icons.calendar_today),
+                              const SizedBox(
+                                width: 5.0,
+                              ),
+                              Text('Choisir la date de fin'),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
                 const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Form is valid, proceed with submission
-                      _submitForm();
-                    }
-                  },
-                  child: Text('Créer le séjour'),
+                SizedBox(
+                  width: double.infinity,
+                  height: 50.0,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        // Form is valid, proceed with submission
+                        _submitForm();
+                      }
+                    },
+                    child: Text(
+                      'Confirmation ',
+                      style: TextStyle(fontSize: 18.0),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -161,7 +184,7 @@ class _CreateStayPageState extends State<CreateStayPage> {
 
   // Method to format date in 'MM/dd/yyyy' format
   String _formatDate(DateTime date) {
-    return '${date.month}/${date.day}/${date.year}';
+    return '${date.day}/${date.month}/${date.year}';
   }
 
   // Method to show date picker for selecting start date
