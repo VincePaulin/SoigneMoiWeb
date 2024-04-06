@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/utils/app_colors.dart';
 
 class NavBar extends StatelessWidget {
   final int selectedIndex;
@@ -12,7 +13,7 @@ class NavBar extends StatelessWidget {
     return Container(
       width: 300.0,
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      color: const Color(0xFF0072BB),
+      color: AppColors.primaryColor,
       child: Column(
         children: <Widget>[
           Container(
