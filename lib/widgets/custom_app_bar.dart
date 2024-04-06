@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -27,7 +28,7 @@ class CustomAppBar extends StatelessWidget {
                 Expanded(
                   child: Text(
                     titlePage,
-                    style: const TextStyle(
+                    style: montserratTextStyle(
                         fontSize: 32.0, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -63,11 +64,12 @@ class CustomAppBar extends StatelessWidget {
                           children: [
                             Text(
                               'Olivier',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: montserratTextStyle(
+                                  fontWeight: FontWeight.bold),
                             ),
                             Text(
                               'Patient',
-                              style: TextStyle(
+                              style: montserratTextStyle(
                                   fontSize: 12.0, fontWeight: FontWeight.w300),
                             ),
                           ],

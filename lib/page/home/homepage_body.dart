@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/model/stay.dart';
+import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/custom_list_tile.dart';
 
 class HomePageBody extends StatelessWidget {
@@ -8,7 +9,7 @@ class HomePageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -27,7 +28,7 @@ class HomePageBody extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'Séjour en cours',
-                            style: TextStyle(
+                            style: montserratTextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -65,7 +66,7 @@ class HomePageBody extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             'Séjour(s) à venir',
-                            style: TextStyle(
+                            style: montserratTextStyle(
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -105,7 +106,7 @@ class HomePageBody extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       'Historique des Séjours',
-                      style: TextStyle(
+                      style: montserratTextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),

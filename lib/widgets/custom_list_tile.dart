@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/model/stay.dart';
 import 'package:intl/intl.dart';
+import 'package:soigne_moi_web/utils/app_fonts.dart';
 
 // Custom class for ListTiles with title, type and date
 class CustomListTile extends StatelessWidget {
@@ -30,7 +31,7 @@ class CustomListTile extends StatelessWidget {
                   stay.title,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: robotoTextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -44,6 +45,7 @@ class CustomListTile extends StatelessWidget {
                 child: Text(
                   stay.type,
                   overflow: TextOverflow.ellipsis,
+                  style: robotoTextStyle(),
                 ),
               ),
             ),
@@ -58,10 +60,12 @@ class CustomListTile extends StatelessWidget {
                     Text(
                       'Début: $formattedDate',
                       overflow: TextOverflow.ellipsis,
+                      style: robotoTextStyle(),
                     ),
                     Text(
                       'Fin: $formattedEndDate',
                       overflow: TextOverflow.ellipsis,
+                      style: robotoTextStyle(),
                     ),
                   ],
                 ),

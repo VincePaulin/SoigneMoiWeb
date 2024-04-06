@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/utils/app_colors.dart';
+import 'package:soigne_moi_web/utils/app_fonts.dart';
 
 class NavBar extends StatelessWidget {
   final int selectedIndex;
@@ -25,6 +26,7 @@ class NavBar extends StatelessWidget {
                 Text(
                   "Soigne Moi",
                   style: TextStyle(
+                    fontFamily: 'Montserrat',
                     fontSize: 24,
                     color: Colors.white,
                     shadows: [
@@ -62,7 +64,7 @@ class NavBar extends StatelessWidget {
         ),
         title: Text(
           title,
-          style: TextStyle(
+          style: montserratTextStyle(
             color:
                 selectedIndex == index ? Colors.black : Colors.lightBlueAccent,
           ),

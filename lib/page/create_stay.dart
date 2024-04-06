@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/model/medical_section.dart';
+import 'package:soigne_moi_web/utils/app_fonts.dart';
 
 class CreateStayPage extends StatefulWidget {
   const CreateStayPage({super.key});
@@ -60,7 +62,10 @@ class _CreateStayPageState extends State<CreateStayPage> {
                   children: [
                     TextFormField(
                       controller: _titleController,
-                      decoration: InputDecoration(labelText: 'Motif du séjour'),
+                      decoration: InputDecoration(
+                          labelText: 'Motif du séjour',
+                          labelStyle: robotoTextStyle(
+                              color: CupertinoColors.inactiveGray)),
                       validator: (value) {
                         if (value!.isEmpty) {
                           return 'Un motif est requis';
@@ -77,15 +82,20 @@ class _CreateStayPageState extends State<CreateStayPage> {
                           _selectedDoctor = 'Pas de préférence';
                         });
                       },
+                      style: robotoTextStyle(),
                       items: medicalSections.map((section) {
                         return DropdownMenuItem<String>(
                           value: section.name,
-                          child: Text(section.name),
+                          child: Text(
+                            section.name,
+                            style: robotoTextStyle(),
+                          ),
                         );
                       }).toList(),
                       decoration: InputDecoration(
                         labelText: "Sélectionner le type d'intervention",
-                        border: OutlineInputBorder(),
+                        labelStyle: robotoTextStyle(),
+                        border: const OutlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -96,16 +106,21 @@ class _CreateStayPageState extends State<CreateStayPage> {
                           _selectedDoctor = newValue!;
                         });
                       },
+                      style: robotoTextStyle(),
                       items: _getDoctorDropdownItems(),
                       decoration: InputDecoration(
                         labelText: 'Sélectionner le médecin',
-                        border: OutlineInputBorder(),
+                        labelStyle: robotoTextStyle(),
+                        border: const OutlineInputBorder(),
                       ),
                     ),
                     const SizedBox(height: 20),
                     TextFormField(
                       controller: _precisionController,
-                      decoration: InputDecoration(labelText: 'Précision'),
+                      decoration: InputDecoration(
+                          labelText: 'Précision',
+                          labelStyle: robotoTextStyle(
+                              color: CupertinoColors.inactiveGray)),
                     ),
                   ],
                 ),
@@ -115,7 +130,10 @@ class _CreateStayPageState extends State<CreateStayPage> {
                     Row(
                       children: [
                         Expanded(
-                          child: Text('Date: ${_formatDate(_startDate)}'),
+                          child: Text(
+                            'Date: ${_formatDate(_startDate)}',
+                            style: robotoTextStyle(),
+                          ),
                         ),
                         TextButton(
                           onPressed: () {
@@ -123,11 +141,14 @@ class _CreateStayPageState extends State<CreateStayPage> {
                           },
                           child: Row(
                             children: [
-                              Icon(Icons.calendar_today),
+                              const Icon(Icons.calendar_today),
                               const SizedBox(
                                 width: 5.0,
                               ),
-                              Text('Choisir la date de départ'),
+                              Text(
+                                'Choisir la date de départ',
+                                style: robotoTextStyle(),
+                              ),
                             ],
                           ),
                         ),
@@ -137,7 +158,10 @@ class _CreateStayPageState extends State<CreateStayPage> {
                     Row(
                       children: [
                         Expanded(
-                          child: Text('Fin le: ${_formatDate(_endDate)}'),
+                          child: Text(
+                            'Fin le: ${_formatDate(_endDate)}',
+                            style: robotoTextStyle(),
+                          ),
                         ),
                         TextButton(
                           onPressed: () {
@@ -145,11 +169,14 @@ class _CreateStayPageState extends State<CreateStayPage> {
                           },
                           child: Row(
                             children: [
-                              Icon(Icons.calendar_today),
+                              const Icon(Icons.calendar_today),
                               const SizedBox(
                                 width: 5.0,
                               ),
-                              Text('Choisir la date de fin'),
+                              Text(
+                                'Choisir la date de fin',
+                                style: robotoTextStyle(),
+                              ),
                             ],
                           ),
                         ),
@@ -170,7 +197,7 @@ class _CreateStayPageState extends State<CreateStayPage> {
                     },
                     child: Text(
                       'Confirmation ',
-                      style: TextStyle(fontSize: 18.0),
+                      style: montserratTextStyle(fontSize: 18.0),
                     ),
                   ),
                 ),
