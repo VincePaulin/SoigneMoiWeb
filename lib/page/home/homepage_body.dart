@@ -21,6 +21,7 @@ class HomePageBody extends StatelessWidget {
                   flex: 1,
                   child: Card(
                     elevation: 5,
+                    color: Colors.white.withOpacity(0.8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -59,6 +60,7 @@ class HomePageBody extends StatelessWidget {
                   flex: 1,
                   child: Card(
                     elevation: 5,
+                    color: Colors.white.withOpacity(0.8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
@@ -95,10 +97,11 @@ class HomePageBody extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Expanded(
             child: Card(
               elevation: 5,
+              color: Colors.white.withOpacity(0.8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

@@ -48,161 +48,162 @@ class _CreateStayPageState extends State<CreateStayPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 50),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Column(
-                  children: [
-                    TextFormField(
-                      controller: _titleController,
-                      decoration: InputDecoration(
-                          labelText: 'Motif du séjour',
-                          labelStyle: robotoTextStyle(
-                              color: CupertinoColors.inactiveGray)),
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'Un motif est requis';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    DropdownButtonFormField<String>(
-                      value: _selectedType,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _selectedType = newValue!;
-                          _selectedDoctor = 'Pas de préférence';
-                        });
-                      },
-                      style: robotoTextStyle(),
-                      items: medicalSections.map((section) {
-                        return DropdownMenuItem<String>(
-                          value: section.name,
-                          child: Text(
-                            section.name,
-                            style: robotoTextStyle(),
-                          ),
-                        );
-                      }).toList(),
-                      decoration: InputDecoration(
-                        labelText: "Sélectionner le type d'intervention",
-                        labelStyle: robotoTextStyle(),
-                        border: const OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    DropdownButtonFormField<String>(
-                      value: _selectedDoctor,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          _selectedDoctor = newValue!;
-                        });
-                      },
-                      style: robotoTextStyle(),
-                      items: _getDoctorDropdownItems(),
-                      decoration: InputDecoration(
-                        labelText: 'Sélectionner le médecin',
-                        labelStyle: robotoTextStyle(),
-                        border: const OutlineInputBorder(),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: _precisionController,
-                      decoration: InputDecoration(
-                          labelText: 'Précision',
-                          labelStyle: robotoTextStyle(
-                              color: CupertinoColors.inactiveGray)),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'Date: ${_formatDate(_startDate)}',
-                            style: robotoTextStyle(),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            _selectStartDate(context);
-                          },
-                          child: Row(
-                            children: [
-                              const Icon(Icons.calendar_today),
-                              const SizedBox(
-                                width: 5.0,
-                              ),
-                              Text(
-                                'Choisir la date de départ',
-                                style: robotoTextStyle(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'Fin le: ${_formatDate(_endDate)}',
-                            style: robotoTextStyle(),
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            _selectEndDate(context);
-                          },
-                          child: Row(
-                            children: [
-                              const Icon(Icons.calendar_today),
-                              const SizedBox(
-                                width: 5.0,
-                              ),
-                              Text(
-                                'Choisir la date de fin',
-                                style: robotoTextStyle(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                SizedBox(
-                  width: double.infinity,
-                  height: 50.0,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Form is valid, proceed with submission
-                        _submitForm();
+    return Card(
+      margin: const EdgeInsets.all(16.0),
+      elevation: 5,
+      color: Colors.white.withOpacity(0.9),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 50),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              Column(
+                children: [
+                  TextFormField(
+                    controller: _titleController,
+                    decoration: InputDecoration(
+                        labelText: 'Motif du séjour',
+                        labelStyle: robotoTextStyle(
+                            color: CupertinoColors.inactiveGray)),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Un motif est requis';
                       }
+                      return null;
                     },
-                    child: Text(
-                      'Confirmation ',
-                      style: montserratTextStyle(fontSize: 18.0),
+                  ),
+                  const SizedBox(height: 20),
+                  DropdownButtonFormField<String>(
+                    value: _selectedType,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedType = newValue!;
+                        _selectedDoctor = 'Pas de préférence';
+                      });
+                    },
+                    style: robotoTextStyle(),
+                    items: medicalSections.map((section) {
+                      return DropdownMenuItem<String>(
+                        value: section.name,
+                        child: Text(
+                          section.name,
+                          style: robotoTextStyle(),
+                        ),
+                      );
+                    }).toList(),
+                    decoration: InputDecoration(
+                      labelText: "Sélectionner le type d'intervention",
+                      labelStyle: robotoTextStyle(),
+                      border: const OutlineInputBorder(),
                     ),
                   ),
+                  const SizedBox(height: 20),
+                  DropdownButtonFormField<String>(
+                    value: _selectedDoctor,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedDoctor = newValue!;
+                      });
+                    },
+                    style: robotoTextStyle(),
+                    items: _getDoctorDropdownItems(),
+                    decoration: InputDecoration(
+                      labelText: 'Sélectionner le médecin',
+                      labelStyle: robotoTextStyle(),
+                      border: const OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    controller: _precisionController,
+                    decoration: InputDecoration(
+                        labelText: 'Précision',
+                        labelStyle: robotoTextStyle(
+                            color: CupertinoColors.inactiveGray)),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Date: ${_formatDate(_startDate)}',
+                          style: robotoTextStyle(),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          _selectStartDate(context);
+                        },
+                        child: Row(
+                          children: [
+                            const Icon(Icons.calendar_today),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              'Choisir la date de départ',
+                              style: robotoTextStyle(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Fin le: ${_formatDate(_endDate)}',
+                          style: robotoTextStyle(),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          _selectEndDate(context);
+                        },
+                        child: Row(
+                          children: [
+                            const Icon(Icons.calendar_today),
+                            const SizedBox(
+                              width: 5.0,
+                            ),
+                            Text(
+                              'Choisir la date de fin',
+                              style: robotoTextStyle(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                height: 50.0,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // Form is valid, proceed with submission
+                      _submitForm();
+                    }
+                  },
+                  child: Text(
+                    'Confirmation ',
+                    style: montserratTextStyle(fontSize: 18.0),
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

@@ -50,31 +50,35 @@ class CustomAppBar extends StatelessWidget {
                     // Todo: make dropdown item
                   },
                   borderRadius: BorderRadius.circular(10.0),
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          child: Text('A'),
-                        ),
-                        const SizedBox(
-                          width: 5.0,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              'Olivier',
-                              style: montserratTextStyle(
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              'Patient',
-                              style: montserratTextStyle(
-                                  fontSize: 12.0, fontWeight: FontWeight.w300),
-                            ),
-                          ],
-                        )
-                      ],
+                  child: Card(
+                    elevation: 5,
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            child: Text('A'),
+                          ),
+                          const SizedBox(
+                            width: 5.0,
+                          ),
+                          Column(
+                            children: [
+                              Text(
+                                'Olivier',
+                                style: montserratTextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Patient',
+                                style: montserratTextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w300),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

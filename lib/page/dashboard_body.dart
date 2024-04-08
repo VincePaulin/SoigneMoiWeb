@@ -50,22 +50,34 @@ class _DashboardPageState extends State<DashboardPage> {
                 )
               : Container(),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                CustomAppBar(titlePage: getPageName(_selectedIndex)),
-                Expanded(
-                  child: IndexedStack(
-                    index: _selectedIndex,
-                    children: [
-                      HomePageBody(),
-                      CreateStayPage(),
-                      ProfilePage(),
-                      SettingsPage(),
-                    ],
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/img/homepage.png'),
+                  fit: BoxFit.cover,
+                  colorFilter: ColorFilter.mode(
+                    Colors.white.withOpacity(0.8),
+                    BlendMode.color,
                   ),
                 ),
-              ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  CustomAppBar(titlePage: getPageName(_selectedIndex)),
+                  Expanded(
+                    child: IndexedStack(
+                      index: _selectedIndex,
+                      children: [
+                        HomePageBody(),
+                        CreateStayPage(),
+                        ProfilePage(),
+                        SettingsPage(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         ],
