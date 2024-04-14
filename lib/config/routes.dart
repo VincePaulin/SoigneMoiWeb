@@ -1,28 +1,37 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:go_router/go_router.dart';
-import 'package:soigne_moi_web/page/auth/login_view.dart';
+import 'package:soigne_moi_web/page/auth/login.dart';
+import 'package:soigne_moi_web/page/dashboard_body.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
 
 abstract class AppRoutes {
-  // static FutureOr<String?> loggedInRedirect(
-  //     BuildContext context,
-  //     GoRouterState state,
-  //     ) async {
-  //   // Check connection
-  //
-  //   return null;
-  // }
+  // Method to check if the user is logged in
+  static FutureOr<String?> loggedInRedirect(
+    BuildContext context,
+    GoRouterState state,
+  ) async {
+    // Check connection
+    const FlutterSecureStorage secureStorage = FlutterSecureStorage();
+    final token = await secureStorage.read(key: 'token');
+    if (token != null) return '/dashboard';
+    return null;
+  }
 
-  // static FutureOr<String?> loggedOutRedirect(
-  //     BuildContext context,
-  //     GoRouterState state,
-  //     ) async {
-  //   // Check connection
-  //   return null;
-  // }
+  static FutureOr<String?> loggedOutRedirect(
+    BuildContext context,
+    GoRouterState state,
+  ) async {
+    // Check connection
+    const FlutterSecureStorage secureStorage = FlutterSecureStorage();
+    final token = await secureStorage.read(key: 'token');
+    if (token == null) return '/login';
+
+    return null;
+  }
 
   AppRoutes();
 
@@ -36,7 +45,16 @@ abstract class AppRoutes {
       pageBuilder: (context, state) => defaultPageBuilder(
         context,
         state,
-        const LoginView(),
+        const Login(),
+      ),
+      redirect: loggedInRedirect,
+    ),
+    GoRoute(
+      path: '/dashboard',
+      pageBuilder: (context, state) => defaultPageBuilder(
+        context,
+        state,
+        const DashboardPage(),
       ),
       //redirect: loggedInRedirect,
     ),
