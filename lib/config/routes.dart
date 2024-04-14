@@ -15,7 +15,7 @@ abstract class AppRoutes {
     GoRouterState state,
   ) async {
     // Check connection
-    const FlutterSecureStorage secureStorage = FlutterSecureStorage();
+    FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     final token = await secureStorage.read(key: 'token');
     if (token != null) return '/dashboard';
     return null;
@@ -26,7 +26,7 @@ abstract class AppRoutes {
     GoRouterState state,
   ) async {
     // Check connection
-    const FlutterSecureStorage secureStorage = FlutterSecureStorage();
+    FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     final token = await secureStorage.read(key: 'token');
     if (token == null) return '/login';
 
@@ -56,7 +56,7 @@ abstract class AppRoutes {
         state,
         const DashboardPage(),
       ),
-      //redirect: loggedInRedirect,
+      redirect: loggedOutRedirect,
     ),
   ];
 

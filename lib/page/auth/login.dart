@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:go_router/go_router.dart';
 
 import 'login_view.dart';
 
@@ -71,6 +72,7 @@ class LoginController extends State<Login> {
         await secureStorage.write(
             key: 'token', value: responseData['access_token']);
 
+        if (mounted) context.go('/');
       } else {
         setState(() {
           error = 'Invalid email or password';
@@ -97,9 +99,7 @@ class LoginController extends State<Login> {
       return setState(() => loading = false);
     }
 
-    setState(() {
-      loading = false;
-    });
+    if (mounted) setState(() => loading = false);
   }
 
   @override

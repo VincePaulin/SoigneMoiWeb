@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/utils/app_colors.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
+import 'package:soigne_moi_web/widgets/logout_button.dart';
 
 class NavBar extends StatelessWidget {
   final int selectedIndex;
@@ -12,42 +13,47 @@ class NavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300.0,
-      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      color: AppColors.primaryColor,
-      child: Column(
-        children: <Widget>[
-          Container(
-            width: 150,
-            padding: const EdgeInsets.symmetric(vertical: 20.0),
-            child: Column(
-              children: [
-                Image.asset('assets/img/logo.png'),
-                Text(
-                  "Soigne Moi",
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 24,
-                    color: Colors.white,
-                    shadows: [
-                      Shadow(
-                        color: Colors.black.withOpacity(0.3),
-                        offset: const Offset(1, 1),
-                        blurRadius: 3,
-                      ),
+        width: 300.0,
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        color: AppColors.primaryColor,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: <Widget>[
+                Container(
+                  width: 150,
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Column(
+                    children: [
+                      Image.asset('assets/img/logo.png'),
+                      Text(
+                        "Soigne Moi",
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 24,
+                          color: Colors.white,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.3),
+                              offset: const Offset(1, 1),
+                              blurRadius: 3,
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                )
+                ),
+                _buildNavItem("Vue d'ensemble", Icons.home, 0),
+                _buildNavItem('réserver un séjour', Icons.local_hospital, 1),
+                _buildNavItem('Profile', Icons.person, 2),
+                _buildNavItem('Paramètres', Icons.settings, 3),
               ],
             ),
-          ),
-          _buildNavItem("Vue d'ensemble", Icons.home, 0),
-          _buildNavItem('réserver un séjour', Icons.local_hospital, 1),
-          _buildNavItem('Profile', Icons.person, 2),
-          _buildNavItem('Paramètres', Icons.settings, 3),
-        ],
-      ),
-    );
+            const LogoutButton(),
+          ],
+        ));
   }
 
   Widget _buildNavItem(String title, IconData iconData, int index) {

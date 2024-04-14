@@ -53,7 +53,8 @@ class CustomAppBar extends StatelessWidget {
                   child: Card(
                     elevation: 5,
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 18.0, vertical: 8.0),
                       child: Row(
                         children: [
                           CircleAvatar(
