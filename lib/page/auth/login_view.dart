@@ -97,14 +97,19 @@ class LoginView extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Bouton de connexion
-                ElevatedButton(
-                  onPressed: () async {
-                    if (!controller.loading) {
-                      await controller.login();
-                    }
-                  },
-                  child: Text('Connexion'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: ElevatedButton.icon(
+                    // style: ElevatedButton.styleFrom(
+                    //   backgroundColor: Theme.of(context).colorScheme.primary,
+                    //   foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                    // ),
+                    onPressed: controller.loading ? null : controller.login,
+                    icon: const Icon(Icons.login_outlined),
+                    label: controller.loading
+                        ? const LinearProgressIndicator()
+                        : Text("Connexion"),
+                  ),
                 ),
               ],
             ),

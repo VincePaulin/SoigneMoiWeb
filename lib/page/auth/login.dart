@@ -44,6 +44,23 @@ class LoginController extends State<Login> {
     // If all goes well, reset passwordError
     setState(() => passwordError = null);
 
+    if (emailController.text.isEmpty) {
+      setState(() => usernameError = "Veuillez remplir ce champ");
+    } else {
+      setState(() => usernameError = null);
+    }
+    if (passwordController.text.isEmpty) {
+      setState(() => passwordError = "Veuillez remplir ce champ");
+    } else {
+      setState(() => passwordError = null);
+    }
+
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      return;
+    }
+
+    setState(() => loading = true);
+
     if (emailController.text.isEmpty || passwordController.text.isEmpty) {
       setState(() {
         error = 'Email and password are required';
