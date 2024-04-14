@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/page/auth/login.dart';
 
 class LoginView extends StatelessWidget {
-  const LoginView({super.key});
+  final LoginController controller;
+  const LoginView({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -35,16 +37,46 @@ class LoginView extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 TextField(
+                  readOnly: controller.loading,
+                  autocorrect: false,
+                  autofocus: true,
+                  controller: controller.emailController,
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    labelText: 'Adresse e-mail',
+                    prefixIcon: const Icon(Icons.account_box_outlined),
+                    errorText: controller.usernameError,
+                    errorMaxLines: 3,
+                    errorStyle: const TextStyle(color: Colors.orange),
+                    hintText: 'Email',
                   ),
                 ),
                 const SizedBox(height: 10),
                 TextField(
+                  readOnly: controller.loading,
+                  autocorrect: false,
+                  autofillHints:
+                      controller.loading ? null : [AutofillHints.password],
+                  controller: controller.passwordController,
+                  textInputAction: TextInputAction.go,
+                  obscureText: !controller.showPassword,
+                  onSubmitted: (_) => controller.login(),
                   decoration: InputDecoration(
-                    labelText: 'Mot de passe',
+                    prefixIcon: const Icon(Icons.lock_outlined),
+                    errorText: controller.passwordError,
+                    errorMaxLines: 3,
+                    errorStyle: const TextStyle(color: Colors.orange),
+                    suffixIcon: IconButton(
+                      onPressed: controller.toggleShowPassword,
+                      icon: Icon(
+                        controller.showPassword
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
+                        color: Colors.black,
+                      ),
+                    ),
+                    hintText: 'Mot de passe',
                   ),
-                  obscureText: true,
                 ),
                 const SizedBox(height: 10),
                 // Todo: forgotten password function
@@ -67,8 +99,10 @@ class LoginView extends StatelessWidget {
                 const SizedBox(height: 20),
                 // Bouton de connexion
                 ElevatedButton(
-                  onPressed: () {
-                    // Todo: login function
+                  onPressed: () async {
+                    if (!controller.loading) {
+                      await controller.login();
+                    }
                   },
                   child: Text('Connexion'),
                 ),
