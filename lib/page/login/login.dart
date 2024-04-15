@@ -18,7 +18,7 @@ class Login extends StatefulWidget {
 class LoginController extends State<Login> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  String? usernameError;
+  String? emailError;
   String? passwordError;
   bool loading = false;
   bool showPassword = false;
@@ -45,9 +45,9 @@ class LoginController extends State<Login> {
     setState(() => passwordError = null);
 
     if (emailController.text.isEmpty) {
-      setState(() => usernameError = "Veuillez remplir ce champ");
+      setState(() => emailError = "Veuillez remplir ce champ");
     } else {
-      setState(() => usernameError = null);
+      setState(() => emailError = null);
     }
     if (passwordController.text.isEmpty) {
       setState(() => passwordError = "Veuillez remplir ce champ");
