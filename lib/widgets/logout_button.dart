@@ -13,7 +13,7 @@ class LogoutButton extends StatelessWidget {
         onPressed: () async {
           // Delete token from secure storage
           const secureStorage = FlutterSecureStorage();
-          await secureStorage.delete(key: 'token');
+          await secureStorage.delete(key: 'access_token');
 
           // Navigate to the login page
           if (context.mounted) context.go('/');

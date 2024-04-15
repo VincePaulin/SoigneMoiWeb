@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:soigne_moi_web/page/login/login.dart';
 import 'package:soigne_moi_web/page/dashboard_body.dart';
+import 'package:soigne_moi_web/page/register/register.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
 
 abstract class AppRoutes {
@@ -16,7 +17,7 @@ abstract class AppRoutes {
   ) async {
     // Check connection
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    final token = await secureStorage.read(key: 'token');
+    final token = await secureStorage.read(key: 'access_token');
     if (token != null) return '/dashboard';
     return null;
   }
@@ -27,7 +28,7 @@ abstract class AppRoutes {
   ) async {
     // Check connection
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
-    final token = await secureStorage.read(key: 'token');
+    final token = await secureStorage.read(key: 'access_token');
     if (token == null) return '/login';
 
     return null;
@@ -46,6 +47,15 @@ abstract class AppRoutes {
         context,
         state,
         const Login(),
+      ),
+      redirect: loggedInRedirect,
+    ),
+    GoRoute(
+      path: '/register',
+      pageBuilder: (context, state) => defaultPageBuilder(
+        context,
+        state,
+        const Register(),
       ),
       redirect: loggedInRedirect,
     ),

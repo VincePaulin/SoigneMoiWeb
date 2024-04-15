@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:soigne_moi_web/page/login/login.dart';
+import 'package:soigne_moi_web/page/register/register.dart';
 import 'package:soigne_moi_web/widgets/auth_text_fields.dart';
 import 'package:soigne_moi_web/widgets/custom_buttons.dart';
 
-class LoginForm extends StatelessWidget {
-  final LoginController controller;
+class RegisterForm extends StatelessWidget {
+  final RegisterController controller;
 
-  const LoginForm({super.key, required this.controller});
+  const RegisterForm({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class LoginForm extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Connexion',
+              'Creation de compte',
               style: TextStyle(fontSize: 26, color: Colors.white),
             ),
             const SizedBox(height: 10),
@@ -28,40 +28,33 @@ class LoginForm extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Vous n\'avez pas de compte ? ',
+                  'Vous avez déjà un compte ? ',
                   style: TextStyle(color: Colors.white),
                 ),
                 MouseRegion(
                   cursor: SystemMouseCursors.click,
                   child: GestureDetector(
-                    onTap: () => context.go('/register'),
+                    onTap: () => context.go('/login'),
                     child: Text(
-                      "S'inscrire ici",
+                      "Se connecter ici",
                       style: TextStyle(color: Colors.green),
                     ),
                   ),
-                ),
+                )
               ],
             ),
             const SizedBox(height: 20),
-            buildLoginEmailTextField(controller),
+            buildRegisterEmailTextField(controller),
             const SizedBox(height: 10),
-            buildLoginPasswordTextField(controller),
+            buildRegisterNameTextField(controller),
             const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: Text(
-                    'Mot de passe oublié ?',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
+            buildRegisterAddressTextField(controller),
+            const SizedBox(height: 10),
+            buildRegisterPasswordTextField(controller),
+            const SizedBox(height: 10),
+            buildRegisterConfirmPasswordTextField(controller),
             const SizedBox(height: 20),
-            buildLoginButton(controller),
+            buildRegisterButton(controller),
           ],
         ),
       ),

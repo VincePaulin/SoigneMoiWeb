@@ -1,27 +1,31 @@
 import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:soigne_moi_web/page/register/register_view.dart';
 
-import 'login_view.dart';
-
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  LoginController createState() => LoginController();
+  RegisterController createState() => RegisterController();
 }
 
-class LoginController extends State<Login> {
+class RegisterController extends State<Register> {
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
+  final TextEditingController addressController = TextEditingController();
   String? emailError;
   String? passwordError;
+  String? confirmPasswordError;
   bool loading = false;
   bool showPassword = false;
+  bool showConfirmPassword = false;
   late final Dio dio;
   final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   String? error;
@@ -40,59 +44,30 @@ class LoginController extends State<Login> {
   void toggleShowPassword() =>
       setState(() => showPassword = !loading && !showPassword);
 
-  Future<void> login() async {
-    // If all goes well, reset passwordError
-    setState(() => passwordError = null);
+  void toggleShowConfirmPassword() =>
+      setState(() => showConfirmPassword = !loading && !showConfirmPassword);
 
-    if (emailController.text.isEmpty) {
-      setState(() => emailError = "Veuillez remplir ce champ");
-    } else {
-      setState(() => emailError = null);
-    }
-    if (passwordController.text.isEmpty) {
-      setState(() => passwordError = "Veuillez remplir ce champ");
-    } else {
-      setState(() => passwordError = null);
-    }
-
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      return;
-    }
-
+  Future<void> register() async {
     setState(() => loading = true);
-
-    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
-      setState(() {
-        error = 'Email and password are required';
-      });
-      return;
-    }
-
-    setState(() {
-      loading = true;
-      error = null;
-    });
-
     try {
-      final response = await dio.post(
-        '/auth/login',
-        data: {
-          'email': emailController.text,
-          'password': passwordController.text,
-        },
-      );
-
-      if (response.statusCode == 200) {
-        final responseData = response.data;
-
-        // Store token securely
+      // Make API call to register user
+      final response = await dio.post('/auth/register', data: {
+        'name': nameController.text,
+        'email': emailController.text,
+        'password': passwordController.text,
+        'address': addressController.text,
+      });
+      // Registration successful
+      if (response.statusCode == 201) {
+        // Save access token to secure storage
         await secureStorage.write(
-            key: 'access_token', value: responseData['access_token']);
+            key: 'access_token', value: response.data['access_token']);
 
         if (mounted) context.go('/');
       } else {
+        // Registration failed
         setState(() {
-          error = 'Invalid email or password';
+          error = response.data['message'];
         });
       }
     } on DioException catch (e) {
@@ -103,24 +78,23 @@ class LoginController extends State<Login> {
       // Display Dio error messages to the user
       if (e.response?.data != null) {
         final errorMessage = e.response?.data['message'];
-        setState(() => passwordError = errorMessage);
+        final error = e.response?.data['errors'][0];
+        setState(() => confirmPasswordError = error ?? errorMessage);
       } else {
-        setState(() => passwordError = "Dio error");
+        setState(() => confirmPasswordError = "Dio error");
       }
       return setState(() => loading = false);
     } catch (exception) {
       if (kDebugMode) {
         print(exception);
       }
-      setState(() => passwordError = "error");
+      setState(() => confirmPasswordError = "error");
       return setState(() => loading = false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return LoginView(
-      controller: this,
-    );
+    return RegisterView(controller: this);
   }
 }
