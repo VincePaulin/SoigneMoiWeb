@@ -61,7 +61,7 @@ class RegisterController extends State<Register> {
       if (response.statusCode == 201) {
         // Save access token to secure storage
         await secureStorage.write(
-            key: 'access_token', value: response.data['access_token']);
+            key: 'access_token', value: response.data['token']);
 
         if (mounted) context.go('/');
       } else {
@@ -77,9 +77,8 @@ class RegisterController extends State<Register> {
 
       // Display Dio error messages to the user
       if (e.response?.data != null) {
-        final errorMessage = e.response?.data['message'];
-        final error = e.response?.data['errors'][0];
-        setState(() => confirmPasswordError = error ?? errorMessage);
+        final errorMessage = e.response?.data['errors'].values.first.toString();
+        setState(() => confirmPasswordError = errorMessage);
       } else {
         setState(() => confirmPasswordError = "Dio error");
       }

@@ -87,7 +87,7 @@ class LoginController extends State<Login> {
 
         // Store token securely
         await secureStorage.write(
-            key: 'access_token', value: responseData['access_token']);
+            key: 'access_token', value: responseData['token']);
 
         if (mounted) context.go('/');
       } else {
