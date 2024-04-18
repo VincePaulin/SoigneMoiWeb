@@ -33,6 +33,9 @@ class LoginController extends State<Login> {
     dio = Dio(
       BaseOptions(
         baseUrl: 'http://127.0.0.1:8000/api',
+        headers: {
+          'Accept': 'application/json',
+        },
       ),
     );
   }
@@ -90,10 +93,6 @@ class LoginController extends State<Login> {
             key: 'access_token', value: responseData['token']);
 
         if (mounted) context.go('/');
-      } else {
-        setState(() {
-          error = 'Invalid email or password';
-        });
       }
     } on DioException catch (e) {
       if (kDebugMode) {
