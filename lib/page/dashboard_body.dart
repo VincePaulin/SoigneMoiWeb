@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/function/data_future.dart';
+import 'package:soigne_moi_web/model/user.dart';
 import 'package:soigne_moi_web/page/create_stay.dart';
 import 'package:soigne_moi_web/page/home/homepage_body.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
@@ -40,55 +42,67 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     final isSmallScreen = ScreenSizeUtil.isSmallScreen(context);
 
-    return Scaffold(
-      body: Row(
-        children: [
-          !isSmallScreen
-              ? NavBar(
-                  selectedIndex: _selectedIndex,
-                  onItemTapped: _onItemTapped,
-                )
-              : Container(),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/img/homepage.png'),
-                  fit: BoxFit.cover,
-                  colorFilter: ColorFilter.mode(
-                    Colors.white.withOpacity(0.8),
-                    BlendMode.color,
-                  ),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  CustomAppBar(titlePage: getPageName(_selectedIndex)),
-                  Expanded(
-                    child: IndexedStack(
-                      index: _selectedIndex,
+    return FutureBuilder<User>(
+        future: fetchUser(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          final user = snapshot.requireData;
+
+          return Scaffold(
+            body: Row(
+              children: [
+                !isSmallScreen
+                    ? NavBar(
+                        selectedIndex: _selectedIndex,
+                        onItemTapped: _onItemTapped,
+                      )
+                    : Container(),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: const AssetImage('assets/img/homepage.png'),
+                        fit: BoxFit.cover,
+                        colorFilter: ColorFilter.mode(
+                          Colors.white.withOpacity(0.8),
+                          BlendMode.color,
+                        ),
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        HomePageBody(),
-                        CreateStayPage(),
-                        ProfilePage(),
-                        SettingsPage(),
+                        CustomAppBar(
+                            titlePage: getPageName(_selectedIndex), user: user),
+                        Expanded(
+                          child: IndexedStack(
+                            index: _selectedIndex,
+                            children: [
+                              HomePageBody(),
+                              CreateStayPage(),
+                              ProfilePage(),
+                              SettingsPage(),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
-      drawer: isSmallScreen
-          ? NavBar(
-              selectedIndex: _selectedIndex,
-              onItemTapped: _onItemTapped,
-            )
-          : null,
-    );
+            drawer: isSmallScreen
+                ? NavBar(
+                    selectedIndex: _selectedIndex,
+                    onItemTapped: _onItemTapped,
+                  )
+                : null,
+          );
+        });
   }
 }
 

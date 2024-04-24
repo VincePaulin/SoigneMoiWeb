@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/model/user.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
 
 class CustomAppBar extends StatelessWidget {
   final String titlePage;
-  const CustomAppBar({super.key, required this.titlePage});
+  final User user;
+  const CustomAppBar({super.key, required this.titlePage, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +68,7 @@ class CustomAppBar extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                'Olivier',
+                                user.name,
                                 style: montserratTextStyle(
                                     fontWeight: FontWeight.bold),
                               ),
