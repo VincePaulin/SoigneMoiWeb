@@ -14,7 +14,7 @@ class CustomListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String formattedDate = DateFormat('dd/MM/yyyy').format(stay.date);
+    String formattedDate = DateFormat('dd/MM/yyyy').format(stay.startDate);
     String formattedEndDate = DateFormat('dd/MM/yyyy').format(stay.endDate);
 
     return InkWell(
@@ -28,7 +28,7 @@ class CustomListTile extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 child: Text(
-                  stay.title,
+                  stay.motif,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: robotoTextStyle(

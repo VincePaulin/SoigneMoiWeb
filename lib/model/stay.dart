@@ -2,16 +2,16 @@ import 'dart:ui';
 
 // Model representing data from a stay
 class Stay {
-  final String title;
+  final String motif;
   final String type;
-  final DateTime date;
+  final DateTime startDate;
   final DateTime endDate;
   final String? precision;
 
   Stay(
-      {required this.title,
+      {required this.motif,
       required this.type,
-      required this.date,
+      required this.startDate,
       required this.endDate,
       this.precision});
 }
