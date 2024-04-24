@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/config/app_config.dart';
 import 'package:soigne_moi_web/utils/app_colors.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/logout_button.dart';
@@ -28,7 +29,7 @@ class NavBar extends StatelessWidget {
                     children: [
                       Image.asset('assets/img/logo.png'),
                       Text(
-                        "Soigne Moi",
+                        AppConfig.applicationName,
                         style: TextStyle(
                           fontFamily: 'Montserrat',
                           fontSize: 24,

@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:soigne_moi_web/config/app_config.dart';
 
 import 'login_view.dart';
 
@@ -32,7 +33,7 @@ class LoginController extends State<Login> {
     // Initialize dio base options
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://127.0.0.1:8000/api',
+        baseUrl: AppConfig.baseUrl,
         headers: {
           'Accept': 'application/json',
         },

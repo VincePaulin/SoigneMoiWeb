@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
+import 'package:soigne_moi_web/config/app_config.dart';
 import 'package:soigne_moi_web/page/register/register_view.dart';
 
 class Register extends StatefulWidget {
@@ -36,7 +37,7 @@ class RegisterController extends State<Register> {
     // Initialize dio base options
     dio = Dio(
       BaseOptions(
-        baseUrl: 'http://127.0.0.1:8000/api',
+        baseUrl: AppConfig.baseUrl,
         headers: {
           'Accept': 'application/json',
         },

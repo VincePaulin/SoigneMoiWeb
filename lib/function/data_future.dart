@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:soigne_moi_web/config/app_config.dart';
 import 'package:soigne_moi_web/model/user.dart';
 
 Future<User> fetchUser() async {
@@ -8,7 +9,7 @@ Future<User> fetchUser() async {
   final token = await storage.read(key: 'access_token');
 
   final dio = Dio();
-  dio.options.baseUrl = 'http://127.0.0.1:8000/api';
+  dio.options.baseUrl = AppConfig.baseUrl;
 
   try {
     final response = await dio.get(
