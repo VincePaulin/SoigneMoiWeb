@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/function/data_future.dart';
+import 'package:soigne_moi_web/model/stay.dart';
 import 'package:soigne_moi_web/model/user.dart';
 import 'package:soigne_moi_web/page/create_stay.dart';
 import 'package:soigne_moi_web/page/home/homepage_body.dart';
+import 'package:soigne_moi_web/page/profile/profile_view.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
 import 'package:soigne_moi_web/widgets/custom_app_bar.dart';
 import 'package:soigne_moi_web/widgets/navigation_bar.dart';
@@ -42,15 +44,17 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     final isSmallScreen = ScreenSizeUtil.isSmallScreen(context);
 
-    return FutureBuilder<User>(
-        future: fetchUser(),
+    return FutureBuilder(
+        future: Future.wait([fetchUser(), fetchStays()]),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),
             );
           }
-          final user = snapshot.requireData;
+          final List<dynamic> data = snapshot.data as List<dynamic>;
+          final User user = data[0] as User;
+          final List<Stay> stays = data[1] as List<Stay>;
 
           return Scaffold(
             body: Row(
@@ -84,7 +88,9 @@ class _DashboardPageState extends State<DashboardPage> {
                             children: [
                               HomePageBody(),
                               CreateStayPage(),
-                              ProfilePage(),
+                              ProfilePage(
+                                stays: stays,
+                              ),
                               SettingsPage(),
                             ],
                           ),
@@ -103,18 +109,6 @@ class _DashboardPageState extends State<DashboardPage> {
                 : null,
           );
         });
-  }
-}
-
-// Todo: make profile page simply
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Welcome to the Profile Page!'),
-    );
   }
 }
 

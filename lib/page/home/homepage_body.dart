@@ -41,9 +41,9 @@ class HomePageBody extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return CustomListTile(
                                 stay: Stay(
-                                  title: 'Séjour ${index + 1}',
+                                  motif: 'Séjour ${index + 1}',
                                   type: 'Type A',
-                                  date: DateTime.now(),
+                                  startDate: DateTime.now(),
                                   endDate:
                                       DateTime.now().add(Duration(days: 7)),
                                 ),
@@ -80,9 +80,10 @@ class HomePageBody extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return CustomListTile(
                                 stay: Stay(
-                                  title: 'Séjour ${index + 3}',
+                                  motif: 'Séjour ${index + 3}',
                                   type: 'Type B',
-                                  date: DateTime.now().add(Duration(days: 10)),
+                                  startDate:
+                                      DateTime.now().add(Duration(days: 10)),
                                   endDate:
                                       DateTime.now().add(Duration(days: 17)),
                                 ),
@@ -121,9 +122,9 @@ class HomePageBody extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return CustomListTile(
                           stay: Stay(
-                            title: 'Séjour ${index + 5}',
+                            motif: 'Séjour ${index + 5}',
                             type: 'Type C',
-                            date: DateTime.now().add(Duration(days: 20)),
+                            startDate: DateTime.now().add(Duration(days: 20)),
                             endDate: DateTime.now().add(Duration(days: 27)),
                           ),
                         );
