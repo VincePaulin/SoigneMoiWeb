@@ -3,23 +3,27 @@ class Doctor {
   final String specialty;
   final List<String> medicalSections;
 
-  Doctor(this.fullName, this.specialty, this.medicalSections);
+  Doctor(
+      {required this.fullName,
+        required this.specialty,
+        required this.medicalSections,
+      });
 }
 
 final List<Doctor> doctors = [
-  Doctor('Dr. Jean Martin', 'Cardiologue', ['Cardiologie']),
-  Doctor('Dr. Marie Dupont', 'Chirurgien plastique', ['Chirurgie']),
-  Doctor('Dr. Paul Lefevre', 'Dermatologue', ['Dermatologie']),
-  Doctor('Dr. Sophie Dubois', 'Gynécologue', ['Gynécologie']),
-  Doctor('Dr. Pierre Lambert', 'Neurologue', ['Neurologie']),
-  Doctor('Dr. Anne Renault', 'Orthopédiste', ['Orthopédie']),
-  Doctor('Dr. Jacques Petit', 'Cardiologue', ['Cardiologie']),
-  Doctor('Dr. Isabelle Rousseau', 'Chirurgien abdominal', ['Chirurgie']),
-  Doctor('Dr. Étienne Moreau', 'Dermatologue', ['Dermatologie']),
-  Doctor('Dr. Sandrine Berger', 'Gynécologue obstétricien', ['Gynécologie']),
-  Doctor('Dr. Lucie Michel', 'Neurologue', ['Neurologie']),
-  Doctor('Dr. Marc Leroy', 'Orthopédiste traumatologue', ['Orthopédie']),
-  Doctor('Dr. Nathalie Roussel', 'Cardiologue pédiatrique', ['Cardiologie']),
-  Doctor('Dr. Thomas Durand', 'Chirurgien cardiaque', ['Chirurgie']),
-  Doctor('Dr. Camille Morel', 'Dermatologue pédiatrique', ['Dermatologie']),
+  Doctor(fullName: 'Dr. Jean Martin', specialty: 'Cardiologue', medicalSections: ['Cardiologie']),
+  Doctor(fullName: 'Dr. Marie Dupont', specialty: 'Chirurgien plastique', medicalSections: ['Chirurgie']),
+  Doctor(fullName: 'Dr. Paul Lefevre', specialty: 'Dermatologue', medicalSections: ['Dermatologie']),
+  Doctor(fullName: 'Dr. Sophie Dubois', specialty: 'Gynécologue', medicalSections: ['Gynécologie']),
+  Doctor(fullName: 'Dr. Pierre Lambert', specialty: 'Neurologue', medicalSections: ['Neurologie']),
+  Doctor(fullName: 'Dr. Anne Renault', specialty: 'Orthopédiste', medicalSections: ['Orthopédie']),
+  Doctor(fullName: 'Dr. Jacques Petit', specialty: 'Cardiologue', medicalSections: ['Cardiologie']),
+  Doctor(fullName: 'Dr. Isabelle Rousseau', specialty: 'Chirurgien abdominal', medicalSections: ['Chirurgie']),
+  Doctor(fullName: 'Dr. Étienne Moreau', specialty: 'Dermatologue', medicalSections: ['Dermatologie']),
+  Doctor(fullName: 'Dr. Sandrine Berger', specialty: 'Gynécologue obstétricien', medicalSections: ['Gynécologie']),
+  Doctor(fullName: 'Dr. Lucie Michel', specialty: 'Neurologue', medicalSections: ['Neurologie']),
+  Doctor(fullName: 'Dr. Marc Leroy', specialty: 'Orthopédiste traumatologue', medicalSections: ['Orthopédie']),
+  Doctor(fullName: 'Dr. Nathalie Roussel', specialty: 'Cardiologue pédiatrique', medicalSections: ['Cardiologie']),
+  Doctor(fullName: 'Dr. Thomas Durand', specialty: 'Chirurgien cardiaque', medicalSections: ['Chirurgie']),
+  Doctor(fullName: 'Dr. Camille Morel', specialty: 'Dermatologue pédiatrique', medicalSections: ['Dermatologie']),
 ];
