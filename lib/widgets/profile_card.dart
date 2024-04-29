@@ -25,41 +25,31 @@ class ProfileCard extends StatelessWidget {
           Column(
             children: [
               CircleAvatar(
-                radius: 60, // Augmentez le rayon pour rendre l'avatar plus gros
+                radius: 60,
                 backgroundColor: Colors.blue,
-                child: Icon(Icons.person,
-                    size: 50,
-                    color: Colors.white), // Augmentez la taille de l'icône
+                child: Icon(Icons.person, size: 50, color: Colors.white),
               ),
-              SizedBox(
-                  height:
-                      15), // Augmentez la hauteur du vide pour séparer les éléments
+              const SizedBox(height: 15),
               Text(
-                user.name,
-                style: TextStyle(
-                    fontSize: 24,
-                    fontWeight:
-                        FontWeight.bold), // Augmentez la taille de la police
+                '${user.firstName} ${user.name}',
+                style:
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               Text(
                 "patient",
-                style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 16), // Augmentez la taille de la police
+                style: TextStyle(color: Colors.grey[600], fontSize: 16),
               ),
             ],
           ),
           Column(
             children: [
               Text(
-                "$numberOfStays Séjours", // Utilisez la propriété numberOfStays
-                style:
-                    TextStyle(fontSize: 18), // Augmentez la taille de la police
+                "$numberOfStays Séjours",
+                style: const TextStyle(fontSize: 18),
               ),
               Text(
-                "$numberOfPrescriptions Prescriptions", // Utilisez la propriété numberOfPrescriptions
-                style:
-                    TextStyle(fontSize: 18), // Augmentez la taille de la police
+                "$numberOfPrescriptions Prescriptions",
+                style: const TextStyle(fontSize: 18),
               ),
             ],
           ),

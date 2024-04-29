@@ -127,6 +127,29 @@ Widget buildRegisterPasswordTextField(RegisterController controller) {
   );
 }
 
+Widget buildRegisterFirstNameTextField(RegisterController controller) {
+  return TextField(
+    readOnly: controller.loading,
+    autocorrect: false,
+    autofocus: true,
+    controller: controller.firstNameController,
+    textInputAction: TextInputAction.next,
+    keyboardType: TextInputType.text,
+    style: const TextStyle(color: Colors.white),
+    decoration: InputDecoration(
+      prefixIcon: const Icon(
+        Icons.person_outline,
+      ),
+      prefixIconColor: Colors.white,
+      hintText: 'Nom',
+      hintStyle: const TextStyle(color: Colors.white),
+      enabledBorder: const UnderlineInputBorder(
+        borderSide: BorderSide(color: Colors.white),
+      ),
+    ),
+  );
+}
+
 Widget buildRegisterNameTextField(RegisterController controller) {
   return TextField(
     readOnly: controller.loading,
@@ -141,7 +164,7 @@ Widget buildRegisterNameTextField(RegisterController controller) {
         Icons.person_outline,
       ),
       prefixIconColor: Colors.white,
-      hintText: 'Nom',
+      hintText: 'prénom',
       hintStyle: const TextStyle(color: Colors.white),
       enabledBorder: const UnderlineInputBorder(
         borderSide: BorderSide(color: Colors.white),

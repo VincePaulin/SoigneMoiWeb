@@ -68,7 +68,7 @@ class CustomAppBar extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                user.name,
+                                '${user.firstName} ${user.name}',
                                 style: montserratTextStyle(
                                     fontWeight: FontWeight.bold),
                               ),

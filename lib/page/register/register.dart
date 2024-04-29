@@ -15,6 +15,7 @@ class Register extends StatefulWidget {
 }
 
 class RegisterController extends State<Register> {
+  final TextEditingController firstNameController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -56,6 +57,7 @@ class RegisterController extends State<Register> {
     try {
       // Make API call to register user
       final response = await dio.post('/auth/register', data: {
+        'first_name': firstNameController.text,
         'name': nameController.text,
         'email': emailController.text,
         'password': passwordController.text,
