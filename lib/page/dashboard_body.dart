@@ -91,7 +91,8 @@ class _DashboardPageState extends State<DashboardPage> {
                               CreateStayPage(),
                               ProfilePage(
                                 user: user,
-                                stays: staysDemo, doctors: doctorsDemo,
+                                stays: staysDemo,
+                                doctors: doctorsDemo,
                               ),
                               SettingsPage(),
                             ],
