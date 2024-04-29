@@ -1,6 +1,7 @@
 class User {
   final int id;
   final String name;
+  final String firstName;
   final String email;
   final DateTime? emailVerifiedAt;
   final String? address;
@@ -10,6 +11,7 @@ class User {
   User({
     required this.id,
     required this.name,
+    required this.firstName,
     required this.email,
     this.emailVerifiedAt,
     this.address,
@@ -21,6 +23,7 @@ class User {
     return User(
       id: json['id'],
       name: json['name'],
+      firstName: json['first_name'],
       email: json['email'],
       emailVerifiedAt: json['email_verified_at'] != null
           ? DateTime.parse(json['email_verified_at'])
