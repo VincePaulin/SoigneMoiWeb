@@ -29,20 +29,20 @@ final List<Stay> staysDemo = [
     startDate: DateTime(2024, 04, 25, 10, 00),
     endDate: DateTime(2024, 04, 25, 11, 00),
     precision: "Matin",
-    doctorMatricule: "M12345", // Le Dr. Jean Martin est associé à ce séjour
+    doctorId: 888, // Le Dr. Jean Martin est associé à ce séjour
   ),
   Stay(
     motif: "Intervention chirurgicale plastique",
     type: "Hospitalisation",
     startDate: DateTime(2024, 05, 10, 08, 00),
     endDate: DateTime(2024, 05, 15, 12, 00),
-    doctorMatricule: "M23456", // Le Dr. Marie Dupont est associé à ce séjour
+    doctorId: 888, // Le Dr. Marie Dupont est associé à ce séjour
   ),
   Stay(
     motif: "Contrôle dermatologique",
     type: "Ambulatoire",
     startDate: DateTime(2024, 03, 14, 14, 30),
     endDate: DateTime(2024, 03, 14, 15, 00),
-    doctorMatricule: "M34567", // Le Dr. Paul Lefevre est associé à ce séjour
+    doctorId: 888, // Le Dr. Paul Lefevre est associé à ce séjour
   ),
 ];

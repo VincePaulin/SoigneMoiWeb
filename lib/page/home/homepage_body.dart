@@ -4,10 +4,25 @@ import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/custom_list_tile.dart';
 
 class HomePageBody extends StatelessWidget {
-  const HomePageBody({super.key});
+  final List<Stay> stays;
+  const HomePageBody({super.key, required this.stays});
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+
+    List<Stay> ongoingStays = stays.where((stay) {
+      return stay.startDate.isBefore(now) && stay.endDate.isAfter(now);
+    }).toList();
+
+    List<Stay> upcomingStays = stays.where((stay) {
+      return stay.startDate.isAfter(now);
+    }).toList();
+
+    List<Stay> pastStays = stays.where((stay) {
+      return stay.endDate.isBefore(now);
+    }).toList();
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -37,18 +52,10 @@ class HomePageBody extends StatelessWidget {
                         Expanded(
                           child: ListView.builder(
                             padding: EdgeInsets.zero,
-                            itemCount: 2,
+                            itemCount: ongoingStays.length,
                             itemBuilder: (context, index) {
-                              return CustomListTile(
-                                stay: Stay(
-                                  motif: 'Séjour ${index + 1}',
-                                  type: 'Type A',
-                                  startDate: DateTime.now(),
-                                  endDate:
-                                      DateTime.now().add(Duration(days: 7)),
-                                  doctorMatricule: '',
-                                ),
-                              );
+                              Stay stay = ongoingStays[index];
+                              return CustomListTile(stay: stay);
                             },
                           ),
                         ),
@@ -56,7 +63,7 @@ class HomePageBody extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 Expanded(
                   flex: 1,
                   child: Card(
@@ -77,19 +84,10 @@ class HomePageBody extends StatelessWidget {
                         Expanded(
                           child: ListView.builder(
                             padding: EdgeInsets.zero,
-                            itemCount: 2,
+                            itemCount: upcomingStays.length,
                             itemBuilder: (context, index) {
-                              return CustomListTile(
-                                stay: Stay(
-                                  motif: 'Séjour ${index + 3}',
-                                  type: 'Type B',
-                                  startDate:
-                                      DateTime.now().add(Duration(days: 10)),
-                                  endDate:
-                                      DateTime.now().add(Duration(days: 17)),
-                                  doctorMatricule: '',
-                                ),
-                              );
+                              final stay = upcomingStays[index];
+                              return CustomListTile(stay: stay);
                             },
                           ),
                         ),
@@ -120,17 +118,10 @@ class HomePageBody extends StatelessWidget {
                   Expanded(
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
-                      itemCount: 2,
+                      itemCount: pastStays.length,
                       itemBuilder: (context, index) {
-                        return CustomListTile(
-                          stay: Stay(
-                            motif: 'Séjour ${index + 5}',
-                            type: 'Type C',
-                            startDate: DateTime.now().add(Duration(days: 20)),
-                            endDate: DateTime.now().add(Duration(days: 27)),
-                            doctorMatricule: '',
-                          ),
-                        );
+                        final stay = pastStays[index];
+                        return CustomListTile(stay: stay);
                       },
                     ),
                   ),
