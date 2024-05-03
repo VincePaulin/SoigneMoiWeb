@@ -36,51 +36,65 @@ class _DoctorHistoryCardState extends State<DoctorHistoryCard> {
               child: Text("Vous n'avez pas encore eu de docteur"),
             ),
           Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    _scrollOffset -= 200;
-                    _scrollController.animateTo(
-                      _scrollOffset,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: SizedBox(
-                      height: 150,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                if (notification is ScrollUpdateNotification) {
+                  setState(() {
+                    _scrollOffset = _scrollController.position.pixels;
+                  });
+                }
+                return true;
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      _scrollOffset -= 200;
+                      _scrollController.animateTo(
+                        _scrollOffset,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Scrollbar(
+                        thumbVisibility: true,
+                        thickness: 10,
                         controller: _scrollController,
-                        itemCount: widget.doctors.length,
-                        itemBuilder: (context, index) {
-                          final doctor = widget.doctors[index];
-                          return DoctorCard(
-                            doctor: doctor,
-                          );
-                        },
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          controller: _scrollController,
+                          child: SizedBox(
+                            height: 150,
+                            child: Row(
+                              children: [
+                                for (final doctor in widget.doctors)
+                                  DoctorCard(doctor: doctor),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.arrow_forward),
-                  onPressed: () {
-                    _scrollOffset += 200;
-                    _scrollController.animateTo(
-                      _scrollOffset,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                ),
-              ],
+                  IconButton(
+                    icon: const Icon(Icons.arrow_forward),
+                    onPressed: () {
+                      _scrollOffset += 200;
+                      _scrollController.animateTo(
+                        _scrollOffset,
+                        duration: const Duration(milliseconds: 500),
+                        curve: Curves.easeInOut,
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],
