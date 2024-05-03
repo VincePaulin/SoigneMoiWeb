@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class EmptyListStay extends StatelessWidget {
-
   const EmptyListStay({super.key});
 
   @override
