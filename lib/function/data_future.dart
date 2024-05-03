@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:soigne_moi_web/config/app_config.dart';
@@ -55,5 +57,35 @@ Future<List<Stay>> fetchStays() async {
     }
   } catch (e) {
     throw Exception('Failed to fetch stays: $e');
+  }
+}
+
+// Function to create a stay
+Future<Stay> createStay({
+  required Stay stay,
+}) async {
+  final storage = FlutterSecureStorage();
+  final token = await storage.read(key: 'access_token');
+
+  final dio = Dio();
+  dio.options.baseUrl = AppConfig.baseUrl;
+
+  try {
+    Map<String, dynamic> stayJson = stay.toJson();
+
+    final response = await dio.post('/stays/create',
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+        }),
+        data: stayJson);
+
+    if (response.statusCode == 201) {
+      final stayJson = response.data['stay'];
+      return Stay.fromJson(stayJson);
+    } else {
+      throw Exception('Failed to create stay ${response.statusCode}');
+    }
+  } on DioException catch (e) {
+    throw Exception('Failed to create stay: ${e.message}');
   }
 }
