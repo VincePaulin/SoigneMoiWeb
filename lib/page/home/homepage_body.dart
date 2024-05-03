@@ -46,6 +46,7 @@ class HomePageBody extends StatelessWidget {
                                   startDate: DateTime.now(),
                                   endDate:
                                       DateTime.now().add(Duration(days: 7)),
+                                  doctorMatricule: '',
                                 ),
                               );
                             },
@@ -86,6 +87,7 @@ class HomePageBody extends StatelessWidget {
                                       DateTime.now().add(Duration(days: 10)),
                                   endDate:
                                       DateTime.now().add(Duration(days: 17)),
+                                  doctorMatricule: '',
                                 ),
                               );
                             },
@@ -126,6 +128,7 @@ class HomePageBody extends StatelessWidget {
                             type: 'Type C',
                             startDate: DateTime.now().add(Duration(days: 20)),
                             endDate: DateTime.now().add(Duration(days: 27)),
+                            doctorMatricule: '',
                           ),
                         );
                       },
