@@ -1,12 +1,10 @@
-import 'doctor.dart';
-
 class Stay {
   final String motif;
   final String type;
   final DateTime startDate;
   final DateTime endDate;
   final String? precision;
-  final String doctorMatricule;
+  final int? doctorId;
 
   Stay({
     required this.motif,
@@ -14,17 +12,17 @@ class Stay {
     required this.startDate,
     required this.endDate,
     this.precision,
-    required this.doctorMatricule,
+    this.doctorId,
   });
 
   factory Stay.fromJson(Map<String, dynamic> json) {
     return Stay(
       motif: json['motif'] ?? '',
       type: json['type'] ?? '',
-      startDate: DateTime.parse(json['startDate']),
-      endDate: DateTime.parse(json['endDate']),
+      startDate: DateTime.parse(json['start_date']),
+      endDate: DateTime.parse(json['end_date']),
       precision: json['precision'],
-      doctorMatricule: json['doctorMatricule'],
+      doctorId: json['doctorId'], // Assuming doctorId is nullable in JSON
     );
   }
 }
