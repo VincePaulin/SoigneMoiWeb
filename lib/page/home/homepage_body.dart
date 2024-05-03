@@ -13,7 +13,8 @@ class HomePageBody extends StatelessWidget {
     DateTime now = DateTime.now();
 
     List<Stay> ongoingStays = stays.where((stay) {
-      return stay.startDate.isBefore(now) && stay.endDate.isAfter(now);
+      return stay.startDate.isAtSameMomentAs(now) ||
+          stay.startDate.isBefore(now) && stay.endDate.isAfter(now);
     }).toList();
 
     List<Stay> upcomingStays = stays.where((stay) {
@@ -21,7 +22,7 @@ class HomePageBody extends StatelessWidget {
     }).toList();
 
     List<Stay> pastStays = stays.where((stay) {
-      return stay.endDate.isBefore(now);
+      return stay.endDate.isBefore(now) && stay.endDate.isBefore(now);
     }).toList();
 
     return Padding(
@@ -52,15 +53,15 @@ class HomePageBody extends StatelessWidget {
                         ),
                         Expanded(
                           child: ongoingStays.isEmpty
-                          ?const EmptyListStay()
-                          :ListView.builder(
-                            padding: EdgeInsets.zero,
-                            itemCount: ongoingStays.length,
-                            itemBuilder: (context, index) {
-                              Stay stay = ongoingStays[index];
-                              return CustomListTile(stay: stay);
-                            },
-                          ),
+                              ? const EmptyListStay()
+                              : ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  itemCount: ongoingStays.length,
+                                  itemBuilder: (context, index) {
+                                    Stay stay = ongoingStays[index];
+                                    return CustomListTile(stay: stay);
+                                  },
+                                ),
                         ),
                       ],
                     ),
@@ -86,15 +87,15 @@ class HomePageBody extends StatelessWidget {
                         ),
                         Expanded(
                           child: upcomingStays.isEmpty
-                          ?const EmptyListStay()
-                          :ListView.builder(
-                            padding: EdgeInsets.zero,
-                            itemCount: upcomingStays.length,
-                            itemBuilder: (context, index) {
-                              final stay = upcomingStays[index];
-                              return CustomListTile(stay: stay);
-                            },
-                          ),
+                              ? const EmptyListStay()
+                              : ListView.builder(
+                                  padding: EdgeInsets.zero,
+                                  itemCount: upcomingStays.length,
+                                  itemBuilder: (context, index) {
+                                    final stay = upcomingStays[index];
+                                    return CustomListTile(stay: stay);
+                                  },
+                                ),
                         ),
                       ],
                     ),
@@ -122,15 +123,15 @@ class HomePageBody extends StatelessWidget {
                   ),
                   Expanded(
                     child: pastStays.isEmpty
-                    ?const EmptyListStay()
-                    :ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: pastStays.length,
-                      itemBuilder: (context, index) {
-                        final stay = pastStays[index];
-                        return CustomListTile(stay: stay);
-                      },
-                    ),
+                        ? const EmptyListStay()
+                        : ListView.builder(
+                            padding: EdgeInsets.zero,
+                            itemCount: pastStays.length,
+                            itemBuilder: (context, index) {
+                              final stay = pastStays[index];
+                              return CustomListTile(stay: stay);
+                            },
+                          ),
                   ),
                 ],
               ),
