@@ -1,19 +1,21 @@
-import 'dart:ui';
+import 'doctor.dart';
 
-// Model representing data from a stay
 class Stay {
   final String motif;
   final String type;
   final DateTime startDate;
   final DateTime endDate;
   final String? precision;
+  final String doctorMatricule;
 
-  Stay(
-      {required this.motif,
-      required this.type,
-      required this.startDate,
-      required this.endDate,
-      this.precision});
+  Stay({
+    required this.motif,
+    required this.type,
+    required this.startDate,
+    required this.endDate,
+    this.precision,
+    required this.doctorMatricule,
+  });
 
   factory Stay.fromJson(Map<String, dynamic> json) {
     return Stay(
@@ -22,6 +24,7 @@ class Stay {
       startDate: DateTime.parse(json['startDate']),
       endDate: DateTime.parse(json['endDate']),
       precision: json['precision'],
+      doctorMatricule: json['doctorMatricule'],
     );
   }
 }
