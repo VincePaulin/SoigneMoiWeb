@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/model/medical_section.dart';
+import 'package:soigne_moi_web/model/stay.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
+
+import '../function/data_future.dart';
 
 class CreateStayPage extends StatefulWidget {
   const CreateStayPage({super.key});
@@ -246,11 +250,38 @@ class _CreateStayPageState extends State<CreateStayPage> {
   }
 
   // Method to submit form data
-  void _submitForm() {
-    // Todo: make createStay function
-    print('Title: ${_titleController.text}');
-    print('Type: $_selectedType');
-    print('Start Date: $_startDate');
-    print('End Date: $_endDate');
+  void _submitForm() async {
+    try {
+      final doctorId = _selectedDoctor == 'Pas de préférence'
+          ? null
+          : 0; // Replace 0 with the selected doctor's ID
+
+      final stay = Stay(
+        motif: _titleController.text,
+        type: _selectedType,
+        startDate: _startDate,
+        endDate: _endDate,
+        precision: _precisionController.text,
+        doctorId: doctorId,
+      );
+
+      final createdStay = await createStay(stay: stay);
+
+      // Le séjour a été créé avec succès
+      if (kDebugMode) {
+        print('Stay created successfully: $createdStay');
+      }
+
+      // Réinitialiser les champs du formulaire après une soumission réussie
+      _titleController.clear();
+      _precisionController.clear();
+      // TODO: Rafraîchir l'interface utilisateur ou naviguer vers une autre page si nécessaire
+    } catch (e) {
+      // Gestion des erreurs lors de la création du séjour
+      if (kDebugMode) {
+        print('Error creating stay: $e');
+      }
+      // TODO: Afficher un message d'erreur à l'utilisateur
+    }
   }
 }
