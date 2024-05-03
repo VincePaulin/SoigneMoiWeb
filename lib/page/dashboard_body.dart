@@ -48,6 +48,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return FutureBuilder(
         future: Future.wait([fetchUser(), fetchStays()]),
         builder: (context, snapshot) {
+          print(snapshot.error);
           if (!snapshot.hasData) {
             return Center(
               child: CircularProgressIndicator(),
@@ -87,7 +88,9 @@ class _DashboardPageState extends State<DashboardPage> {
                           child: IndexedStack(
                             index: _selectedIndex,
                             children: [
-                              HomePageBody(),
+                              HomePageBody(
+                                stays: stays,
+                              ),
                               CreateStayPage(),
                               ProfilePage(
                                 user: user,
