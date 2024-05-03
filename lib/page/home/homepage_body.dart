@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/model/stay.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/custom_list_tile.dart';
+import 'package:soigne_moi_web/widgets/empty_stay.dart';
 
 class HomePageBody extends StatelessWidget {
   final List<Stay> stays;
@@ -50,7 +51,9 @@ class HomePageBody extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          child: ListView.builder(
+                          child: ongoingStays.isEmpty
+                          ?const EmptyListStay()
+                          :ListView.builder(
                             padding: EdgeInsets.zero,
                             itemCount: ongoingStays.length,
                             itemBuilder: (context, index) {
@@ -82,7 +85,9 @@ class HomePageBody extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          child: ListView.builder(
+                          child: upcomingStays.isEmpty
+                          ?const EmptyListStay()
+                          :ListView.builder(
                             padding: EdgeInsets.zero,
                             itemCount: upcomingStays.length,
                             itemBuilder: (context, index) {
@@ -116,7 +121,9 @@ class HomePageBody extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: ListView.builder(
+                    child: pastStays.isEmpty
+                    ?const EmptyListStay()
+                    :ListView.builder(
                       padding: EdgeInsets.zero,
                       itemCount: pastStays.length,
                       itemBuilder: (context, index) {
