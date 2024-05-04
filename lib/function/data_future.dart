@@ -61,7 +61,7 @@ Future<List<Stay>> fetchStays() async {
 }
 
 // Function to create a stay
-Future<Stay> createStay({
+Future<String> createStay({
   required Stay stay,
 }) async {
   final storage = FlutterSecureStorage();
@@ -80,10 +80,14 @@ Future<Stay> createStay({
         data: stayJson);
 
     if (response.statusCode == 201) {
-      final stayJson = response.data['stay'];
-      return Stay.fromJson(stayJson);
+      return 'success';
     } else {
-      throw Exception('Failed to create stay ${response.statusCode}');
+      final responseData = response.data;
+
+      // Global response error message
+      final errorMessage = responseData['message'];
+
+      return errorMessage;
     }
   } on DioException catch (e) {
     throw Exception('Failed to create stay: ${e.message}');

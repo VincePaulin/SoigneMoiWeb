@@ -5,6 +5,7 @@ import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/model/medical_section.dart';
 import 'package:soigne_moi_web/model/stay.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
+import 'package:soigne_moi_web/widgets/error_dialog.dart';
 
 import '../function/data_future.dart';
 
@@ -251,37 +252,32 @@ class _CreateStayPageState extends State<CreateStayPage> {
 
   // Method to submit form data
   void _submitForm() async {
-    try {
-      final doctorId = _selectedDoctor == 'Pas de préférence'
-          ? null
-          : 0; // Replace 0 with the selected doctor's ID
+    final doctorId = _selectedDoctor == 'Pas de préférence'
+        ? null
+        : 0; // Replace 0 with the selected doctor's ID
 
-      final stay = Stay(
-        motif: _titleController.text,
-        type: _selectedType,
-        startDate: _startDate,
-        endDate: _endDate,
-        precision: _precisionController.text,
-        doctorId: doctorId,
-      );
+    final stay = Stay(
+      motif: _titleController.text,
+      type: _selectedType,
+      startDate: _startDate,
+      endDate: _endDate,
+      precision: _precisionController.text,
+      doctorId: doctorId,
+    );
 
-      final createdStay = await createStay(stay: stay);
+    final response = await createStay(stay: stay);
 
-      // Le séjour a été créé avec succès
+    if (response == 'success') {
       if (kDebugMode) {
-        print('Stay created successfully: $createdStay');
+        print('Stay created successfully');
       }
-
-      // Réinitialiser les champs du formulaire après une soumission réussie
+      // Resetting form fields after successful submission
       _titleController.clear();
       _precisionController.clear();
-      // TODO: Rafraîchir l'interface utilisateur ou naviguer vers une autre page si nécessaire
-    } catch (e) {
-      // Gestion des erreurs lors de la création du séjour
-      if (kDebugMode) {
-        print('Error creating stay: $e');
-      }
-      // TODO: Afficher un message d'erreur à l'utilisateur
+      // TODO: Rafraîchir l'interface utilisateur ou afficher un toast message
+    } else {
+      // Afficher le dialogue d'erreur en utilisant showErrorDialog
+      showErrorDialog(response, context);
     }
   }
 }
