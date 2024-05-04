@@ -239,8 +239,8 @@ class _CreateStayPageState extends State<CreateStayPage> {
   Future<void> _selectEndDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: _endDate,
-      firstDate: DateTime.now(),
+      initialDate: _startDate,
+      firstDate: _startDate, // FirstDate to the selected startDate
       lastDate: DateTime(2101),
     );
     if (picked != null && picked != _endDate) {
