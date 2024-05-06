@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/model/medical_section.dart';
 import 'package:soigne_moi_web/model/stay.dart';
@@ -274,7 +275,17 @@ class _CreateStayPageState extends State<CreateStayPage> {
       // Resetting form fields after successful submission
       _titleController.clear();
       _precisionController.clear();
-      // TODO: Rafraîchir l'interface utilisateur ou afficher un toast message
+
+      // Display a toast to indicate that the stay has been successfully registered
+      Fluttertoast.showToast(
+        msg: "Le séjour est enregistré avec succès",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 10, // 10 sec
+        backgroundColor: Colors.green.withOpacity(0.9),
+        textColor: Colors.white, // Modifier la couleur du texte
+        fontSize: 16.0, // Modifier la taille de la police
+      );
     } else {
       // Afficher le dialogue d'erreur en utilisant showErrorDialog
       showErrorDialog(response, context);
