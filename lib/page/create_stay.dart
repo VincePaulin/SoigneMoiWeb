@@ -28,6 +28,27 @@ class _CreateStayPageState extends State<CreateStayPage> {
   DateTime _endDate = DateTime.now()
       .add(Duration(days: 7)); // Default end date is 7 days from today
 
+  List<Doctor> doctors = [];
+
+  @override
+  void initState() {
+    super.initState();
+    // Call the function to retrieve the list of doctors
+    _fetchDoctors();
+  }
+
+  // Function to retrieve the list of doctors
+  void _fetchDoctors() async {
+    try {
+      List<Doctor> fetchedDoctors = await fetchAllDoctors();
+      setState(() {
+        doctors = fetchedDoctors;
+      });
+    } catch (e) {
+      print('Failed to fetch doctors: $e');
+    }
+  }
+
   List<DropdownMenuItem<String>> _getDoctorDropdownItems() {
     List<DropdownMenuItem<String>> items = [];
     if (_selectedType == 'Pas de préférence') {
@@ -253,9 +274,8 @@ class _CreateStayPageState extends State<CreateStayPage> {
 
   // Method to submit form data
   void _submitForm() async {
-    final doctorId = _selectedDoctor == 'Pas de préférence'
-        ? null
-        : "123456"; // Replace 0 with the selected doctor's ID
+    final doctorId =
+        _selectedDoctor == 'Pas de préférence' ? null : _selectedDoctor;
 
     final stay = Stay(
       motif: _titleController.text,
