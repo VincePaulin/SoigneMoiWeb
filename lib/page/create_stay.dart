@@ -8,7 +8,7 @@ import 'package:soigne_moi_web/model/stay.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/error_dialog.dart';
 
-import '../function/data_future.dart';
+import '../function/patient_api.dart';
 
 class CreateStayPage extends StatefulWidget {
   const CreateStayPage({super.key});
@@ -40,7 +40,7 @@ class _CreateStayPageState extends State<CreateStayPage> {
   // Function to retrieve the list of doctors
   void _fetchDoctors() async {
     try {
-      List<Doctor> fetchedDoctors = await fetchAllDoctors();
+      List<Doctor> fetchedDoctors = await Api().fetchAllDoctors();
       setState(() {
         doctors = fetchedDoctors;
       });
@@ -286,7 +286,7 @@ class _CreateStayPageState extends State<CreateStayPage> {
       doctorId: doctorId,
     );
 
-    final response = await createStay(stay: stay);
+    final response = await Api().createStay(stay: stay);
 
     if (response == 'success') {
       if (kDebugMode) {

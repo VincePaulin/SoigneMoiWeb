@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:soigne_moi_web/function/data_future.dart';
+import 'package:soigne_moi_web/function/patient_api.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/model/stay.dart';
 import 'package:soigne_moi_web/model/user.dart';
@@ -24,10 +24,12 @@ class ProfilePage extends StatelessWidget {
     final matricules = stays.map((stay) => stay.doctorId.toString()).toList();
 
     return FutureBuilder(
-        future: fetchDoctors(matricules),
+        future: Api().fetchDoctors(matricules),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return Center(
+              child: CircularProgressIndicator(),
+            );
           } else if (snapshot.hasError) {
             if (kDebugMode) {
               print(snapshot.error);
