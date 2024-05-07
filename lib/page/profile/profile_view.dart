@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/function/data_future.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/model/stay.dart';
 import 'package:soigne_moi_web/model/user.dart';
@@ -9,50 +10,71 @@ import 'package:soigne_moi_web/widgets/stay_history_card.dart';
 class ProfilePage extends StatelessWidget {
   final User user;
   final List<Stay> stays;
-  final List<Doctor> doctors;
 
-  const ProfilePage(
-      {super.key,
-      required this.stays,
-      required this.user,
-      required this.doctors});
+  const ProfilePage({
+    super.key,
+    required this.stays,
+    required this.user,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: ProfileCard(
-                    user: user,
-                    numberOfStays: 5,
-                    numberOfPrescriptions: 2,
+    // Recover all the personnel numbers contained in Stay
+    final matricules = stays.map((stay) => stay.doctorId.toString()).toList();
+
+    print(matricules);
+
+    return FutureBuilder(
+        future: fetchDoctors(matricules),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          } else if (snapshot.hasError) {
+            print(snapshot.error);
+            return Text('Error: ${snapshot.error}');
+          } else if (snapshot.hasData) {
+            final List<Doctor> doctors = snapshot.data!;
+
+            print(doctors);
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: ProfileCard(
+                            user: user,
+                            numberOfStays: 5,
+                            numberOfPrescriptions: 2,
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                  child: StayHistoryCard(
+                                stays: stays,
+                              )),
+                              Expanded(
+                                  child: DoctorHistoryCard(doctors: doctors)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      Expanded(
-                          child: StayHistoryCard(
-                        stays: stays,
-                      )),
-                      Expanded(child: DoctorHistoryCard(doctors: doctors)),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+                ],
+              ),
+            );
+          } else {
+            return Text('No data available');
+          }
+        });
   }
 }
