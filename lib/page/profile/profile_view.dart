@@ -49,7 +49,7 @@ class ProfilePage extends StatelessWidget {
                           flex: 1,
                           child: ProfileCard(
                             user: user,
-                            numberOfStays: 5,
+                            numberOfStays: stays.length,
                             numberOfPrescriptions: 2,
                           ),
                         ),
