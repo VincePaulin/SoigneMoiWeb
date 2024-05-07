@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:soigne_moi_web/function/data_future.dart';
+import 'package:soigne_moi_web/function/patient_api.dart';
 import 'package:soigne_moi_web/model/stay.dart';
 import 'package:soigne_moi_web/model/user.dart';
 import 'package:soigne_moi_web/page/create_stay.dart';
@@ -45,7 +45,7 @@ class _DashboardPageState extends State<DashboardPage> {
     final isSmallScreen = ScreenSizeUtil.isSmallScreen(context);
 
     return FutureBuilder(
-        future: Future.wait([fetchUser(), fetchStays()]),
+        future: Future.wait([Api().fetchUser(), Api().fetchStays()]),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
