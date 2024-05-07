@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:soigne_moi_web/page/admin/admin_page.dart';
 import 'package:soigne_moi_web/page/login/login.dart';
 import 'package:soigne_moi_web/page/dashboard_body.dart';
 import 'package:soigne_moi_web/page/register/register.dart';
@@ -18,7 +19,16 @@ abstract class AppRoutes {
     // Check connection
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     final token = await secureStorage.read(key: 'access_token');
-    if (token != null) return '/dashboard';
+    final role =
+        await secureStorage.read(key: 'role'); // Ajout de la lecture du rôle
+
+    if (token != null) {
+      if (role == 'admin') {
+        return '/admin'; // Rediriger vers la page d'administration si l'utilisateur est un administrateur
+      } else {
+        return '/dashboard'; // Rediriger vers le tableau de bord si l'utilisateur est un utilisateur normal
+      }
+    }
     return null;
   }
 
@@ -65,6 +75,15 @@ abstract class AppRoutes {
         context,
         state,
         const DashboardPage(),
+      ),
+      redirect: loggedOutRedirect,
+    ),
+    GoRoute(
+      path: '/admin',
+      pageBuilder: (context, state) => defaultPageBuilder(
+        context,
+        state,
+        const AdminPage(),
       ),
       redirect: loggedOutRedirect,
     ),
