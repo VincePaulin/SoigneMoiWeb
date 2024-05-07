@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:soigne_moi_web/datas_demo.dart';
 import 'package:soigne_moi_web/function/data_future.dart';
 import 'package:soigne_moi_web/model/stay.dart';
 import 'package:soigne_moi_web/model/user.dart';
@@ -94,7 +93,6 @@ class _DashboardPageState extends State<DashboardPage> {
                               ProfilePage(
                                 user: user,
                                 stays: stays,
-                                doctors: doctorsDemo,
                               ),
                               SettingsPage(),
                             ],
