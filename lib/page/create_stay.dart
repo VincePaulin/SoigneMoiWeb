@@ -303,11 +303,11 @@ class _CreateStayPageState extends State<CreateStayPage> {
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 10, // 10 sec
         backgroundColor: Colors.green.withOpacity(0.9),
-        textColor: Colors.white, // Modifier la couleur du texte
-        fontSize: 16.0, // Modifier la taille de la police
+        textColor: Colors.white,
+        fontSize: 16.0,
       );
     } else {
-      // Afficher le dialogue d'erreur en utilisant showErrorDialog
+      // error dialog using showErrorDialog
       showErrorDialog(response, context);
     }
   }

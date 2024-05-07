@@ -82,10 +82,10 @@ class Api {
       if (response.statusCode == 201) {
         return 'success';
       } else {
-        final responseData = response.data;
-
-        // Global response error message
-        final errorMessage = responseData['message'];
+        String errorMessage = 'Une erreur s\'est produite';
+        if (response.data != null && response.data['message'] != null) {
+          errorMessage = response.data['message'];
+        }
 
         return errorMessage;
       }
