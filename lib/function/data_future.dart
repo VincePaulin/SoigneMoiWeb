@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:soigne_moi_web/config/app_config.dart';
+import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/model/stay.dart';
 import 'package:soigne_moi_web/model/user.dart';
 
@@ -91,5 +92,34 @@ Future<String> createStay({
     }
   } on DioException catch (e) {
     throw Exception('Failed to create stay: ${e.message}');
+  }
+}
+
+Future<List<Doctor>> fetchDoctors(List<String> matricules) async {
+  final storage = FlutterSecureStorage();
+  final token = await storage.read(key: 'access_token');
+
+  final dio = Dio();
+  dio.options.baseUrl = AppConfig.baseUrl;
+
+  try {
+    final response = await dio.post(
+      '/stay/doctors',
+      options: Options(headers: {
+        'Authorization': 'Bearer $token',
+      }),
+      data: {'matricules': matricules},
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> doctorsJson = response.data['doctors'];
+      final List<Doctor> doctors =
+          doctorsJson.map((json) => Doctor.fromJson(json)).toList();
+      return doctors;
+    } else {
+      throw Exception('Failed to fetch doctors');
+    }
+  } catch (e) {
+    throw Exception('Failed to fetch doctors: $e');
   }
 }
