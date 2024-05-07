@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/function/data_future.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
@@ -22,20 +23,19 @@ class ProfilePage extends StatelessWidget {
     // Recover all the personnel numbers contained in Stay
     final matricules = stays.map((stay) => stay.doctorId.toString()).toList();
 
-    print(matricules);
-
     return FutureBuilder(
         future: fetchDoctors(matricules),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return CircularProgressIndicator();
           } else if (snapshot.hasError) {
-            print(snapshot.error);
+            if (kDebugMode) {
+              print(snapshot.error);
+            }
             return Text('Error: ${snapshot.error}');
           } else if (snapshot.hasData) {
             final List<Doctor> doctors = snapshot.data!;
 
-            print(doctors);
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
