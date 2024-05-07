@@ -4,7 +4,7 @@ class Stay {
   final DateTime startDate;
   final DateTime endDate;
   final String? precision;
-  final int? doctorId;
+  final String? doctorId;
 
   Stay({
     required this.motif,
@@ -22,7 +22,7 @@ class Stay {
       startDate: _parseDate(json['start_date']),
       endDate: _parseDate(json['end_date']),
       precision: json['precision'],
-      doctorId: json['doctorId'], // Assuming doctorId is nullable in JSON
+      doctorId: json['doctor_id'], // Assuming doctorId is nullable in JSON
     );
   }
 
@@ -42,7 +42,7 @@ class Stay {
       'start_date': startDate.toIso8601String(),
       'end_date': endDate.toIso8601String(),
       'precision': precision,
-      'doctorId': doctorId,
+      'doctor_matricule': doctorId,
     };
   }
 }

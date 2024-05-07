@@ -39,7 +39,7 @@ class _CreateStayPageState extends State<CreateStayPage> {
       for (Doctor doctor in doctors) {
         if (doctor.medicalSections.contains(_selectedType)) {
           items.add(DropdownMenuItem<String>(
-            value: doctor.fullName,
+            value: doctor.matricule.toString(),
             child: Text(doctor.fullName),
           ));
         }
@@ -255,7 +255,7 @@ class _CreateStayPageState extends State<CreateStayPage> {
   void _submitForm() async {
     final doctorId = _selectedDoctor == 'Pas de préférence'
         ? null
-        : 0; // Replace 0 with the selected doctor's ID
+        : "123456"; // Replace 0 with the selected doctor's ID
 
     final stay = Stay(
       motif: _titleController.text,
