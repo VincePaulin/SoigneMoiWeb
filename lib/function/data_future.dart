@@ -123,3 +123,27 @@ Future<List<Doctor>> fetchDoctors(List<String> matricules) async {
     throw Exception('Failed to fetch doctors: $e');
   }
 }
+
+// For a list of doctors
+Future<List<Doctor>> fetchAllDoctors() async {
+  final dio = Dio();
+  dio.options.baseUrl = AppConfig.baseUrl;
+
+  try {
+    final response = await dio.get(
+      '/doctors/list',
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> doctorsJson = response.data['doctors'];
+      final List<Doctor> doctors =
+          doctorsJson.map((json) => Doctor.fromJson(json)).toList();
+
+      return doctors;
+    } else {
+      throw Exception('Failed to fetch doctors');
+    }
+  } catch (e) {
+    throw Exception('Failed to fetch doctors: $e');
+  }
+}
