@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
+import 'package:soigne_moi_web/widgets/custom_avatar.dart';
 
 import 'doctors.dart';
 
@@ -38,8 +39,9 @@ class AdminDoctorsView extends StatelessWidget {
                 itemBuilder: (BuildContext context, int index) {
                   return Card(
                     child: ListTile(
-                      leading: CircleAvatar(
-                        child: Text('A'),
+                      leading: CustomAvatar(
+                        sex: doctors[index].sex,
+                        avatarUrl: doctors[index].avatarURL,
                       ),
                       title: Text(doctors[index].fullName),
                       subtitle: Text(doctors[index].specialty),
