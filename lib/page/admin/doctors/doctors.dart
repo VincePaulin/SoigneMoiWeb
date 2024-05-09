@@ -1,0 +1,50 @@
+import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/function/admin_api.dart';
+import 'package:soigne_moi_web/model/doctor.dart';
+import 'package:soigne_moi_web/page/admin/doctors/doctors_view.dart';
+
+class AdminDoctors extends StatefulWidget {
+  const AdminDoctors({super.key});
+
+  @override
+  DoctorsController createState() => DoctorsController();
+}
+
+class DoctorsController extends State<AdminDoctors> {
+  List<Doctor> doctorsList = [];
+  List<Doctor> filteredDoctorsList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDoctors(); // Calling the method to retrieve doctors
+  }
+
+  void fetchDoctors() async {
+    try {
+      List<Doctor> doctors = await AdminApi().fetchAllDoctors();
+      setState(() {
+        doctorsList = doctors;
+      });
+    } catch (e) {
+      print('Failed to fetch doctors: $e');
+    }
+  }
+
+  void filterDoctors(String query) {
+    setState(() {
+      filteredDoctorsList = doctorsList
+          .where((doctor) =>
+              doctor.fullName.toLowerCase().contains(query.toLowerCase()) ||
+              doctor.specialty.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AdminDoctorsView(
+      controller: this,
+    );
+  }
+}

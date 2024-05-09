@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 
-import 'doctors/doctors.dart';
+import 'doctors.dart';
 
 class AdminDoctorsView extends StatelessWidget {
   final DoctorsController controller;
@@ -9,27 +9,46 @@ class AdminDoctorsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Doctor> doctors = controller.filteredDoctorsList.isNotEmpty
+        ? controller.filteredDoctorsList
+        : controller.doctorsList;
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Doctors'),
-      ),
-      body: ListView.builder(
-        itemCount: controller.doctorsList.length, // Remplacer doctorsList par votre liste de médecins
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            child: ListTile(
-              leading: CircleAvatar(
-                // Utilisez l'URL ou les données de votre médecin pour le CircleAvatar
-                // Par exemple : backgroundImage: NetworkImage(doctorsList[index].avatarUrl),
-                child: Text('A'), // Placeholder pour l'avatar
+        appBar: AppBar(
+          title: Text('Doctors'),
+        ),
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                onChanged: (value) {
+                  controller
+                      .filterDoctors(value); // Calling up the filter function
+                },
+                decoration: InputDecoration(
+                  labelText: 'Search',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(),
+                ),
               ),
-              title: Text(controller.doctorsList[index].fullName), // Nom du médecin
-              subtitle: Text(controller.doctorsList[index].specialty), // Spécialité du médecin
-              // Autres éléments de ListTile comme trailing si nécessaire
             ),
-          );
-        },
-      ),
-    );
+            Expanded(
+              child: ListView.builder(
+                itemCount: doctors.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        child: Text('A'),
+                      ),
+                      title: Text(doctors[index].fullName),
+                      subtitle: Text(doctors[index].specialty),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ));
   }
 }
