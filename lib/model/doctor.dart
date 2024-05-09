@@ -5,12 +5,14 @@ class Doctor {
   final String specialty;
   final List<String> medicalSections;
   final String matricule;
+  final String? avatarURL;
 
   Doctor({
     required this.fullName,
     required this.specialty,
     required this.medicalSections,
     required this.matricule,
+    this.avatarURL,
   });
 
   factory Doctor.fromJson(Map<String, dynamic> json) {
@@ -21,6 +23,7 @@ class Doctor {
       medicalSections:
           List<String>.from(jsonDecode(json['medicalSections'] ?? '[]')),
       matricule: json['matricule'] ?? 0,
+      avatarURL: json['avatarURL'],
     );
   }
 }
