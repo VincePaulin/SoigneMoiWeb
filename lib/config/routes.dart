@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:go_router/go_router.dart';
-import 'package:soigne_moi_web/page/admin/admin_page.dart';
+import 'package:soigne_moi_web/page/admin/admin_view.dart';
 import 'package:soigne_moi_web/page/login/login.dart';
 import 'package:soigne_moi_web/page/dashboard_body.dart';
 import 'package:soigne_moi_web/page/register/register.dart';
@@ -83,7 +83,7 @@ abstract class AppRoutes {
       pageBuilder: (context, state) => defaultPageBuilder(
         context,
         state,
-        const AdminPage(),
+        AdminView(),
       ),
       redirect: loggedOutRedirect,
     ),
