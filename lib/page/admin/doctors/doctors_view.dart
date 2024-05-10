@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/widgets/custom_avatar.dart';
 
+import 'doctor_dialog.dart';
 import 'doctors.dart';
 
 class AdminDoctorsView extends StatelessWidget {
@@ -74,6 +75,14 @@ class AdminDoctorsView extends StatelessWidget {
                       ),
                       title: Text(doctors[index].fullName),
                       subtitle: Text(doctors[index].specialty),
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return DoctorDetailsDialog(doctor: doctors[index]);
+                          },
+                        );
+                      },
                     ),
                   );
                 },

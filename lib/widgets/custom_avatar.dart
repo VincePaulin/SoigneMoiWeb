@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:soigne_moi_web/config/app_config.dart';
 
 class CustomAvatar extends StatelessWidget {
   final String? avatarUrl;
@@ -19,5 +18,32 @@ class CustomAvatar extends StatelessWidget {
                   as ImageProvider,
       radius: 25,
     );
+  }
+}
+
+class ProfileDoctorImage extends StatelessWidget {
+  final String? avatarUrl;
+  final String sex;
+
+  const ProfileDoctorImage({super.key, this.avatarUrl, required this.sex});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: double.infinity,
+        child: avatarUrl != null && avatarUrl!.isNotEmpty
+            ? Image.network(
+                avatarUrl!,
+                fit: BoxFit.cover,
+              )
+            : sex == "homme"
+                ? Image.asset(
+                    'assets/img/avatar_man.png',
+                    fit: BoxFit.cover,
+                  )
+                : Image.asset(
+                    'assets/img/avatar_women.png',
+                    fit: BoxFit.cover,
+                  ));
   }
 }
