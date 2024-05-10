@@ -39,6 +39,7 @@ class AdminLogoutButton extends StatelessWidget {
           // Delete token from secure storage
           const secureStorage = FlutterSecureStorage();
           await secureStorage.delete(key: 'access_token');
+          await secureStorage.delete(key: 'role');
 
           // Navigate to the login page
           if (context.mounted) context.go('/');
