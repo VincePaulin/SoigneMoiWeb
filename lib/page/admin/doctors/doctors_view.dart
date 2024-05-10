@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/widgets/custom_avatar.dart';
 
@@ -16,6 +17,26 @@ class AdminDoctorsView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('Doctors'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                ),
+                onPressed: () {
+                  GoRouter.of(context)
+                      .go('/admin/doctors/create', extra: controller);
+                },
+                icon: Icon(Icons.add),
+                label: Text('Ajouter un docteur'),
+              ),
+            ),
+          ],
         ),
         body: Column(
           children: [
@@ -26,7 +47,7 @@ class AdminDoctorsView extends StatelessWidget {
                   controller
                       .filterDoctors(value); // Calling up the filter function
                 },
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Search',
                   prefixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(),

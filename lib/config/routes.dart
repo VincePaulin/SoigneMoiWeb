@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:soigne_moi_web/page/admin/admin_view.dart';
+import 'package:soigne_moi_web/page/admin/doctors/create_doctor.dart';
 import 'package:soigne_moi_web/page/login/login.dart';
 import 'package:soigne_moi_web/page/dashboard_body.dart';
 import 'package:soigne_moi_web/page/register/register.dart';
@@ -23,10 +24,10 @@ abstract class AppRoutes {
         await secureStorage.read(key: 'role'); // Ajout de la lecture du rôle
 
     if (token != null) {
-      if (role == 'admin') {
-        return '/admin'; // Rediriger vers la page d'administration si l'utilisateur est un administrateur
+      if (role != null && role == 'admin') {
+        return '/admin'; // Redirect to administration page if user is an administrator
       } else {
-        return '/dashboard'; // Rediriger vers le tableau de bord si l'utilisateur est un utilisateur normal
+        return '/dashboard'; // Redirect to dashboard if user is a normal user
       }
     }
     return null;
@@ -79,14 +80,24 @@ abstract class AppRoutes {
       redirect: loggedOutRedirect,
     ),
     GoRoute(
-      path: '/admin',
-      pageBuilder: (context, state) => defaultPageBuilder(
-        context,
-        state,
-        AdminView(),
-      ),
-      redirect: loggedOutRedirect,
-    ),
+        path: '/admin',
+        pageBuilder: (context, state) => defaultPageBuilder(
+              context,
+              state,
+              AdminView(),
+            ),
+        redirect: loggedOutRedirect,
+        routes: [
+          GoRoute(
+            path: 'doctors/create',
+            pageBuilder: (context, state) => defaultPageBuilder(
+              context,
+              state,
+              CreateDoctorPage(),
+            ),
+            redirect: loggedOutRedirect,
+          ),
+        ]),
   ];
 
   static Page defaultPageBuilder(
