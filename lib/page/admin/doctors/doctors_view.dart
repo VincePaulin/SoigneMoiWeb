@@ -79,7 +79,10 @@ class AdminDoctorsView extends StatelessWidget {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return DoctorDetailsDialog(doctor: doctors[index]);
+                            return DoctorDetailsDialog(
+                              doctor: doctors[index],
+                              controller: controller,
+                            );
                           },
                         );
                       },

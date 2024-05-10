@@ -137,4 +137,48 @@ class AdminApi {
       return "error";
     }
   }
+
+  Future<String?> deleteDoctor(String matricule) async {
+    final token = await _getToken();
+    dio.options.baseUrl = AppConfig.baseUrl;
+
+    try {
+      final response = await dio.delete(
+        '/admin/doctor/delete/$matricule',
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return "success";
+      } else {
+        throw DioError(
+            requestOptions: response.requestOptions,
+            response: response,
+            error: 'Failed to delete doctor');
+      }
+    } on DioException catch (e) {
+      if (kDebugMode) {
+        print("Exception when calling backend log: $e\n");
+      }
+
+      // Display Dio error messages to the user
+      if (e.response?.data != null) {
+        var errorMessage = e.response?.data['error'];
+        if (kDebugMode) {
+          print("errorMessage: $errorMessage");
+        }
+        return errorMessage;
+      } else {
+        return "Erreur réseau";
+      }
+    } catch (exception) {
+      if (kDebugMode) {
+        print(exception);
+      }
+      return "error";
+    }
+  }
 }

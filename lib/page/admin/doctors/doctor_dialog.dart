@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/function/admin_api.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
+import 'package:soigne_moi_web/page/admin/doctors/doctors.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/custom_avatar.dart';
+import 'package:soigne_moi_web/widgets/error_dialog.dart';
 
 class DoctorDetailsDialog extends StatelessWidget {
   final Doctor doctor;
+  final DoctorsController controller;
 
-  const DoctorDetailsDialog({super.key, required this.doctor});
+  const DoctorDetailsDialog(
+      {super.key, required this.doctor, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -66,9 +71,23 @@ class DoctorDetailsDialog extends StatelessWidget {
                     ),
                     // Add more options if needed
                   ],
-                  onSelected: (String value) {
+                  onSelected: (String value) async {
                     if (value == 'delete') {
-                      // TODO: Implement delete profile action here
+                      // Call the function to delete the doctor
+                      String? result =
+                          await AdminApi().deleteDoctor(doctor.matricule);
+                      if (result == "success") {
+                        Navigator.of(context).pop();
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              content: Text(
+                                  'Le docteur a été supprimé avec succès')),
+                        );
+                        // Refreshes the list of doctors after successful deletion
+                        controller.fetchDoctors();
+                      } else {
+                        showErrorDialog(result!, context);
+                      }
                     }
                   },
                 ),
