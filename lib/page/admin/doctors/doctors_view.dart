@@ -17,6 +17,18 @@ class AdminDoctorsView extends StatelessWidget {
         appBar: AppBar(
           title: Text('Doctors'),
           actions: [
+            DropdownButton<DoctorSortBy>(
+              value: controller.sortBy,
+              onChanged: (newValue) {
+                controller.sortDoctorsBy(newValue!);
+              },
+              items: DoctorSortBy.values.map((sortOption) {
+                return DropdownMenuItem<DoctorSortBy>(
+                  value: sortOption,
+                  child: Text(sortOption.toString().split('.').last),
+                );
+              }).toList(),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton.icon(

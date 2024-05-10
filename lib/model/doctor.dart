@@ -7,6 +7,8 @@ class Doctor {
   final String matricule;
   final String? avatarURL;
   final String sex;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   Doctor({
     required this.fullName,
@@ -15,6 +17,8 @@ class Doctor {
     required this.matricule,
     this.avatarURL,
     required this.sex,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Doctor.fromJson(Map<String, dynamic> json) {
@@ -27,6 +31,12 @@ class Doctor {
       matricule: json['matricule'] ?? 0,
       sex: json['sex'] ?? '',
       avatarURL: json['avatarURL'],
+      createdAt: json['created_at'] != null
+          ? DateTime.parse(json['created_at'])
+          : null,
+      updatedAt: json['updated_at'] != null
+          ? DateTime.parse(json['updated_at'])
+          : null,
     );
   }
 

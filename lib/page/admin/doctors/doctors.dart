@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:soigne_moi_web/function/admin_api.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/page/admin/doctors/doctors_view.dart';
 
 import 'create_doctor.dart';
+
+enum DoctorSortBy {
+  date,
+  name,
+  modification,
+}
 
 class AdminDoctors extends StatefulWidget {
   const AdminDoctors({super.key});
@@ -16,6 +21,8 @@ class AdminDoctors extends StatefulWidget {
 class DoctorsController extends State<AdminDoctors> {
   List<Doctor> doctorsList = [];
   List<Doctor> filteredDoctorsList = [];
+
+  DoctorSortBy sortBy = DoctorSortBy.date;
 
   @override
   void initState() {
@@ -42,6 +49,23 @@ class DoctorsController extends State<AdminDoctors> {
               doctor.specialty.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
+  }
+
+  void sortDoctorsBy(DoctorSortBy newSortBy) {
+    if (newSortBy != sortBy) {
+      // Checks if the new value is different from the old one
+      setState(() {
+        sortBy = newSortBy;
+        if (sortBy == DoctorSortBy.date) {
+          doctorsList.sort((a, b) => a.createdAt!.compareTo(b.createdAt!));
+        } else if (sortBy == DoctorSortBy.name) {
+          doctorsList.sort((a, b) => a.fullName.compareTo(b.fullName));
+        } else if (sortBy == DoctorSortBy.modification) {
+          // New condition for sorting by modification
+          doctorsList.sort((a, b) => a.updatedAt!.compareTo(b.updatedAt!));
+        }
+      });
+    }
   }
 
   void navigateToCreateDoctorPage(BuildContext context) async {
