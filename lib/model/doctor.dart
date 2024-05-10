@@ -29,4 +29,15 @@ class Doctor {
       avatarURL: json['avatarURL'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'fullName': fullName,
+      'specialty': specialty,
+      'medicalSections': medicalSections.toList(),
+      'matricule': matricule,
+      'avatarURL': avatarURL,
+      'sex': sex,
+    };
+  }
 }
