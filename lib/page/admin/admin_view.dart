@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:soigne_moi_web/function/admin_api.dart';
-import 'package:soigne_moi_web/model/doctor.dart';
+import 'package:soigne_moi_web/page/admin/agendas/agendasListView.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
 import 'package:soigne_moi_web/widgets/admin_app_bar.dart';
 import 'package:soigne_moi_web/widgets/admin_navigation_bar.dart';
 import 'package:soigne_moi_web/widgets/navigation_bar.dart';
 import 'admin_home.dart';
-import 'admin_planning.dart';
 import 'doctors/doctors.dart';
 
 class AdminView extends StatefulWidget {
@@ -62,7 +60,7 @@ class _AdminViewState extends State<AdminView> {
                   index: _selectedIndex,
                   children: [
                     AdminHome(),
-                    AdminPlanning(),
+                    AgendasListView(),
                     AdminDoctors(),
                     SettingsPage(),
                   ],
