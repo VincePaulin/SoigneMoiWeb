@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/config/app_config.dart';
 
 class CustomAvatar extends StatelessWidget {
   final String? avatarUrl;
@@ -13,8 +14,9 @@ class CustomAvatar extends StatelessWidget {
       backgroundImage: avatarUrl != null && avatarUrl!.isNotEmpty
           ? NetworkImage(avatarUrl!)
           : sex == "homme"
-              ? AssetImage('assets/img/avatar_man.png') as ImageProvider
-              : AssetImage('assets/img/avatar_women.png') as ImageProvider,
+              ? const AssetImage('assets/img/avatar_man.png') as ImageProvider
+              : const AssetImage('assets/img/avatar_women.png')
+                  as ImageProvider,
       radius: 25,
     );
   }

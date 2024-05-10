@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:soigne_moi_web/function/admin_api.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/page/admin/doctors/doctors_view.dart';
+
+import 'create_doctor.dart';
 
 class AdminDoctors extends StatefulWidget {
   const AdminDoctors({super.key});
@@ -39,6 +42,18 @@ class DoctorsController extends State<AdminDoctors> {
               doctor.specialty.toLowerCase().contains(query.toLowerCase()))
           .toList();
     });
+  }
+
+  void navigateToCreateDoctorPage(BuildContext context) async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const CreateDoctorPage()),
+    );
+
+    if (result == true) {
+      // Refresh doctors list
+      fetchDoctors();
+    }
   }
 
   @override

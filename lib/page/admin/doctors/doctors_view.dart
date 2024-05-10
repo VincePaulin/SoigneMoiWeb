@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/widgets/custom_avatar.dart';
 
@@ -28,11 +27,8 @@ class AdminDoctorsView extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                 ),
-                onPressed: () {
-                  GoRouter.of(context)
-                      .go('/admin/doctors/create', extra: controller);
-                },
-                icon: Icon(Icons.add),
+                onPressed: () => controller.navigateToCreateDoctorPage(context),
+                icon: const Icon(Icons.add),
                 label: Text('Ajouter un docteur'),
               ),
             ),

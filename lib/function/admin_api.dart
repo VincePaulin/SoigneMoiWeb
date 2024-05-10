@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:soigne_moi_web/config/app_config.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/model/stay.dart';
@@ -66,16 +71,43 @@ class AdminApi {
     }
   }
 
-  Future<String?> createDoctor(Doctor doctor) async {
+  Future<String?> createDoctor(Doctor doctor, XFile? image) async {
     final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
-    Map<String, dynamic> doctorJson = doctor.toJson();
-
     try {
+      final Map<String, dynamic> doctorJson = doctor.toJson();
+
+      FormData formData = FormData();
+
+      doctorJson.forEach((key, value) {
+        formData.fields.add(MapEntry(key, value.toString()));
+      });
+
+      // Adds medicalSections elements one by one
+      for (int i = 0; i < doctor.medicalSections.length; i++) {
+        formData.fields
+            .add(MapEntry('medicalSections[$i]', doctor.medicalSections[i]));
+      }
+
+      // If an image is supplied, it is added to the form
+      if (image != null) {
+        Uint8List data = await image.readAsBytes();
+        formData.files.add(
+          MapEntry(
+            'photo',
+            MultipartFile.fromBytes(
+              data,
+              filename: 'photo.jpg',
+              contentType: MediaType('image', 'jpg'),
+            ),
+          ),
+        );
+      }
+
       final response = await dio.post(
         '/admin/doctors/create',
-        data: doctorJson,
+        data: formData,
         options: Options(headers: {
           'Authorization': 'Bearer $token',
           'Accept': 'application/json',

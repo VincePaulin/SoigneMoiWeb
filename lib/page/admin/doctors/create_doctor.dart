@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 import 'package:multi_select_flutter/util/multi_select_list_type.dart';
@@ -23,6 +24,7 @@ class _CreateDoctorPageState extends State<CreateDoctorPage> {
   late String _specialty;
   List<String> _medicalSections = [];
   List<String> _selectedMedicalSections = [];
+  XFile? _pickedFile;
 
   String? errorMessage;
 
@@ -90,16 +92,64 @@ class _CreateDoctorPageState extends State<CreateDoctorPage> {
         ));
   }
 
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _pickedFile = pickedFile;
+        _avatarURL = pickedFile.path;
+      });
+    }
+  }
+
   Widget _buildAvatar() {
-    return CircleAvatar(
-      radius: 70,
-      backgroundImage: _avatarURL != null ? NetworkImage(_avatarURL!) : null,
-      child: IconButton(
-        icon: Icon(Icons.camera_alt),
-        onPressed: () {
-          //TODO: upload d'image
-        },
-      ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            CircleAvatar(
+              radius: 70,
+              backgroundImage:
+                  _avatarURL != null ? NetworkImage(_avatarURL!) : null,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(70),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        TextButton(
+          onPressed: () {
+            _pickImage();
+          },
+          style: TextButton.styleFrom(
+            backgroundColor: Colors.grey.withOpacity(0.5),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.camera_alt, color: Colors.white),
+                SizedBox(width: 10),
+                Text(
+                  'Mettre une photo de profile',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -252,16 +302,19 @@ class _CreateDoctorPageState extends State<CreateDoctorPage> {
             sex: _sex,
           );
 
-          String? response = await AdminApi().createDoctor(newDoctor);
+          String? response =
+              await AdminApi().createDoctor(newDoctor, _pickedFile);
 
           if (response == 'success') {
+            // Pop with a result indicating success
+            Navigator.pop(context, true);
+            // Show success message
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text('Docteur créé avec succès'),
                 backgroundColor: Colors.green,
               ),
             );
-            _formKey.currentState!.reset();
           } else {
             setState(() {
               errorMessage = response;
