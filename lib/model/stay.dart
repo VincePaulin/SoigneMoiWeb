@@ -1,3 +1,5 @@
+import 'package:soigne_moi_web/model/user.dart';
+
 class Stay {
   final String motif;
   final String type;
@@ -5,6 +7,7 @@ class Stay {
   final DateTime endDate;
   final String? precision;
   final String? doctorId;
+  final User? user;
 
   Stay({
     required this.motif,
@@ -13,6 +16,7 @@ class Stay {
     required this.endDate,
     this.precision,
     this.doctorId,
+    this.user,
   });
 
   factory Stay.fromJson(Map<String, dynamic> json) {
@@ -23,6 +27,7 @@ class Stay {
       endDate: _parseDate(json['end_date']),
       precision: json['precision'],
       doctorId: json['doctor_id'], // Assuming doctorId is nullable in JSON
+      user: json['user'] != null ? User.fromJson(json['user']) : null,
     );
   }
 
