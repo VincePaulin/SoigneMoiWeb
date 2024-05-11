@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:soigne_moi_web/config/app_config.dart';
+import 'package:soigne_moi_web/model/agenda.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/model/stay.dart';
 
@@ -179,6 +180,32 @@ class AdminApi {
         print(exception);
       }
       return "error";
+    }
+  }
+
+  Future<List<Agenda>> fetchAllAgendas() async {
+    final token = await _getToken();
+    dio.options.baseUrl = AppConfig.baseUrl;
+
+    try {
+      final response = await dio.get(
+        '/admin/agendas',
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> agendasJson = response.data['agendas'];
+        final List<Agenda> agendas = agendasJson.map((json) => Agenda.fromJson(json)).toList();
+
+        return agendas;
+      } else {
+        throw Exception('Failed to fetch agendas');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetch agendas: $e');
     }
   }
 }

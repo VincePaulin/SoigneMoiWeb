@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:soigne_moi_web/page/admin/agendas/agendasListView.dart';
+import 'package:soigne_moi_web/page/admin/agendas/agendas.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
 import 'package:soigne_moi_web/widgets/admin_app_bar.dart';
 import 'package:soigne_moi_web/widgets/admin_navigation_bar.dart';
@@ -60,7 +60,7 @@ class _AdminViewState extends State<AdminView> {
                   index: _selectedIndex,
                   children: [
                     AdminHome(),
-                    AgendasListView(),
+                    AdminAgendas(),
                     AdminDoctors(),
                     SettingsPage(),
                   ],
