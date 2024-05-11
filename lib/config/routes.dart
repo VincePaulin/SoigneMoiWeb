@@ -6,11 +6,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:soigne_moi_web/page/admin/admin_view.dart';
 import 'package:soigne_moi_web/page/admin/doctors/create_doctor.dart';
-import 'package:soigne_moi_web/page/admin/agendas/calendar_doctor_view.dart';
+import 'package:soigne_moi_web/page/admin/agendas/calendar/calendar_doctor_view.dart';
 import 'package:soigne_moi_web/page/login/login.dart';
 import 'package:soigne_moi_web/page/dashboard_body.dart';
 import 'package:soigne_moi_web/page/register/register.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
+
+import '../page/admin/agendas/calendar/appointments.dart';
 
 abstract class AppRoutes {
   // Method to check if the user is logged in
@@ -81,36 +83,39 @@ abstract class AppRoutes {
       redirect: loggedOutRedirect,
     ),
     GoRoute(
-        path: '/admin',
-        pageBuilder: (context, state) => defaultPageBuilder(
+      path: '/admin',
+      pageBuilder: (context, state) => defaultPageBuilder(
+        context,
+        state,
+        AdminView(),
+      ),
+      redirect: loggedOutRedirect,
+      routes: [
+        GoRoute(
+          path: 'doctors/create',
+          pageBuilder: (context, state) => defaultPageBuilder(
+            context,
+            state,
+            CreateDoctorPage(),
+          ),
+          redirect: loggedOutRedirect,
+        ),
+        GoRoute(
+          path: 'doctor-planning/:doctor',
+          pageBuilder: (context, state) {
+            final doctor = state.pathParameters['doctor'] ?? '';
+            return defaultPageBuilder(
               context,
               state,
-              AdminView(),
-            ),
-        redirect: loggedOutRedirect,
-        routes: [
-          GoRoute(
-            path: 'doctors/create',
-            pageBuilder: (context, state) => defaultPageBuilder(
-              context,
-              state,
-              CreateDoctorPage(),
-            ),
-            redirect: loggedOutRedirect,
-          ),
-          GoRoute(
-            path: 'doctor-planning/:doctor',
-            pageBuilder: (context, state) {
-              final doctor = state.pathParameters['doctor'] ?? '';
-              return defaultPageBuilder(
-                context,
-                state,
-                CalendarDoctorView(matricule: doctor,),
-              );
-            },
-            redirect: loggedOutRedirect,
-          ),
-        ]),
+              Appointments(
+                matricule: doctor,
+              ),
+            );
+          },
+          redirect: loggedOutRedirect,
+        ),
+      ],
+    ),
   ];
 
   static Page defaultPageBuilder(

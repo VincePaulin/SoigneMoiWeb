@@ -198,7 +198,8 @@ class AdminApi {
 
       if (response.statusCode == 200) {
         final List<dynamic> agendasJson = response.data['agendas'];
-        final List<Agenda> agendas = agendasJson.map((json) => Agenda.fromJson(json)).toList();
+        final List<Agenda> agendas =
+            agendasJson.map((json) => Agenda.fromJson(json)).toList();
 
         return agendas;
       } else {
@@ -206,6 +207,33 @@ class AdminApi {
       }
     } catch (e) {
       throw Exception('Failed to fetch agendas: $e');
+    }
+  }
+
+  Future<List<Stay>> fetchStaysByDoctorMatricule(String matricule) async {
+    final token = await _getToken();
+    dio.options.baseUrl = AppConfig.baseUrl;
+
+    try {
+      final response = await dio.get(
+        '/admin/doctor/stays',
+        queryParameters: {'matricule': matricule},
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> staysJson = response.data['stays'];
+        final List<Stay> stays =
+            staysJson.map((json) => Stay.fromJson(json)).toList();
+        return stays;
+      } else {
+        throw Exception('Failed to fetch stays');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetch stays: $e');
     }
   }
 }

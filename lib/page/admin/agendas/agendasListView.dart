@@ -39,17 +39,17 @@ class AgendasListView extends StatelessWidget {
                             ),
                             child: InkWell(
                               onTap: () {
-                                context.go('/admin/doctor-planning/${planning.doctor.matricule}'
-                                );
+                                context.go(
+                                    '/admin/doctor-planning/${planning.doctor.matricule}');
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(16),
-                                child:
-                                Column(
+                                child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     IgnorePointer(
-                                      ignoring: true, // Allows tactile events to pass through
+                                      ignoring:
+                                          true, // Allows tactile events to pass through
                                       child: CalendarDoctorListWidget(
                                         agenda: planning,
                                       ),
