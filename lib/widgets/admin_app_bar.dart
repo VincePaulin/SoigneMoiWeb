@@ -77,7 +77,6 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
                   CircleAvatar(
                     // Avatar
                     radius: 20,
-                    backgroundImage: AssetImage('assets/avatar.png'),
                   ),
                 ],
               ),
