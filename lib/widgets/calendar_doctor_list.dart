@@ -56,13 +56,13 @@ class _CalendarWidgetState extends State<CalendarDoctorListWidget> {
           BoxDecoration decoration;
 
           if (isToday) {
-            decoration = BoxDecoration(
+            decoration = const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.blue,
             );
           }
           if (isFutureDay) {
-            decoration = BoxDecoration(
+            decoration = const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
             );
@@ -99,7 +99,7 @@ class _CalendarWidgetState extends State<CalendarDoctorListWidget> {
               radius: 10,
               child: Text(
                 '${appointmentsForCurrentDate.length}',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 10,
                 ),

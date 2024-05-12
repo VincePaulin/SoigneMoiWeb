@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:soigne_moi_web/function/admin_api.dart';
 import 'package:soigne_moi_web/model/agenda.dart';
 import 'package:soigne_moi_web/page/admin/agendas/calendar/appointments.dart';
+import 'package:soigne_moi_web/page/admin/agendas/calendar/show_appointments_day.dart';
+import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/appointment_dialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -104,51 +106,71 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
                     color: !isStayDate ? Colors.grey : null);
               }
 
-              return GestureDetector(
-                onTap: () {
-                  if (isStayDate && !isPastDay) {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AppointmentDialog(
-                          formattedDate: formattedDate,
-                          onAppointmentCreated:
-                              (startDateTime, endDateTime) async {
-                            // Create the appointment using the provided start and end times
-                            Appointment newAppointment = Appointment(
-                              startDate: startDateTime,
-                              endDate: endDateTime,
-                              patientId:
-                                  widget.controller.staySelected!.userId!,
-                              doctorMatricule:
-                                  widget.controller.agenda!.doctor.matricule,
-                              stayId: widget.controller.staySelected!.id!,
-                            );
-                            // Perform any further actions with the new appointment
+              if (isStayDate && !isPastDay) {
+                return InkWell(
+                  hoverColor: Colors.grey.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(8),
+                  onTap: () {
+                    if (isStaySelected) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AppointmentDialog(
+                            formattedDate: formattedDate,
+                            onAppointmentCreated:
+                                (startDateTime, endDateTime) async {
+                              // Create the appointment using the provided start and end times
+                              Appointment newAppointment = Appointment(
+                                startDate: startDateTime,
+                                endDate: endDateTime,
+                                patientId:
+                                    widget.controller.staySelected!.userId!,
+                                doctorMatricule:
+                                    widget.controller.agenda!.doctor.matricule,
+                                stayId: widget.controller.staySelected!.id!,
+                              );
+                              // Perform any further actions with the new appointment
 
-                            await AdminApi().createAppointment(newAppointment);
-                            print("newAppointment: $newAppointment");
-                            print(newAppointment.stayId);
-                            print(newAppointment.patientId);
-                          },
-                        );
-                      },
-                    );
-                  }
-                },
-                child: Container(
+                              await AdminApi()
+                                  .createAppointment(newAppointment);
+                              print("newAppointment: $newAppointment");
+                              print(newAppointment.stayId);
+                              print(newAppointment.patientId);
+                            },
+                          );
+                        },
+                      );
+                    } else {
+                      showAppointmentsForDay(date, widget.controller, context);
+                    }
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.all(4.0),
+                    decoration: decoration,
+                    child: Center(
+                      child: Text(
+                        '${date.day}',
+                        style: robotoTextStyle(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              } else {
+                return Container(
                   margin: const EdgeInsets.all(4.0),
                   decoration: decoration,
                   child: Center(
                     child: Text(
                       '${date.day}',
-                      style: TextStyle(
-                        color: isPastDay ? Colors.grey : Colors.black,
+                      style: robotoTextStyle(
+                        color: Colors.grey,
                       ),
                     ),
                   ),
-                ),
-              );
+                );
+              }
             },
             markerBuilder: (context, date, events) {
               final appointmentsForCurrentDate = widget
@@ -164,7 +186,7 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
                   radius: 10,
                   child: Text(
                     '${appointmentsForCurrentDate.length}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 10,
                     ),
