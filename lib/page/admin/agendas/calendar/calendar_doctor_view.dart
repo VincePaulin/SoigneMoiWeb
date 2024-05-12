@@ -26,7 +26,6 @@ class CalendarDoctorView extends StatelessWidget {
             Expanded(
                 flex: 2,
                 child: CalendarDoctorWidget(
-                  agenda: controller.agenda!,
                   controller: controller,
                 )),
             Flexible(

@@ -7,11 +7,9 @@ import 'package:soigne_moi_web/widgets/appointment_dialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarDoctorWidget extends StatefulWidget {
-  final Agenda agenda;
   final AppointmentsController controller;
 
-  const CalendarDoctorWidget(
-      {super.key, required this.agenda, required this.controller});
+  const CalendarDoctorWidget({super.key, required this.controller});
 
   @override
   State<CalendarDoctorWidget> createState() => _CalendarDoctorWidgetState();
@@ -122,7 +120,8 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
                               endDate: endDateTime,
                               patientId:
                                   widget.controller.staySelected!.userId!,
-                              doctorMatricule: widget.agenda.doctor.matricule,
+                              doctorMatricule:
+                                  widget.controller.agenda!.doctor.matricule,
                               stayId: widget.controller.staySelected!.id!,
                             );
                             // Perform any further actions with the new appointment
@@ -152,14 +151,16 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
               );
             },
             markerBuilder: (context, date, events) {
-              final appointmentsForCurrentDate = widget.agenda.appointments
+              final appointmentsForCurrentDate = widget
+                  .controller.agenda?.appointments
                   .where(
                       (appointment) => isSameDay(appointment.startDate, date))
                   .toList();
 
-              if (appointmentsForCurrentDate.isNotEmpty) {
+              final isComplete = appointmentsForCurrentDate?.length == 5;
+              if (appointmentsForCurrentDate!.isNotEmpty) {
                 return CircleAvatar(
-                  backgroundColor: Colors.red,
+                  backgroundColor: isComplete ? Colors.red : Colors.green,
                   radius: 10,
                   child: Text(
                     '${appointmentsForCurrentDate.length}',

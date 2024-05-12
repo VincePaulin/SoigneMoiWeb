@@ -23,7 +23,8 @@ class AppointmentsController extends State<Appointments> {
   void initState() {
     super.initState();
     fetchAgenda();
-    fetchStays(); // Calling the method to retrieve appointments
+    fetchAppointmentsForDoc();
+    fetchStays();
   }
 
   void fetchAgenda() async {
@@ -56,7 +57,7 @@ class AppointmentsController extends State<Appointments> {
         otherStay = staysByDoctorMatricule['stayOfOtherDoc'] ?? [];
       } else {
         if (kDebugMode) {
-          print('Échec de la récupération des séjours');
+          print('Échec de la récupération des rdv');
         }
       }
       setState(() {
@@ -66,6 +67,23 @@ class AppointmentsController extends State<Appointments> {
     } catch (e) {
       if (kDebugMode) {
         print('Failed to fetch stays: $e');
+      }
+    }
+  }
+
+  void fetchAppointmentsForDoc() async {
+    try {
+      List<Appointment>? appointmentsData = await AdminApi()
+          .fetchAppointmentsForDoctorStartingToday(widget.matricule);
+      // First check if the agenda exists
+      // First check if appointmentsData is not null
+      setState(() {
+        // Add new appointments to the existing list of appointments in the 'agenda' object
+        agenda!.appointments.addAll(appointmentsData);
+      });
+    } catch (e) {
+      if (kDebugMode) {
+        print('Failed to fetch appointments: $e');
       }
     }
   }
