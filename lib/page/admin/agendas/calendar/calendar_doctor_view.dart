@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:soigne_moi_web/page/admin/agendas/calendar/appointments.dart';
+import 'package:soigne_moi_web/utils/app_fonts.dart';
 
 import 'calendar_appointments.dart';
 
@@ -41,12 +42,15 @@ class CalendarDoctorView extends StatelessWidget {
                   child: Column(
                     children: [
                       TabBar(
+                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                        unselectedLabelStyle:
+                            robotoTextStyle(color: Colors.white),
                         tabs: [
                           Tab(text: 'Pour ce docteur'),
                           Tab(text: 'Pour les autres docteurs'),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20.0,
                       ),
                       Expanded(
@@ -58,7 +62,11 @@ class CalendarDoctorView extends StatelessWidget {
                                 children: [
                                   if (controller.staysOfHisDoc.isEmpty)
                                     Text(
-                                        "Il n'y a pas de séjour demandé pour cette onglet"),
+                                      "Il n'y a pas de séjour demandé pour cette onglet",
+                                      style: robotoTextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ListView.builder(
                                     shrinkWrap: true,
                                     physics:
@@ -102,7 +110,11 @@ class CalendarDoctorView extends StatelessWidget {
                                 children: [
                                   if (controller.staysOfOtherDoc.isEmpty)
                                     Text(
-                                        "Il n'y a pas de séjour demandé pour cette onglet"),
+                                      "Il n'y a pas de séjour demandé pour cette onglet",
+                                      style: robotoTextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    ),
                                   ListView.builder(
                                     shrinkWrap: true,
                                     physics:
