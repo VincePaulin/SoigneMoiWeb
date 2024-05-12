@@ -288,6 +288,39 @@ class AdminApi {
     return null;
   }
 
+  Future<String?> createAppointment(Appointment appointment) async {
+    final token = await _getToken();
+    dio.options.baseUrl = AppConfig.baseUrl;
+
+    try {
+      // Data construction for the request
+      final Map<String, dynamic> appointmentJson = appointment.toJson();
+
+      // Sending the request to create an appointment
+      final response = await dio.post(
+        '/admin/create-appointment',
+        data: appointmentJson,
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return "success";
+      } else {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: 'Failed to create appointment',
+        );
+      }
+    } on DioException catch (e) {
+      _handleDioError(e);
+    }
+    return null;
+  }
+
   // How to display an error dialog box
   void _handleDioError(DioException e) {
     if (kDebugMode) {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:soigne_moi_web/function/admin_api.dart';
 import 'package:soigne_moi_web/model/agenda.dart';
 import 'package:soigne_moi_web/page/admin/agendas/calendar/appointments.dart';
+import 'package:soigne_moi_web/widgets/appointment_dialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarDoctorWidget extends StatefulWidget {
@@ -110,16 +112,26 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text("Pour le $formattedDate"),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('Fermer'),
-                            ),
-                          ],
+                        return AppointmentDialog(
+                          formattedDate: formattedDate,
+                          onAppointmentCreated:
+                              (startDateTime, endDateTime) async {
+                            // Create the appointment using the provided start and end times
+                            Appointment newAppointment = Appointment(
+                              startDate: startDateTime,
+                              endDate: endDateTime,
+                              patientId:
+                                  widget.controller.staySelected!.userId!,
+                              doctorMatricule: widget.agenda.doctor.matricule,
+                              stayId: widget.controller.staySelected!.id!,
+                            );
+                            // Perform any further actions with the new appointment
+
+                            await AdminApi().createAppointment(newAppointment);
+                            print("newAppointment: $newAppointment");
+                            print(newAppointment.stayId);
+                            print(newAppointment.patientId);
+                          },
                         );
                       },
                     );
