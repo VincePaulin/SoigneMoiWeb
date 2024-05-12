@@ -14,11 +14,13 @@ class AdminAgendas extends StatefulWidget {
 
 class AgendasController extends State<AdminAgendas> {
   List<Agenda> agendasList = [];
+  List<Appointment> appointmentsList = [];
 
   @override
   void initState() {
     super.initState();
     fetchAgendas(); // Calling the method to retrieve agendas
+    fetchAppointments(); // Calling the method to retrieve appointments
   }
 
   void fetchAgendas() async {
@@ -27,6 +29,31 @@ class AgendasController extends State<AdminAgendas> {
       setState(() {
         agendasList = agendas!;
       });
+    } catch (e) {
+      if (kDebugMode) {
+        print('Failed to fetch agendas: $e');
+      }
+    }
+  }
+
+  void fetchAppointments() async {
+    try {
+      // Fetch all appointments starting today
+      List<Appointment>? appointments =
+          await AdminApi().fetchAppointmentsStartingToday();
+
+      // Iterate through each appointment
+      for (var appointment in appointments) {
+        // Find the corresponding agenda using doctor matricule
+        var agenda = agendasList.firstWhere(
+          (agenda) => agenda.doctor.matricule == appointment.doctorMatricule,
+        );
+
+        // If an agenda is found, add the appointment to its list
+        setState(() {
+          agenda.appointments.add(appointment);
+        });
+      }
     } catch (e) {
       if (kDebugMode) {
         print('Failed to fetch agendas: $e');

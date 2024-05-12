@@ -1,8 +1,6 @@
 import 'package:soigne_moi_web/model/doctor.dart';
 
 // Template for showing an appointment
-import 'dart:convert';
-
 class Appointment {
   final String? id;
   final DateTime startDate;
@@ -22,12 +20,12 @@ class Appointment {
 
   factory Appointment.fromJson(Map<String, dynamic> json) {
     return Appointment(
-      id: json['id'],
+      id: json['id'].toString(),
       startDate: DateTime.parse(json['start_date']),
       endDate: DateTime.parse(json['end_date']),
-      patientId: json['patient_id'],
-      doctorMatricule: json['doctor_matricule'],
-      stayId: json['stay_id'],
+      patientId: json['patient_id'].toString(),
+      doctorMatricule: json['doctor_matricule'].toString(),
+      stayId: json['stay_id'].toString(),
     );
   }
 

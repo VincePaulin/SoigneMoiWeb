@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:soigne_moi_web/model/agenda.dart';
 import 'package:soigne_moi_web/page/admin/agendas/agendas.dart';
 import 'package:soigne_moi_web/widgets/calendar_doctor_list.dart';
+import 'package:soigne_moi_web/widgets/custom_avatar.dart';
 
 class AgendasListView extends StatelessWidget {
   final AgendasController controller;
@@ -54,11 +55,25 @@ class AgendasListView extends StatelessWidget {
                                         agenda: planning,
                                       ),
                                     ),
-                                    Text(
-                                      planning.doctor.fullName,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        CustomAvatar(
+                                          sex: planning.doctor.sex,
+                                          avatarUrl: planning.doctor.avatarURL,
+                                        ),
+                                        const SizedBox(
+                                          width: 2.0,
+                                        ),
+                                        Text(
+                                          planning.doctor.fullName,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),
