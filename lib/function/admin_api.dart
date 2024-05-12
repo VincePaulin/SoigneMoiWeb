@@ -1,8 +1,6 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,11 +13,13 @@ class AdminApi {
   final storage = FlutterSecureStorage();
   final dio = Dio();
 
+  // How to retrieve the token
   Future<String> _getToken() async {
     return await storage.read(key: 'access_token') ?? '';
   }
 
-  Future<List<Stay>> fetchAllStays() async {
+  // Method for retrieving all stays
+  Future<List<Stay>?> fetchAllStays() async {
     final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
@@ -37,15 +37,20 @@ class AdminApi {
             staysJson.map((json) => Stay.fromJson(json)).toList();
         return stays;
       } else {
-        throw Exception('Failed to fetch stays');
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: 'Failed to fetch stays',
+        );
       }
-    } catch (e) {
-      throw Exception('Failed to fetch stays: $e');
+    } on DioException catch (e) {
+      _handleDioError(e);
     }
+    return null;
   }
 
-  // For a list of doctors
-  Future<List<Doctor>> fetchAllDoctors() async {
+  // How to retrieve all doctors
+  Future<List<Doctor>?> fetchAllDoctors() async {
     final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
@@ -65,33 +70,39 @@ class AdminApi {
 
         return doctors;
       } else {
-        throw Exception('Failed to fetch doctors');
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: 'Failed to fetch doctors',
+        );
       }
-    } catch (e) {
-      throw Exception('Failed to fetch doctors: $e');
+    } on DioException catch (e) {
+      _handleDioError(e);
     }
+    return null;
   }
 
+  // How to create a doctor
   Future<String?> createDoctor(Doctor doctor, XFile? image) async {
     final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
+      // Data construction for the query
       final Map<String, dynamic> doctorJson = doctor.toJson();
-
       FormData formData = FormData();
 
       doctorJson.forEach((key, value) {
         formData.fields.add(MapEntry(key, value.toString()));
       });
 
-      // Adds medicalSections elements one by one
+      // Add medicalSections list items one by one
       for (int i = 0; i < doctor.medicalSections.length; i++) {
         formData.fields
             .add(MapEntry('medicalSections[$i]', doctor.medicalSections[i]));
       }
 
-      // If an image is supplied, it is added to the form
+      // If an image is supplied, it is added to the form.
       if (image != null) {
         Uint8List data = await image.readAsBytes();
         formData.files.add(
@@ -106,6 +117,7 @@ class AdminApi {
         );
       }
 
+      // Sending the request to create a doctor
       final response = await dio.post(
         '/admin/doctors/create',
         data: formData,
@@ -117,33 +129,18 @@ class AdminApi {
 
       return "success";
     } on DioException catch (e) {
-      if (kDebugMode) {
-        print("Exception when calling backend log: $e\n");
-      }
-
-      // Display Dio error messages to the user
-      if (e.response?.data != null) {
-        var errorMessage = e.response?.data['message'];
-        if (kDebugMode) {
-          print("errorMessage: $errorMessage");
-        }
-        return errorMessage;
-      } else {
-        return "Erreur réseaux";
-      }
-    } catch (exception) {
-      if (kDebugMode) {
-        print(exception);
-      }
-      return "error";
+      _handleDioError(e);
     }
+    return null;
   }
 
+  // How to delete a doctor
   Future<String?> deleteDoctor(String matricule) async {
     final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
+      // Sending the doctor's deletion request
       final response = await dio.delete(
         '/admin/doctor/delete/$matricule',
         options: Options(headers: {
@@ -155,35 +152,19 @@ class AdminApi {
       if (response.statusCode == 200) {
         return "success";
       } else {
-        throw DioError(
+        throw DioException(
             requestOptions: response.requestOptions,
             response: response,
             error: 'Failed to delete doctor');
       }
     } on DioException catch (e) {
-      if (kDebugMode) {
-        print("Exception when calling backend log: $e\n");
-      }
-
-      // Display Dio error messages to the user
-      if (e.response?.data != null) {
-        var errorMessage = e.response?.data['error'];
-        if (kDebugMode) {
-          print("errorMessage: $errorMessage");
-        }
-        return errorMessage;
-      } else {
-        return "Erreur réseau";
-      }
-    } catch (exception) {
-      if (kDebugMode) {
-        print(exception);
-      }
-      return "error";
+      _handleDioError(e);
     }
+    return null;
   }
 
-  Future<List<Agenda>> fetchAllAgendas() async {
+  // How to retrieve all diaries
+  Future<List<Agenda>?> fetchAllAgendas() async {
     final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
@@ -203,14 +184,20 @@ class AdminApi {
 
         return agendas;
       } else {
-        throw Exception('Failed to fetch agendas');
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: 'Failed to fetch agendas',
+        );
       }
-    } catch (e) {
-      throw Exception('Failed to fetch agendas: $e');
+    } on DioException catch (e) {
+      _handleDioError(e);
     }
+    return null;
   }
 
-  Future<List<Stay>> fetchStaysByDoctorMatricule(String matricule) async {
+  // Method for retrieving stays by doctor's registration number
+  Future<List<Stay>?> fetchStaysByDoctorMatricule(String matricule) async {
     final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
@@ -230,10 +217,98 @@ class AdminApi {
             staysJson.map((json) => Stay.fromJson(json)).toList();
         return stays;
       } else {
-        throw Exception('Failed to fetch stays');
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: 'Failed to fetch stays',
+        );
       }
-    } catch (e) {
-      throw Exception('Failed to fetch stays: $e');
+    } on DioException catch (e) {
+      _handleDioError(e);
+    }
+    return null;
+  }
+
+  // Method to retrieve the agenda by doctor's number
+  Future<Agenda?> fetchAgendaByDoctorMatricule(String matricule) async {
+    final token = await _getToken();
+    dio.options.baseUrl = AppConfig.baseUrl;
+
+    try {
+      final response = await dio.get(
+        '/admin/doctor-agenda',
+        queryParameters: {'matricule': matricule},
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Checks if the answer is null
+
+        final dynamic responseData = response.data;
+
+        if (responseData != null) {
+          // Extract agenda and doctor data from response
+          final agendaJson = responseData['agenda'];
+
+          // Create Agenda object
+          final Agenda agenda = Agenda.fromJson(agendaJson);
+          return agenda;
+        }
+      } else {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: 'Failed to fetch agenda',
+        );
+      }
+    } on DioException catch (e) {
+      _handleDioError(e);
+      return null;
+    }
+    return null;
+  }
+
+  // How to display an error dialog box
+  void _handleDioError(DioException e) {
+    if (kDebugMode) {
+      print("Exception when calling backend log: $e\n");
+    }
+
+    // Displaying Dio error messages to the user
+    if (e.response?.data != null) {
+      var errorMessage = e.response?.data['message'];
+      if (kDebugMode) {
+        print("errorMessage: $errorMessage");
+      }
+      showErrorDialog(
+          errorMessage, GlobalKey<NavigatorState>().currentState!.context);
+    } else {
+      showErrorDialog(
+          "Erreur réseau", GlobalKey<NavigatorState>().currentState!.context);
     }
   }
+}
+
+// How to display an error dialog box
+void showErrorDialog(String errorMessage, BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Erreur'),
+        content: Text(errorMessage),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
 }
