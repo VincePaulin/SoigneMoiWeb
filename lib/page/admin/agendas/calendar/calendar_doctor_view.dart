@@ -33,28 +33,106 @@ class CalendarDoctorView extends StatelessWidget {
                   color: Colors.grey[900]?.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                child: ListView.builder(
-                  itemCount: controller.staysList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    final stay = controller.staysList[index];
-                    final String startDateFormatted =
-                        dateFormat.format(stay.startDate);
-                    final String endDateFormatted =
-                        dateFormat.format(stay.endDate);
-                    return ListTile(
-                      title: Text(
-                        stay.motif,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+                child: DefaultTabController(
+                  length: 2,
+                  child: Column(
+                    children: [
+                      TabBar(
+                        tabs: [
+                          Tab(text: 'Pour ce docteur'),
+                          Tab(text: 'Pour les autres docteurs'),
+                        ],
                       ),
-                      subtitle: Text(
-                        'Du $startDateFormatted au $endDateFormatted',
-                        style: const TextStyle(color: Colors.white),
+                      SizedBox(
+                        height: 20.0,
                       ),
-                      onTap: () {
-                        // Action à effectuer lorsque l'utilisateur appuie sur un séjour
-                      },
-                    );
-                  },
+                      Expanded(
+                        child: TabBarView(
+                          children: [
+                            // First tab - For this doctor
+                            SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  if (controller.staysOfHisDoc.isEmpty)
+                                    Text(
+                                        "Il n'y a pas de séjour demandé pour cette onglet"),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: controller.staysOfHisDoc.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final stay =
+                                          controller.staysOfHisDoc[index];
+                                      final String startDateFormatted =
+                                          dateFormat.format(stay.startDate);
+                                      final String endDateFormatted =
+                                          dateFormat.format(stay.endDate);
+                                      return ListTile(
+                                        title: Text(
+                                          stay.motif,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Text(
+                                          'Du $startDateFormatted au $endDateFormatted',
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                        onTap: () {
+                                          // Action à effectuer lorsque l'utilisateur appuie sur un séjour
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            // Second tab - For other doctors
+                            SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  if (controller.staysOfOtherDoc.isEmpty)
+                                    Text(
+                                        "Il n'y a pas de séjour demandé pour cette onglet"),
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount:
+                                        controller.staysOfOtherDoc.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      final stay =
+                                          controller.staysOfOtherDoc[index];
+                                      final String startDateFormatted =
+                                          dateFormat.format(stay.startDate);
+                                      final String endDateFormatted =
+                                          dateFormat.format(stay.endDate);
+                                      return ListTile(
+                                        title: Text(
+                                          stay.motif,
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Text(
+                                          'Du $startDateFormatted au $endDateFormatted',
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        ),
+                                        onTap: () {
+                                          // Action à effectuer lorsque l'utilisateur appuie sur un séjour
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

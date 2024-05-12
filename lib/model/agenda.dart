@@ -8,6 +8,8 @@ class Appointment {
   final DateTime endDate;
   final String description;
   final String patientId;
+  final String doctorMatricule;
+  final String stayId;
 
   Appointment({
     required this.id,
@@ -16,6 +18,8 @@ class Appointment {
     required this.endDate,
     required this.description,
     required this.patientId,
+    required this.doctorMatricule,
+    required this.stayId,
   });
 }
 

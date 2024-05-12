@@ -15,7 +15,8 @@ class Appointments extends StatefulWidget {
 }
 
 class AppointmentsController extends State<Appointments> {
-  List<Stay> staysList = [];
+  List<Stay> staysOfHisDoc = [];
+  List<Stay> staysOfOtherDoc = [];
   Agenda? agenda;
 
   @override
@@ -41,10 +42,26 @@ class AppointmentsController extends State<Appointments> {
 
   void fetchStays() async {
     try {
-      List<Stay>? stays =
+      final Map<String, List<Stay>>? staysByDoctorMatricule =
           await AdminApi().fetchStaysByDoctorMatricule(widget.matricule);
+      List<Stay> stayOfDoc = [];
+      List<Stay> otherStay = [];
+
+      // Check if answer is non-zero
+      if (staysByDoctorMatricule != null) {
+        // Access the list of stays by the doctor with the specified personnel number
+        stayOfDoc = staysByDoctorMatricule['stayOfHisDoc'] ?? [];
+
+        // Access the list of stays by other doctors
+        otherStay = staysByDoctorMatricule['stayOfOtherDoc'] ?? [];
+      } else {
+        if (kDebugMode) {
+          print('Échec de la récupération des séjours');
+        }
+      }
       setState(() {
-        staysList = stays!;
+        staysOfHisDoc = stayOfDoc;
+        staysOfOtherDoc = otherStay;
       });
     } catch (e) {
       if (kDebugMode) {

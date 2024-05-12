@@ -197,14 +197,14 @@ class AdminApi {
   }
 
   // Method for retrieving stays by doctor's registration number
-  Future<List<Stay>?> fetchStaysByDoctorMatricule(String matricule) async {
+  Future<Map<String, List<Stay>>?> fetchStaysByDoctorMatricule(
+      String matricule) async {
     final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
       final response = await dio.get(
-        '/admin/doctor/stays',
-        queryParameters: {'matricule': matricule},
+        '/admin/stay-not-programed',
         options: Options(headers: {
           'Authorization': 'Bearer $token',
           'Accept': 'application/json',
@@ -215,7 +215,24 @@ class AdminApi {
         final List<dynamic> staysJson = response.data['stays'];
         final List<Stay> stays =
             staysJson.map((json) => Stay.fromJson(json)).toList();
-        return stays;
+
+        // Initialize lists for stays
+        List<Stay> stayOfHisDoc = [];
+        List<Stay> stayOfOtherDoc = [];
+
+        // Iterate through stays and separate them based on doctorId
+        for (var stay in stays) {
+          if (stay.doctorId == matricule) {
+            stayOfHisDoc.add(stay);
+          } else {
+            stayOfOtherDoc.add(stay);
+          }
+        }
+
+        return {
+          'stayOfHisDoc': stayOfHisDoc,
+          'stayOfOtherDoc': stayOfOtherDoc,
+        };
       } else {
         throw DioException(
           requestOptions: response.requestOptions,
