@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:soigne_moi_web/model/agenda.dart';
+import 'package:soigne_moi_web/page/admin/agendas/calendar/appointments.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarDoctorWidget extends StatefulWidget {
   final Agenda agenda;
+  final AppointmentsController controller;
 
-  const CalendarDoctorWidget({Key? key, required this.agenda})
-      : super(key: key);
+  const CalendarDoctorWidget(
+      {super.key, required this.agenda, required this.controller});
 
   @override
   State<CalendarDoctorWidget> createState() => _CalendarDoctorWidgetState();
@@ -33,7 +36,13 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _buildFormatButton(CalendarFormat.month),
+            const SizedBox(
+              width: 3.0,
+            ),
             _buildFormatButton(CalendarFormat.week),
+            const SizedBox(
+              width: 3.0,
+            ),
             _buildFormatButton(CalendarFormat.twoWeeks),
           ],
         ),
@@ -53,9 +62,6 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
               _focusedDay = focusedDay;
             });
           },
-          selectedDayPredicate: (day) {
-            return isSameDay(_selectedDay, day);
-          },
           onDaySelected: (selectedDay, focusedDay) {
             setState(() {
               _selectedDay = selectedDay;
@@ -67,6 +73,13 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
               final isToday = isSameDay(date, DateTime.now());
               final isPastDay = date.isBefore(DateTime.now());
               final isFutureDay = date.isAfter(DateTime.now());
+              String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+              final isStaySelected =
+                  widget.controller.selectedStayDates.isNotEmpty;
+              final isStayDate = isStaySelected
+                  ? widget.controller.selectedStayDates
+                      .contains(DateTime.parse(formattedDate))
+                  : true; // Compare with selected dates
 
               BoxDecoration? decoration;
 
@@ -82,19 +95,45 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
                 );
               } else if (isFutureDay) {
                 decoration = BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                );
+                    border: Border.all(
+                        color: isStayDate
+                            ? Colors.green
+                            : Colors.grey.withOpacity(0.3),
+                        width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                    color: !isStayDate ? Colors.grey : null);
               }
 
-              return Container(
-                margin: const EdgeInsets.all(4.0),
-                decoration: decoration,
-                child: Center(
-                  child: Text(
-                    '${date.day}',
-                    style: TextStyle(
-                      color: isPastDay ? Colors.grey : Colors.black,
+              return GestureDetector(
+                onTap: () {
+                  if (isStayDate && !isPastDay) {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Pour le $formattedDate"),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('Fermer'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+                child: Container(
+                  margin: const EdgeInsets.all(4.0),
+                  decoration: decoration,
+                  child: Center(
+                    child: Text(
+                      '${date.day}',
+                      style: TextStyle(
+                        color: isPastDay ? Colors.grey : Colors.black,
+                      ),
                     ),
                   ),
                 ),
@@ -130,21 +169,27 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
   }
 
   Widget _buildFormatButton(CalendarFormat format) {
+    final isSelectedDateStay =
+        widget.controller.selectedStayDates.contains(_selectedDay);
+    final isSelected = _calendarFormat == format;
+
     return TextButton(
-      onPressed: () {
-        setState(() {
-          _calendarFormat = format;
-        });
-      },
+      onPressed: isSelected || isSelectedDateStay
+          ? null // Make days unclickable if format is already selected
+          : () {
+              setState(() {
+                _calendarFormat = format;
+              });
+            },
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.resolveWith((states) {
-          return _calendarFormat == format ? Colors.blue : null;
+          return isSelected ? Colors.blue : Colors.grey.withOpacity(0.3);
         }),
       ),
       child: Text(
         _getFormatText(format),
         style: TextStyle(
-          color: _calendarFormat == format ? Colors.white : null,
+          color: isSelected ? Colors.white : null,
         ),
       ),
     );

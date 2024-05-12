@@ -70,6 +70,32 @@ class AppointmentsController extends State<Appointments> {
     }
   }
 
+  // Indicator for storing dates of selected stays
+  Stay? staySelected;
+  Set<DateTime> selectedStayDates = {};
+
+  // Function to update the dates of selected stays
+  void updateSelectedStayDates(Stay stay) {
+    setState(() {
+      if (staySelected == stay) {
+        // Deselect the stay if it is already selected
+        staySelected = null;
+        selectedStayDates.clear();
+      } else {
+        // Empty all selected dates
+        selectedStayDates.clear();
+        // Add the dates of the selected stay to the set
+        for (var date = stay.startDate;
+            date.isBefore(stay.endDate);
+            date = date.add(const Duration(days: 1))) {
+          selectedStayDates.add(date);
+        }
+        // Set the selected stay
+        staySelected = stay;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return agenda != null

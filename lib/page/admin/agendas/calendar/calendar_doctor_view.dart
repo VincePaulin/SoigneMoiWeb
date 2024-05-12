@@ -24,7 +24,10 @@ class CalendarDoctorView extends StatelessWidget {
           children: [
             Expanded(
                 flex: 2,
-                child: CalendarDoctorWidget(agenda: controller.agenda!)),
+                child: CalendarDoctorWidget(
+                  agenda: controller.agenda!,
+                  controller: controller,
+                )),
             Flexible(
               flex: 1,
               child: Container(
@@ -58,7 +61,8 @@ class CalendarDoctorView extends StatelessWidget {
                                         "Il n'y a pas de séjour demandé pour cette onglet"),
                                   ListView.builder(
                                     shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     itemCount: controller.staysOfHisDoc.length,
                                     itemBuilder:
                                         (BuildContext context, int index) {
@@ -68,7 +72,10 @@ class CalendarDoctorView extends StatelessWidget {
                                           dateFormat.format(stay.startDate);
                                       final String endDateFormatted =
                                           dateFormat.format(stay.endDate);
+                                      final isSelected =
+                                          controller.staySelected == stay;
                                       return ListTile(
+                                        selected: isSelected,
                                         title: Text(
                                           stay.motif,
                                           style: const TextStyle(
@@ -80,7 +87,8 @@ class CalendarDoctorView extends StatelessWidget {
                                               color: Colors.white),
                                         ),
                                         onTap: () {
-                                          // Action à effectuer lorsque l'utilisateur appuie sur un séjour
+                                          controller
+                                              .updateSelectedStayDates(stay);
                                         },
                                       );
                                     },
@@ -97,7 +105,8 @@ class CalendarDoctorView extends StatelessWidget {
                                         "Il n'y a pas de séjour demandé pour cette onglet"),
                                   ListView.builder(
                                     shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     itemCount:
                                         controller.staysOfOtherDoc.length,
                                     itemBuilder:
@@ -108,7 +117,10 @@ class CalendarDoctorView extends StatelessWidget {
                                           dateFormat.format(stay.startDate);
                                       final String endDateFormatted =
                                           dateFormat.format(stay.endDate);
+                                      final isSelected =
+                                          controller.staySelected == stay;
                                       return ListTile(
+                                        selected: isSelected,
                                         title: Text(
                                           stay.motif,
                                           style: const TextStyle(
@@ -120,7 +132,8 @@ class CalendarDoctorView extends StatelessWidget {
                                               color: Colors.white),
                                         ),
                                         onTap: () {
-                                          // Action à effectuer lorsque l'utilisateur appuie sur un séjour
+                                          controller
+                                              .updateSelectedStayDates(stay);
                                         },
                                       );
                                     },
