@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 
 // Template for showing an appointment
