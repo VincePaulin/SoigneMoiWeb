@@ -51,6 +51,7 @@ class _CalendarWidgetState extends State<CalendarDoctorListWidget> {
           final isToday = isSameDay(date, DateTime.now());
           final isPastDay = date.isBefore(DateTime.now());
           final isFutureDay = date.isAfter(DateTime.now());
+          final isWeekend = date.weekday == 6 || date.weekday == 7;
 
           BoxDecoration decoration;
 
@@ -59,15 +60,17 @@ class _CalendarWidgetState extends State<CalendarDoctorListWidget> {
               shape: BoxShape.circle,
               color: Colors.blue,
             );
-          } else if (isPastDay) {
-            decoration = BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.grey.withOpacity(0.3),
-            );
-          } else if (isFutureDay) {
+          }
+          if (isFutureDay) {
             decoration = BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
+            );
+          }
+          if (isPastDay || isWeekend) {
+            decoration = BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey.withOpacity(0.3),
             );
           }
 
@@ -89,9 +92,10 @@ class _CalendarWidgetState extends State<CalendarDoctorListWidget> {
               .where((appointment) => isSameDay(appointment.startDate, date))
               .toList();
 
+          final isComplete = appointmentsForCurrentDate.length == 5;
           if (appointmentsForCurrentDate.isNotEmpty) {
             return CircleAvatar(
-              backgroundColor: Colors.red,
+              backgroundColor: isComplete ? Colors.red : Colors.green,
               radius: 10,
               child: Text(
                 '${appointmentsForCurrentDate.length}',
