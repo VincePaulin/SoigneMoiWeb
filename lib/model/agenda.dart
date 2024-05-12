@@ -44,7 +44,7 @@ class Appointment {
 class Agenda {
   final String id;
   final Doctor doctor;
-  final List<Appointment> appointments;
+  late final List<Appointment> appointments;
 
   Agenda({
     required this.id,
