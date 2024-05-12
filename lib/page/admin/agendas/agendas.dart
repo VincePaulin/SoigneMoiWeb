@@ -23,9 +23,9 @@ class AgendasController extends State<AdminAgendas> {
 
   void fetchAgendas() async {
     try {
-      List<Agenda> agendas = await AdminApi().fetchAllAgendas();
+      List<Agenda>? agendas = await AdminApi().fetchAllAgendas();
       setState(() {
-        agendasList = agendas;
+        agendasList = agendas!;
       });
     } catch (e) {
       if (kDebugMode) {

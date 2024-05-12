@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:soigne_moi_web/page/admin/agendas/calendar/appointments.dart';
+
+import 'calendar_appointments.dart';
 
 class CalendarDoctorView extends StatelessWidget {
   final AppointmentsController controller;
@@ -7,6 +10,9 @@ class CalendarDoctorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Date format to display day and month only
+    final DateFormat dateFormat = DateFormat('dd/MM');
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Planning du docteur'),
@@ -17,34 +23,33 @@ class CalendarDoctorView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              flex: 2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Contenu de la page',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  SizedBox(height: 16),
-                  Text(
-                    'Liste de suggestion',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                ],
-              ),
-            ),
+                flex: 2,
+                child: CalendarDoctorWidget(agenda: controller.agenda!)),
             Flexible(
               flex: 1,
               child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 16.0),
-                color: Colors.grey[300],
+                margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey[900]?.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
                 child: ListView.builder(
                   itemCount: controller.staysList.length,
                   itemBuilder: (BuildContext context, int index) {
                     final stay = controller.staysList[index];
+                    final String startDateFormatted =
+                        dateFormat.format(stay.startDate);
+                    final String endDateFormatted =
+                        dateFormat.format(stay.endDate);
                     return ListTile(
-                      title: Text(stay.motif),
-                      subtitle: Text('Du ${stay.startDate} au ${stay.endDate}'),
+                      title: Text(
+                        stay.motif,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        'Du $startDateFormatted au $endDateFormatted',
+                        style: const TextStyle(color: Colors.white),
+                      ),
                       onTap: () {
                         // Action à effectuer lorsque l'utilisateur appuie sur un séjour
                       },

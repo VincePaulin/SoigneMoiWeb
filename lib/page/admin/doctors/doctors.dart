@@ -32,9 +32,9 @@ class DoctorsController extends State<AdminDoctors> {
 
   void fetchDoctors() async {
     try {
-      List<Doctor> doctors = await AdminApi().fetchAllDoctors();
+      List<Doctor>? doctors = await AdminApi().fetchAllDoctors();
       setState(() {
-        doctorsList = doctors;
+        doctorsList = doctors!;
       });
     } catch (e) {
       print('Failed to fetch doctors: $e');

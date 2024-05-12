@@ -4,7 +4,6 @@ import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/page/admin/doctors/doctors.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/custom_avatar.dart';
-import 'package:soigne_moi_web/widgets/error_dialog.dart';
 
 class DoctorDetailsDialog extends StatelessWidget {
   final Doctor doctor;
