@@ -347,6 +347,33 @@ class AdminApi {
     }
   }
 
+  Future<List<Appointment>> fetchAppointmentsForDoctorStartingToday(
+      String doctorMatricule) async {
+    final token = await _getToken();
+    dio.options.baseUrl = AppConfig.baseUrl;
+
+    try {
+      final response = await dio.get(
+        '/admin/get-appointments-to-doc-starting-today',
+        queryParameters: {'doctor_matricule': doctorMatricule},
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> appointmentsJson = response.data['appointments'];
+        final List<Appointment> appointments =
+            appointmentsJson.map((json) => Appointment.fromJson(json)).toList();
+        return appointments;
+      } else {
+        throw Exception('Failed to fetch appointments starting today');
+      }
+    } catch (e) {
+      throw Exception('Failed to fetch appointments starting today: $e');
+    }
+  }
+
   // How to display an error dialog box
   void _handleDioError(DioException e) {
     if (kDebugMode) {
