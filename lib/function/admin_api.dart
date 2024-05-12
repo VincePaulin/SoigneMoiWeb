@@ -18,6 +18,41 @@ class AdminApi {
     return await storage.read(key: 'access_token') ?? '';
   }
 
+  Future<String?> getUserFullName(String userId) async {
+    try {
+      final token = await _getToken();
+      dio.options.baseUrl = AppConfig.baseUrl;
+
+      // Define query data
+      Map<String, dynamic> formData = {'user_id': userId};
+
+      // Send GET request
+      final response = await dio.get(
+        '/admin/user-name',
+        queryParameters: formData,
+        options: Options(headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Extract the full name of the answer
+        String fullName = response.data['full_name'];
+        return fullName;
+      } else {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          error: 'Failed to fetch user name',
+        );
+      }
+    } on DioException catch (e) {
+      _handleDioError(e);
+    }
+    return null;
+  }
+
   // Method for retrieving all stays
   Future<List<Stay>?> fetchAllStays() async {
     final token = await _getToken();
