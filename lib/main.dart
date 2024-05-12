@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:soigne_moi_web/page/dashboard_body.dart';
 import 'package:soigne_moi_web/utils/app_colors.dart';
 
 import 'config/routes.dart';

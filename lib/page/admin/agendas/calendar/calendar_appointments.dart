@@ -86,7 +86,7 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
               BoxDecoration? decoration;
 
               if (isToday) {
-                decoration = BoxDecoration(
+                decoration = const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.blue,
                 );
@@ -233,11 +233,11 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
   String _getFormatText(CalendarFormat format) {
     switch (format) {
       case CalendarFormat.month:
-        return 'Month';
+        return 'Mois';
       case CalendarFormat.week:
-        return 'Week';
+        return 'Semaine';
       case CalendarFormat.twoWeeks:
-        return '2 Weeks';
+        return '2 semaines';
       default:
         return '';
     }
