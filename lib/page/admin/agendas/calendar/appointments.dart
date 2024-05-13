@@ -36,9 +36,7 @@ class AppointmentsController extends State<Appointments> {
         agenda = agendaData;
       });
     } catch (e) {
-      if (kDebugMode) {
-        print('Failed to fetch agenda: $e');
-      }
+      showErrorDialog(e.toString(), context);
     }
   }
 
@@ -58,7 +56,7 @@ class AppointmentsController extends State<Appointments> {
         otherStay = staysByDoctorMatricule['stayOfOtherDoc'] ?? [];
       } else {
         if (kDebugMode) {
-          print('Échec de la récupération des rdv');
+          throw Exception('Échec de la récupération des rdv');
         }
       }
       setState(() {
@@ -66,9 +64,7 @@ class AppointmentsController extends State<Appointments> {
         staysOfOtherDoc = otherStay;
       });
     } catch (e) {
-      if (kDebugMode) {
-        print('Failed to fetch stays: $e');
-      }
+      showErrorDialog(e.toString(), context);
     }
   }
 
