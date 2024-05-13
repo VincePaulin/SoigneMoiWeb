@@ -4,6 +4,7 @@ import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/page/admin/doctors/doctors.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/custom_avatar.dart';
+import 'package:soigne_moi_web/widgets/error_dialog.dart';
 
 class DoctorDetailsDialog extends StatelessWidget {
   final Doctor doctor;
@@ -72,20 +73,22 @@ class DoctorDetailsDialog extends StatelessWidget {
                   ],
                   onSelected: (String value) async {
                     if (value == 'delete') {
-                      // Call the function to delete the doctor
-                      String? result =
-                          await AdminApi().deleteDoctor(doctor.matricule);
-                      if (result == "success") {
-                        Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                              content: Text(
-                                  'Le docteur a été supprimé avec succès')),
-                        );
-                        // Refreshes the list of doctors after successful deletion
-                        controller.fetchDoctors();
-                      } else {
-                        showErrorDialog(result!, context);
+                      try {
+                        // Call the function to delete the doctor
+                        String? result =
+                            await AdminApi().deleteDoctor(doctor.matricule);
+                        if (result == "success") {
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(
+                                    'Le docteur a été supprimé avec succès')),
+                          );
+                          // Refreshes the list of doctors after successful deletion
+                          controller.fetchDoctors();
+                        }
+                      } catch (e) {
+                        showErrorDialog(e.toString(), context);
                       }
                     }
                   },

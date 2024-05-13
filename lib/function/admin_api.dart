@@ -45,15 +45,10 @@ class AdminApi {
         // Extract the full name of the answer
         String fullName = response.data['full_name'];
         return fullName;
-      } else {
-        throw DioException(
-          requestOptions: response.requestOptions,
-          response: response,
-          error: 'Failed to fetch user name',
-        );
       }
     } on DioException catch (e) {
-      _handleDioError(e);
+      final errorMessage = e.response?.data['message'];
+      throw Exception(errorMessage);
     }
     return null;
   }
@@ -73,15 +68,10 @@ class AdminApi {
         final List<Stay> stays =
             staysJson.map((json) => Stay.fromJson(json)).toList();
         return stays;
-      } else {
-        throw DioException(
-          requestOptions: response.requestOptions,
-          response: response,
-          error: 'Failed to fetch stays',
-        );
       }
     } on DioException catch (e) {
-      _handleDioError(e);
+      final errorMessage = e.response?.data['message'];
+      throw Exception(errorMessage);
     }
     return null;
   }
@@ -102,15 +92,10 @@ class AdminApi {
             doctorsJson.map((json) => Doctor.fromJson(json)).toList();
 
         return doctors;
-      } else {
-        throw DioException(
-          requestOptions: response.requestOptions,
-          response: response,
-          error: 'Failed to fetch doctors',
-        );
       }
     } on DioException catch (e) {
-      _handleDioError(e);
+      final errorMessage = e.response?.data['message'];
+      throw Exception(errorMessage);
     }
     return null;
   }
@@ -158,7 +143,8 @@ class AdminApi {
 
       return "success";
     } on DioException catch (e) {
-      _handleDioError(e);
+      final errorMessage = e.response?.data['message'];
+      throw Exception(errorMessage);
     }
     return null;
   }
@@ -176,14 +162,10 @@ class AdminApi {
 
       if (response.statusCode == 200) {
         return "success";
-      } else {
-        throw DioException(
-            requestOptions: response.requestOptions,
-            response: response,
-            error: 'Failed to delete doctor');
       }
     } on DioException catch (e) {
-      _handleDioError(e);
+      final errorMessage = e.response?.data['message'];
+      throw Exception(errorMessage);
     }
     return null;
   }
@@ -204,15 +186,10 @@ class AdminApi {
             agendasJson.map((json) => Agenda.fromJson(json)).toList();
 
         return agendas;
-      } else {
-        throw DioException(
-          requestOptions: response.requestOptions,
-          response: response,
-          error: 'Failed to fetch agendas',
-        );
       }
     } on DioException catch (e) {
-      _handleDioError(e);
+      final errorMessage = e.response?.data['message'];
+      throw Exception(errorMessage);
     }
     return null;
   }
@@ -250,15 +227,10 @@ class AdminApi {
           'stayOfHisDoc': stayOfHisDoc,
           'stayOfOtherDoc': stayOfOtherDoc,
         };
-      } else {
-        throw DioException(
-          requestOptions: response.requestOptions,
-          response: response,
-          error: 'Failed to fetch stays',
-        );
       }
     } on DioException catch (e) {
-      _handleDioError(e);
+      final errorMessage = e.response?.data['message'];
+      throw Exception(errorMessage);
     }
     return null;
   }
@@ -287,16 +259,10 @@ class AdminApi {
           final Agenda agenda = Agenda.fromJson(agendaJson);
           return agenda;
         }
-      } else {
-        throw DioException(
-          requestOptions: response.requestOptions,
-          response: response,
-          error: 'Failed to fetch agenda',
-        );
       }
     } on DioException catch (e) {
-      _handleDioError(e);
-      return null;
+      final errorMessage = e.response?.data['message'];
+      throw Exception(errorMessage);
     }
     return null;
   }
@@ -317,15 +283,10 @@ class AdminApi {
 
       if (response.statusCode == 200) {
         return "success";
-      } else {
-        throw DioException(
-          requestOptions: response.requestOptions,
-          response: response,
-          error: 'Failed to create appointment',
-        );
       }
     } on DioException catch (e) {
-      _handleDioError(e);
+      final errorMessage = e.response?.data['message'];
+      throw Exception(errorMessage);
     }
     return null;
   }
@@ -376,45 +337,4 @@ class AdminApi {
       throw Exception('Failed to fetch appointments starting today: $e');
     }
   }
-
-  // How to display an error dialog box
-  void _handleDioError(DioException e) {
-    if (kDebugMode) {
-      print("Exception when calling backend log: $e\n");
-    }
-
-    // Displaying Dio error messages to the user
-    if (e.response?.data != null) {
-      var errorMessage = e.response?.data['message'];
-      if (kDebugMode) {
-        print("errorMessage: $errorMessage");
-      }
-      showErrorDialog(
-          errorMessage, GlobalKey<NavigatorState>().currentState!.context);
-    } else {
-      showErrorDialog(
-          "Erreur réseau", GlobalKey<NavigatorState>().currentState!.context);
-    }
-  }
-}
-
-// How to display an error dialog box
-void showErrorDialog(String errorMessage, BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Erreur'),
-        content: Text(errorMessage),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            child: Text('OK'),
-          ),
-        ],
-      );
-    },
-  );
 }
