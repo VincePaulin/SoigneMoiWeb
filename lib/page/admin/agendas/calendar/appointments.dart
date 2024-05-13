@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:soigne_moi_web/function/admin_api.dart';
 import 'package:soigne_moi_web/model/agenda.dart';
 import 'package:soigne_moi_web/model/stay.dart';
+import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/error_dialog.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import 'calendar_doctor_view.dart';
 
@@ -19,6 +22,8 @@ class AppointmentsController extends State<Appointments> {
   List<Stay> staysOfHisDoc = [];
   List<Stay> staysOfOtherDoc = [];
   Agenda? agenda;
+  List<Widget> appointmentToSelectedDate = [];
+  String? dateSelected;
 
   @override
   void initState() {
@@ -137,6 +142,64 @@ class AppointmentsController extends State<Appointments> {
     } catch (e) {
       showErrorDialog(e.toString(), context);
     }
+  }
+
+  Future<void> showAppointmentsForDay(DateTime date) async {
+    final appointmentsForDay = agenda?.appointments
+        .where((appointment) => isSameDay(appointment.startDate, date))
+        .toList();
+
+    List<Widget> appointmentCards = [];
+
+    if (appointmentsForDay != null && appointmentsForDay.isNotEmpty) {
+      // Retrieve the full name of each user in parallel
+      await Future.forEach(appointmentsForDay, (appointment) async {
+        String? fullName =
+            await AdminApi().getUserFullName(appointment.patientId);
+        appointmentCards.add(
+          Card(
+            elevation: 3,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    fullName ??
+                        "N/A", // Use the full name retrieved or display “N/A” if the name is empty
+                    style: robotoTextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Text(
+                        DateFormat('HH:mm').format(appointment.startDate),
+                        style: robotoTextStyle(),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        DateFormat('HH:mm').format(appointment.endDate),
+                        style: robotoTextStyle(),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      });
+    }
+
+    setState(() {
+      appointmentToSelectedDate = appointmentCards;
+      dateSelected = DateFormat('dd/mm/yyyy').format(date);
+    });
   }
 
   @override

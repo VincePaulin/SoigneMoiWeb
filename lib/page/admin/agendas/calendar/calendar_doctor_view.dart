@@ -19,7 +19,7 @@ class CalendarDoctorView extends StatelessWidget {
         title: Text('Planning du docteur'),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -28,10 +28,53 @@ class CalendarDoctorView extends StatelessWidget {
                 child: CalendarDoctorWidget(
                   controller: controller,
                 )),
+            if (controller.appointmentToSelectedDate.isNotEmpty)
+              Flexible(
+                flex: 1,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[900]?.withOpacity(0.5),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: DefaultTabController(
+                    length: 2,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Les rendez-vous du ${controller.dateSelected}",
+                            style: robotoTextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount:
+                                  controller.appointmentToSelectedDate.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return controller
+                                    .appointmentToSelectedDate[index];
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             Flexible(
               flex: 1,
               child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16.0),
                 decoration: BoxDecoration(
                   color: Colors.grey[900]?.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(10.0),
@@ -41,7 +84,8 @@ class CalendarDoctorView extends StatelessWidget {
                   child: Column(
                     children: [
                       TabBar(
-                        labelStyle: TextStyle(fontWeight: FontWeight.bold),
+                        labelStyle:
+                            const TextStyle(fontWeight: FontWeight.bold),
                         unselectedLabelStyle:
                             robotoTextStyle(color: Colors.white),
                         tabs: [
