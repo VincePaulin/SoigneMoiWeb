@@ -8,6 +8,7 @@ class Appointment {
   final String patientId;
   final String doctorMatricule;
   final String stayId;
+  final String motif;
 
   Appointment({
     this.id,
@@ -16,6 +17,7 @@ class Appointment {
     required this.patientId,
     required this.doctorMatricule,
     required this.stayId,
+    required this.motif,
   });
 
   factory Appointment.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,7 @@ class Appointment {
       patientId: json['patient_id'].toString(),
       doctorMatricule: json['doctor_matricule'].toString(),
       stayId: json['stay_id'].toString(),
+      motif: json['motif'] ?? "",
     );
   }
 
@@ -36,6 +39,7 @@ class Appointment {
       'patient_id': patientId,
       'doctor_matricule': doctorMatricule,
       'stay_id': stayId,
+      'motif': motif,
     };
   }
 }
