@@ -13,6 +13,15 @@ class AdminApi {
   final storage = FlutterSecureStorage();
   final dio = Dio();
 
+  // Function to generate options with authentication token and JSON acceptance
+  Future<Options> _generateOptions() async {
+    final token = await _getToken();
+    return Options(headers: {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json',
+    });
+  }
+
   // How to retrieve the token
   Future<String> _getToken() async {
     return await storage.read(key: 'access_token') ?? '';
@@ -20,7 +29,6 @@ class AdminApi {
 
   Future<String?> getUserFullName(String userId) async {
     try {
-      final token = await _getToken();
       dio.options.baseUrl = AppConfig.baseUrl;
 
       // Define query data
@@ -30,10 +38,7 @@ class AdminApi {
       final response = await dio.get(
         '/admin/user-name',
         queryParameters: formData,
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-          'Accept': 'application/json',
-        }),
+        options: await _generateOptions(),
       );
 
       if (response.statusCode == 200) {
@@ -55,15 +60,12 @@ class AdminApi {
 
   // Method for retrieving all stays
   Future<List<Stay>?> fetchAllStays() async {
-    final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
       final response = await dio.get(
         '/user/stays',
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-        }),
+        options: await _generateOptions(),
       );
 
       if (response.statusCode == 200) {
@@ -86,16 +88,12 @@ class AdminApi {
 
   // How to retrieve all doctors
   Future<List<Doctor>?> fetchAllDoctors() async {
-    final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
       final response = await dio.get(
         '/admin/doctors',
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-          'Accept': 'application/json',
-        }),
+        options: await _generateOptions(),
       );
 
       if (response.statusCode == 200) {
@@ -119,7 +117,6 @@ class AdminApi {
 
   // How to create a doctor
   Future<String?> createDoctor(Doctor doctor, XFile? image) async {
-    final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
@@ -156,10 +153,7 @@ class AdminApi {
       final response = await dio.post(
         '/admin/doctors/create',
         data: formData,
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-          'Accept': 'application/json',
-        }),
+        options: await _generateOptions(),
       );
 
       return "success";
@@ -171,17 +165,13 @@ class AdminApi {
 
   // How to delete a doctor
   Future<String?> deleteDoctor(String matricule) async {
-    final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
       // Sending the doctor's deletion request
       final response = await dio.delete(
         '/admin/doctor/delete/$matricule',
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-          'Accept': 'application/json',
-        }),
+        options: await _generateOptions(),
       );
 
       if (response.statusCode == 200) {
@@ -200,16 +190,12 @@ class AdminApi {
 
   // How to retrieve all diaries
   Future<List<Agenda>?> fetchAllAgendas() async {
-    final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
       final response = await dio.get(
         '/admin/agendas',
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-          'Accept': 'application/json',
-        }),
+        options: await _generateOptions(),
       );
 
       if (response.statusCode == 200) {
@@ -234,16 +220,12 @@ class AdminApi {
   // Method for retrieving stays by doctor's registration number
   Future<Map<String, List<Stay>>?> fetchStaysByDoctorMatricule(
       String matricule) async {
-    final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
       final response = await dio.get(
         '/admin/stay-not-programed',
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-          'Accept': 'application/json',
-        }),
+        options: await _generateOptions(),
       );
 
       if (response.statusCode == 200) {
@@ -283,17 +265,13 @@ class AdminApi {
 
   // Method to retrieve the agenda by doctor's number
   Future<Agenda?> fetchAgendaByDoctorMatricule(String matricule) async {
-    final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
       final response = await dio.get(
         '/admin/doctor-agenda',
         queryParameters: {'matricule': matricule},
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-          'Accept': 'application/json',
-        }),
+        options: await _generateOptions(),
       );
 
       if (response.statusCode == 200) {
@@ -324,7 +302,6 @@ class AdminApi {
   }
 
   Future<String?> createAppointment(Appointment appointment) async {
-    final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
@@ -335,10 +312,7 @@ class AdminApi {
       final response = await dio.post(
         '/admin/create-appointment',
         data: appointmentJson,
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-          'Accept': 'application/json',
-        }),
+        options: await _generateOptions(),
       );
 
       if (response.statusCode == 200) {
@@ -358,15 +332,12 @@ class AdminApi {
 
   // Function to retrieve future appointments
   Future<List<Appointment>> fetchAppointmentsStartingToday() async {
-    final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
       final response = await dio.get(
         '/admin/get-appointments-starting-today',
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-        }),
+        options: await _generateOptions(),
       );
 
       if (response.statusCode == 200) {
@@ -384,16 +355,13 @@ class AdminApi {
 
   Future<List<Appointment>> fetchAppointmentsForDoctorStartingToday(
       String doctorMatricule) async {
-    final token = await _getToken();
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
       final response = await dio.get(
         '/admin/get-appointments-to-doc-starting-today',
         queryParameters: {'doctor_matricule': doctorMatricule},
-        options: Options(headers: {
-          'Authorization': 'Bearer $token',
-        }),
+        options: await _generateOptions(),
       );
 
       if (response.statusCode == 200) {
