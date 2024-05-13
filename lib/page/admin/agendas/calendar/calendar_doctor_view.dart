@@ -16,7 +16,22 @@ class CalendarDoctorView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Planning du docteur'),
+        title: RichText(
+          text: TextSpan(
+            text: 'Agenda de ',
+            style: robotoTextStyle(
+              fontSize: 18,
+            ),
+            children: <TextSpan>[
+              TextSpan(
+                text: '${controller.agenda?.doctor.fullName}',
+                style: robotoTextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),

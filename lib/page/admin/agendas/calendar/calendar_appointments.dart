@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:soigne_moi_web/page/admin/agendas/calendar/appointments.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/appointment_dialog.dart';
+import 'package:soigne_moi_web/widgets/custom_avatar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarDoctorWidget extends StatefulWidget {
@@ -30,22 +31,29 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(18.0),
       child: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: _buildCustomHeader(),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _buildFormatButton(CalendarFormat.month),
               const SizedBox(
-                width: 3.0,
+                width: 6.0,
               ),
               _buildFormatButton(CalendarFormat.week),
               const SizedBox(
-                width: 3.0,
+                width: 6.0,
               ),
               _buildFormatButton(CalendarFormat.twoWeeks),
             ],
+          ),
+          const SizedBox(
+            height: 12.0,
           ),
           TableCalendar(
             headerStyle: const HeaderStyle(formatButtonVisible: false),
@@ -68,7 +76,7 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
                 _selectedDay = selectedDay;
               });
             },
-            headerVisible: true,
+            headerVisible: false,
             calendarBuilders: CalendarBuilders(
               defaultBuilder: (context, date, events) {
                 final isToday = isSameDay(date, DateTime.now());
@@ -205,10 +213,12 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
           return isSelected ? Colors.blue : Colors.grey.withOpacity(0.3);
         }),
       ),
-      child: Text(
-        _getFormatText(format),
-        style: TextStyle(
-          color: isSelected ? Colors.white : null,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+        child: Text(
+          _getFormatText(format),
+          style: TextStyle(
+              color: isSelected ? Colors.white : null, fontSize: 16.0),
         ),
       ),
     );
@@ -225,5 +235,46 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
       default:
         return '';
     }
+  }
+
+  Widget _buildCustomHeader() {
+    return Row(
+      children: [
+        CustomAvatar(
+          sex: widget.controller.agenda!.doctor.sex,
+          avatarUrl: widget.controller.agenda!.doctor.avatarURL,
+        ),
+        const SizedBox(width: 8),
+        Text(
+          DateFormat('MMMM yyyy').format(_focusedDay),
+          style: robotoTextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
+        const Spacer(),
+        IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () {
+            setState(() {
+              _focusedDay = DateTime.utc(
+                _focusedDay.year,
+                _focusedDay.month - 1,
+                _focusedDay.day,
+              );
+            });
+          },
+        ),
+        IconButton(
+          icon: const Icon(Icons.arrow_forward_ios),
+          onPressed: () {
+            setState(() {
+              _focusedDay = DateTime.utc(
+                _focusedDay.year,
+                _focusedDay.month + 1,
+                _focusedDay.day,
+              );
+            });
+          },
+        ),
+      ],
+    );
   }
 }
