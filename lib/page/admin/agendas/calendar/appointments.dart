@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/function/admin_api.dart';
 import 'package:soigne_moi_web/model/agenda.dart';
 import 'package:soigne_moi_web/model/stay.dart';
+import 'package:soigne_moi_web/widgets/error_dialog.dart';
 
 import 'calendar_doctor_view.dart';
 
@@ -112,6 +113,34 @@ class AppointmentsController extends State<Appointments> {
         staySelected = stay;
       }
     });
+  }
+
+  // Function to create appointment
+  Future<void> createEventCalendar(
+      DateTime startDateTime, DateTime endDateTime) async {
+    try {
+      // Create the appointment using the provided start and end times
+      Appointment newAppointment = Appointment(
+        startDate: startDateTime,
+        endDate: endDateTime,
+        patientId: staySelected!.userId!,
+        doctorMatricule: agenda!.doctor.matricule,
+        stayId: staySelected!.id!,
+      );
+
+      await AdminApi().createAppointment(newAppointment);
+      fetchStays();
+      fetchAppointmentsForDoc();
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('RDV créé avec succès'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (e) {
+      showErrorDialog(e.toString(), context);
+    }
   }
 
   @override

@@ -6,6 +6,7 @@ import 'package:soigne_moi_web/page/admin/agendas/calendar/appointments.dart';
 import 'package:soigne_moi_web/page/admin/agendas/calendar/show_appointments_day.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/appointment_dialog.dart';
+import 'package:soigne_moi_web/widgets/error_dialog.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalendarDoctorWidget extends StatefulWidget {
@@ -118,25 +119,9 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
                           return AppointmentDialog(
                             formattedDate: formattedDate,
                             onAppointmentCreated:
-                                (startDateTime, endDateTime) async {
-                              // Create the appointment using the provided start and end times
-                              Appointment newAppointment = Appointment(
-                                startDate: startDateTime,
-                                endDate: endDateTime,
-                                patientId:
-                                    widget.controller.staySelected!.userId!,
-                                doctorMatricule:
-                                    widget.controller.agenda!.doctor.matricule,
-                                stayId: widget.controller.staySelected!.id!,
-                              );
-                              // Perform any further actions with the new appointment
-
-                              await AdminApi()
-                                  .createAppointment(newAppointment);
-                              print("newAppointment: $newAppointment");
-                              print(newAppointment.stayId);
-                              print(newAppointment.patientId);
-                            },
+                                (startDateTime, endDateTime) =>
+                                    widget.controller.createEventCalendar(
+                                        startDateTime, endDateTime),
                           );
                         },
                       );
