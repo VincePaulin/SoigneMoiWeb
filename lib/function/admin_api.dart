@@ -292,7 +292,7 @@ class AdminApi {
   }
 
   // Function to retrieve future appointments
-  Future<List<Appointment>> fetchAppointmentsStartingToday() async {
+  Future<List<Appointment>?> fetchAppointmentsStartingToday() async {
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
@@ -306,15 +306,15 @@ class AdminApi {
         final List<Appointment> appointments =
             appointmentsJson.map((json) => Appointment.fromJson(json)).toList();
         return appointments;
-      } else {
-        throw Exception('Failed to fetch appointments starting today');
       }
+      return null;
     } catch (e) {
-      throw Exception('Failed to fetch appointments starting today: $e');
+      throw Exception(
+          "Une erreur s'est produite, veuillez réessayer ultérieurement ou nous contacter.");
     }
   }
 
-  Future<List<Appointment>> fetchAppointmentsForDoctorStartingToday(
+  Future<List<Appointment>?> fetchAppointmentsForDoctorStartingToday(
       String doctorMatricule) async {
     dio.options.baseUrl = AppConfig.baseUrl;
 
@@ -330,11 +330,11 @@ class AdminApi {
         final List<Appointment> appointments =
             appointmentsJson.map((json) => Appointment.fromJson(json)).toList();
         return appointments;
-      } else {
-        throw Exception('Failed to fetch appointments starting today');
       }
     } catch (e) {
-      throw Exception('Failed to fetch appointments starting today: $e');
+      throw Exception(
+          "Une erreur s'est produite, veuillez réessayer ultérieurement ou nous contacter.");
     }
+    return null;
   }
 }

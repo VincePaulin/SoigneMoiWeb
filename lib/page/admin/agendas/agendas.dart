@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/function/admin_api.dart';
 import 'package:soigne_moi_web/model/agenda.dart';
+import 'package:soigne_moi_web/widgets/error_dialog.dart';
 
 import 'agendasListView.dart';
 
@@ -43,21 +44,21 @@ class AgendasController extends State<AdminAgendas> {
           await AdminApi().fetchAppointmentsStartingToday();
 
       // Iterate through each appointment
-      for (var appointment in appointments) {
-        // Find the corresponding agenda using doctor matricule
-        var agenda = agendasList.firstWhere(
-          (agenda) => agenda.doctor.matricule == appointment.doctorMatricule,
-        );
+      if (appointments != null) {
+        for (var appointment in appointments) {
+          // Find the corresponding agenda using doctor matricule
+          var agenda = agendasList.firstWhere(
+            (agenda) => agenda.doctor.matricule == appointment.doctorMatricule,
+          );
 
-        // If an agenda is found, add the appointment to its list
-        setState(() {
-          agenda.appointments.add(appointment);
-        });
+          // If an agenda is found, add the appointment to its list
+          setState(() {
+            agenda.appointments.add(appointment);
+          });
+        }
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Failed to fetch agendas: $e');
-      }
+      showErrorDialog(e.toString(), context);
     }
   }
 
