@@ -84,11 +84,26 @@ abstract class AppRoutes {
     ),
     GoRoute(
       path: '/admin',
-      pageBuilder: (context, state) => defaultPageBuilder(
-        context,
-        state,
-        AdminView(),
-      ),
+      pageBuilder: (context, state) {
+        final int? pageRefresh = state.extra as int?;
+        if (pageRefresh != null) {
+          return defaultPageBuilder(
+            context,
+            state,
+            AdminView(
+              key: UniqueKey(),
+              index: pageRefresh,
+            ),
+          );
+        } else {
+          return defaultPageBuilder(
+            context,
+            state,
+            const AdminView(),
+          );
+        }
+        ;
+      },
       redirect: loggedOutRedirect,
       routes: [
         GoRoute(

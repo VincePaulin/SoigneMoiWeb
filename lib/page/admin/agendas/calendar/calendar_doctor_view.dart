@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:soigne_moi_web/page/admin/agendas/calendar/appointments.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
@@ -16,6 +17,16 @@ class CalendarDoctorView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            if (controller.refresh == true) {
+              context.go('/admin', extra: 1);
+            } else {
+              Navigator.of(context).pop();
+            }
+          },
+        ),
         title: RichText(
           text: TextSpan(
             text: 'Agenda de ',

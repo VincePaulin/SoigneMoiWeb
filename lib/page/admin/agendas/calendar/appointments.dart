@@ -25,6 +25,7 @@ class AppointmentsController extends State<Appointments> {
   Agenda? agenda;
   List<Widget> appointmentToSelectedDate = [];
   String? dateSelected;
+  bool refresh = false;
 
   @override
   void initState() {
@@ -32,6 +33,10 @@ class AppointmentsController extends State<Appointments> {
     fetchAgenda();
     fetchAppointmentsForDoc();
     fetchStays();
+  }
+
+  void needRefreshPop() {
+    setState(() => refresh = true);
   }
 
   void reloadStays() async {
@@ -147,6 +152,7 @@ class AppointmentsController extends State<Appointments> {
       );
 
       await AdminApi().createAppointment(newAppointment);
+      needRefreshPop();
       reloadStays();
       // Show success message
       ScaffoldMessenger.of(context).showSnackBar(

@@ -8,7 +8,8 @@ import 'admin_home.dart';
 import 'doctors/doctors.dart';
 
 class AdminView extends StatefulWidget {
-  const AdminView({super.key});
+  final int? index;
+  const AdminView({super.key, this.index});
 
   @override
   State<AdminView> createState() => _AdminViewState();
@@ -16,6 +17,15 @@ class AdminView extends StatefulWidget {
 
 class _AdminViewState extends State<AdminView> {
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.index != null && widget.index! >= 0 && widget.index! <= 3) {
+      setState(() {});
+      _selectedIndex = widget.index!;
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -60,7 +70,7 @@ class _AdminViewState extends State<AdminView> {
                   index: _selectedIndex,
                   children: [
                     AdminHome(),
-                    AdminAgendas(key: UniqueKey(),),
+                    AdminAgendas(),
                     AdminDoctors(),
                     SettingsPage(),
                   ],
