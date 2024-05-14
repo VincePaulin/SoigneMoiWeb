@@ -61,9 +61,34 @@ class AgendasListView extends StatelessWidget {
                                           MainAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        CustomAvatar(
-                                          sex: planning.doctor.sex,
-                                          avatarUrl: planning.doctor.avatarURL,
+                                        Stack(
+                                          children: [
+                                            CustomAvatar(
+                                              sex: planning.doctor.sex,
+                                              avatarUrl:
+                                                  planning.doctor.avatarURL,
+                                            ),
+                                            if (planning.demandsCount != null &&
+                                                planning.demandsCount! > 0)
+                                              Positioned(
+                                                bottom: 0,
+                                                right: 0,
+                                                child: CircleAvatar(
+                                                  backgroundColor: Colors.red,
+                                                  radius: 10,
+                                                  child: Text(
+                                                    planning.demandsCount
+                                                        .toString(),
+                                                    style: robotoTextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
                                         ),
                                         const SizedBox(
                                           width: 2.0,
@@ -76,25 +101,6 @@ class AgendasListView extends StatelessWidget {
                                         const SizedBox(
                                           width: 2.0,
                                         ),
-                                        if (planning.demandsCount != null &&
-                                            planning.demandsCount! > 0)
-                                          Positioned(
-                                            top: 0,
-                                            right: 0,
-                                            child: CircleAvatar(
-                                              backgroundColor: Colors.red,
-                                              radius: 10,
-                                              child: Text(
-                                                planning.demandsCount
-                                                    .toString(),
-                                                style: robotoTextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
                                       ],
                                     ),
                                   ],

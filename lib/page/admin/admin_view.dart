@@ -60,7 +60,7 @@ class _AdminViewState extends State<AdminView> {
                   index: _selectedIndex,
                   children: [
                     AdminHome(),
-                    AdminAgendas(),
+                    AdminAgendas(key: UniqueKey(),),
                     AdminDoctors(),
                     SettingsPage(),
                   ],

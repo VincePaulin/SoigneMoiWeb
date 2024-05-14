@@ -67,7 +67,6 @@ class AgendasController extends State<AdminAgendas> {
     try {
       Map<String, int>? demands =
           await AdminApi().fetchDemandsCountForEachDoctor();
-      print(demands?.length);
       if (demands != null) {
         // Iterate through each agenda
         for (var agenda in agendasList) {
