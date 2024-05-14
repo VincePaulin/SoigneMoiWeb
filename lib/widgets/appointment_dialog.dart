@@ -22,13 +22,12 @@ class AppointmentDialog extends StatefulWidget {
 
 class _AppointmentDialogState extends State<AppointmentDialog> {
   late DateTime _selectedDate;
-  late TimeOfDay _selectedTime;
+  TimeOfDay? _selectedTime;
 
   @override
   void initState() {
     super.initState();
     _selectedDate = DateTime.parse(widget.formattedDate);
-    _selectedTime = const TimeOfDay(hour: 10, minute: 0);
   }
 
   // Function to build dropdown items
@@ -121,8 +120,8 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
               _selectedDate.year,
               _selectedDate.month,
               _selectedDate.day,
-              _selectedTime.hour,
-              _selectedTime.minute,
+              _selectedTime!.hour,
+              _selectedTime!.minute,
             );
             DateTime endDateTime = startDateTime.add(Duration(minutes: 20));
             widget.onAppointmentCreated(startDateTime, endDateTime);
