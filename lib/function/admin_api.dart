@@ -335,4 +335,41 @@ class AdminApi {
     }
     return null;
   }
+
+  // Function to fetch demands count for each doctor
+  Future<Map<String, int>?> fetchDemandsCountForEachDoctor() async {
+    dio.options.baseUrl = AppConfig.baseUrl;
+
+    try {
+      final response = await dio.get(
+        '/admin/get-demands-count-for-each-doctor',
+        options: await _generateOptions(),
+      );
+      if (response.statusCode == 200) {
+        final List<dynamic> stayCountsJson = response.data['stay_counts'];
+
+        // Replace null values with 0
+        final stayCounts = stayCountsJson.map((item) {
+          final matricule = item['matricule'] ?? '0';
+          final fullName = item['fullName'];
+          final stayCount = item['stay_count'] ?? 0;
+          return {
+            'matricule': matricule,
+            'fullName': fullName,
+            'stay_count': stayCount
+          };
+        });
+
+        final Map<String, int> demandsCount = Map.fromEntries(
+          stayCounts
+              .map((item) => MapEntry(item['matricule'], item['stay_count'])),
+        );
+        return demandsCount;
+      }
+    } on DioException catch (e) {
+      final errorMessage = e.response?.data['error'];
+      throw Exception(errorMessage);
+    }
+    return null;
+  }
 }
