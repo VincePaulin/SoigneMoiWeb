@@ -49,11 +49,13 @@ class Agenda {
   final String id;
   final Doctor doctor;
   late final List<Appointment> appointments;
+  late int? demandsCount;
 
   Agenda({
     required this.id,
     required this.doctor,
     required this.appointments,
+    this.demandsCount,
   });
 
   // Function to convert JSON to Agenda object

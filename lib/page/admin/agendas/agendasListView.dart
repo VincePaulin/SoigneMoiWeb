@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:soigne_moi_web/model/agenda.dart';
 import 'package:soigne_moi_web/page/admin/agendas/agendas.dart';
+import 'package:soigne_moi_web/utils/app_fonts.dart';
 import 'package:soigne_moi_web/widgets/calendar_doctor_list.dart';
 import 'package:soigne_moi_web/widgets/custom_avatar.dart';
 
@@ -72,8 +73,30 @@ class AgendasListView extends StatelessWidget {
                                           style: const TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
+                                        const SizedBox(
+                                          width: 2.0,
+                                        ),
+                                        if (planning.demandsCount != null &&
+                                            planning.demandsCount! > 0)
+                                          Positioned(
+                                            top: 0,
+                                            right: 0,
+                                            child: CircleAvatar(
+                                              backgroundColor: Colors.red,
+                                              radius: 10,
+                                              child: Text(
+                                                planning.demandsCount
+                                                    .toString(),
+                                                style: robotoTextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                       ],
-                                    )
+                                    ),
                                   ],
                                 ),
                               ),

@@ -22,6 +22,7 @@ class AgendasController extends State<AdminAgendas> {
     super.initState();
     fetchAgendas(); // Calling the method to retrieve agendas
     fetchAppointments(); // Calling the method to retrieve appointments
+    fetchDemandsPerDoctors();
   }
 
   void fetchAgendas() async {
@@ -59,6 +60,30 @@ class AgendasController extends State<AdminAgendas> {
       }
     } catch (e) {
       showErrorDialog(e.toString(), context);
+    }
+  }
+
+  void fetchDemandsPerDoctors() async {
+    try {
+      Map<String, int>? demands =
+          await AdminApi().fetchDemandsCountForEachDoctor();
+      print(demands?.length);
+      if (demands != null) {
+        // Iterate through each agenda
+        for (var agenda in agendasList) {
+          // Check if the doctor matricule exists in the demands map
+          if (demands.containsKey(agenda.doctor.matricule)) {
+            // Update the demands count for the agenda's doctor
+            setState(() {
+              agenda.demandsCount = demands[agenda.doctor.matricule];
+            });
+          }
+        }
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Failed to get demands per doctor: $e');
+      }
     }
   }
 
