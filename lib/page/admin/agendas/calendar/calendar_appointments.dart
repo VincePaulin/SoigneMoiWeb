@@ -83,6 +83,7 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
                 final isPastDay = date.isBefore(DateTime.now());
                 final isFutureDay = date.isAfter(DateTime.now());
                 String formattedDate = DateFormat('yyyy-MM-dd').format(date);
+                String classicDate = DateFormat('dd/MM/yyyy').format(date);
                 final isStaySelected =
                     widget.controller.selectedStayDates.isNotEmpty;
                 final isStayDate = isStaySelected
@@ -124,6 +125,8 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
                           builder: (BuildContext context) {
                             return AppointmentDialog(
                               formattedDate: formattedDate,
+                              classicDate: classicDate,
+                              controller: widget.controller,
                               onAppointmentCreated:
                                   (startDateTime, endDateTime) =>
                                       widget.controller.createEventCalendar(

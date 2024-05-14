@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/page/admin/agendas/calendar/appointments.dart';
 
 // widget for time selection dialog box
 class AppointmentDialog extends StatefulWidget {
   final String formattedDate;
+  final String classicDate;
+  final AppointmentsController controller;
   final Function(DateTime, DateTime) onAppointmentCreated;
 
   const AppointmentDialog({
     super.key,
     required this.formattedDate,
     required this.onAppointmentCreated,
+    required this.classicDate,
+    required this.controller,
   });
 
   @override
@@ -23,13 +28,62 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
   void initState() {
     super.initState();
     _selectedDate = DateTime.parse(widget.formattedDate);
-    _selectedTime = TimeOfDay(hour: 10, minute: 0);
+    _selectedTime = const TimeOfDay(hour: 10, minute: 0);
+  }
+
+  // Function to build dropdown items
+  List<DropdownMenuItem<TimeOfDay>> _buildDropdownItems() {
+    // Initialize list of dropdown menu items
+    List<DropdownMenuItem<TimeOfDay>> items = [];
+
+    // Generate dropdown menu items for available times
+    for (int index = 0; index < 6; index++) {
+      final hour = 10 + index ~/ 3;
+      final minute = (index % 3) * 20;
+      final appointmentTime = TimeOfDay(hour: hour, minute: minute);
+
+      // Check if the appointment time is available
+      if (!_isAppointmentTimeTaken(appointmentTime)) {
+        items.add(
+          DropdownMenuItem<TimeOfDay>(
+            value: appointmentTime,
+            child: Text(
+              '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}',
+            ),
+          ),
+        );
+      }
+    }
+
+    return items;
+  }
+
+// Function to check if an appointment time is taken
+  bool _isAppointmentTimeTaken(TimeOfDay appointmentTime) {
+    // Get the selected date in DateTime format
+    DateTime selectedDateTime = DateTime(
+      _selectedDate.year,
+      _selectedDate.month,
+      _selectedDate.day,
+      appointmentTime.hour,
+      appointmentTime.minute,
+    );
+
+    // Iterate through existing appointments to check if the time is taken
+    for (var appointment in widget.controller.agenda!.appointments) {
+      // Check if the appointment falls within the same hour
+      if (appointment.startDate.isAtSameMomentAs(selectedDateTime)) {
+        return true; // Appointment time is taken
+      }
+    }
+
+    return false; // Appointment time is available
   }
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Pour le ${widget.formattedDate}"),
+      title: Text("Pour le ${widget.classicDate}"),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,15 +101,7 @@ class _AppointmentDialogState extends State<AppointmentDialog> {
                     });
                   }
                 },
-                items: List.generate(6, (index) {
-                  final hour = 10 + index ~/ 3;
-                  final minute = (index % 3) * 20;
-                  return DropdownMenuItem<TimeOfDay>(
-                    value: TimeOfDay(hour: hour, minute: minute),
-                    child: Text(
-                        '${hour.toString().padLeft(2, '0')}:${minute.toString().padLeft(2, '0')}'),
-                  );
-                }),
+                items: _buildDropdownItems(),
               ),
             ],
           ),
