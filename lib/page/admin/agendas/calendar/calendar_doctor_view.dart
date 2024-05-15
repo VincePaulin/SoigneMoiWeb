@@ -124,10 +124,55 @@ class CalendarDoctorView extends StatelessWidget {
                           unselectedLabelStyle:
                               robotoTextStyle(color: Colors.white),
                           tabs: [
-                            Tab(text: 'Pour ce docteur'),
                             Tab(
-                                text: controller
-                                    .agenda?.doctor.medicalSections.first),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("Pour ce docteur"),
+                                  const SizedBox(
+                                    width: 2.0,
+                                  ),
+                                  if (controller.staysOfHisDoc.isNotEmpty)
+                                    CircleAvatar(
+                                      backgroundColor: Colors.red,
+                                      radius: 10,
+                                      child: Text(
+                                        controller.staysOfHisDoc.length
+                                            .toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                            Tab(
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(controller
+                                      .agenda!.doctor.medicalSections.first),
+                                  const SizedBox(
+                                    width: 2.0,
+                                  ),
+                                  if (controller.staysOfOtherDoc.isNotEmpty)
+                                    CircleAvatar(
+                                      backgroundColor: Colors.red,
+                                      radius: 10,
+                                      child: Text(
+                                        controller.staysOfOtherDoc.length
+                                            .toString(),
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            )
                           ],
                         ),
                         const SizedBox(
