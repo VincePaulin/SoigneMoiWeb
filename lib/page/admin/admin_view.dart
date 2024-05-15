@@ -4,7 +4,6 @@ import 'package:soigne_moi_web/utils/screen_size.dart';
 import 'package:soigne_moi_web/widgets/admin_app_bar.dart';
 import 'package:soigne_moi_web/widgets/admin_navigation_bar.dart';
 import 'package:soigne_moi_web/widgets/navigation_bar.dart';
-import 'admin_home.dart';
 import 'doctors/doctors.dart';
 
 class AdminView extends StatefulWidget {
@@ -36,13 +35,9 @@ class _AdminViewState extends State<AdminView> {
   String getPageName(int index) {
     switch (index) {
       case 0:
-        return "Home";
-      case 1:
         return "Planings";
-      case 2:
+      case 1:
         return 'Docteurs';
-      case 3:
-        return 'Settings';
       default:
         return '';
     }
@@ -69,10 +64,8 @@ class _AdminViewState extends State<AdminView> {
                 child: IndexedStack(
                   index: _selectedIndex,
                   children: [
-                    AdminHome(),
                     AdminAgendas(),
                     AdminDoctors(),
-                    SettingsPage(),
                   ],
                 ),
               )
@@ -91,13 +84,3 @@ class _AdminViewState extends State<AdminView> {
 }
 
 // Todo: make setting page simply
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Welcome to the Settings Page!'),
-    );
-  }
-}

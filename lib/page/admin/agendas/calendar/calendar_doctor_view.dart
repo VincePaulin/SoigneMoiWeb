@@ -22,7 +22,7 @@ class CalendarDoctorView extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
             if (controller.refresh == true) {
-              context.go('/admin', extra: 1);
+              context.go('/admin', extra: 0);
             } else {
               Navigator.of(context).pop();
             }
