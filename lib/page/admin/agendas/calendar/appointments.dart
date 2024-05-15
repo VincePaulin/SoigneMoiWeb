@@ -162,7 +162,7 @@ class AppointmentsController extends State<Appointments> {
     } else {
       return false;
     }
-    // Si le compteur de chevauchement est supérieur à zéro, cela signifie qu'il y a au moins un jour avec 5 rendez-vous
+    // If the overlap counter is greater than zero, there is at least one day with 5 appointments.
     return overlappingCount > 0;
   }
 
