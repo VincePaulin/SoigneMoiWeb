@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:soigne_moi_web/function/admin_api.dart';
 import 'package:soigne_moi_web/model/doctor.dart';
 import 'package:soigne_moi_web/page/admin/doctors/doctors.dart';
@@ -194,18 +195,24 @@ class DoctorDetailsDialog extends StatelessWidget {
     );
   }
 
+  String _formatDate(DateTime date) {
+    return DateFormat('dd/MM/yyyy').format(date);
+  }
+
   Widget _buildProfileDate() {
+    final formatCreateDate = _formatDate(doctor.createdAt!);
+    final formatModifyDate = _formatDate(doctor.updatedAt!);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Profile créé le: ${doctor.createdAt}',
+          'Profile créé le: $formatCreateDate',
           style: robotoTextStyle(color: Colors.white),
         ),
 
         // Date of last modification
         Text(
-          'Dernière modification: ${doctor.updatedAt}',
+          'Dernière modification: $formatModifyDate',
           style: robotoTextStyle(color: Colors.white),
         ),
       ],
