@@ -93,13 +93,18 @@ class AgendasListView extends StatelessWidget {
                                         const SizedBox(
                                           width: 2.0,
                                         ),
-                                        Text(
-                                          planning.doctor.fullName,
-                                          style: const TextStyle(
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        const SizedBox(
-                                          width: 2.0,
+                                        Column(
+                                          children: [
+                                            Text(
+                                              planning.doctor.fullName,
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            Text(
+                                              planning.doctor.specialty,
+                                              style: robotoTextStyle(),
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),

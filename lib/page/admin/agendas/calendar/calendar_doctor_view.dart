@@ -125,7 +125,9 @@ class CalendarDoctorView extends StatelessWidget {
                               robotoTextStyle(color: Colors.white),
                           tabs: [
                             Tab(text: 'Pour ce docteur'),
-                            Tab(text: 'Autres docteurs'),
+                            Tab(
+                                text: controller
+                                    .agenda?.doctor.medicalSections.first),
                           ],
                         ),
                         const SizedBox(
