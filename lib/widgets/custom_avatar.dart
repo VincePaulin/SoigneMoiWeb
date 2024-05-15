@@ -33,15 +33,18 @@ class ProfileDoctorImage extends StatelessWidget {
         width: double.infinity,
         child: avatarUrl != null && avatarUrl!.isNotEmpty
             ? Image.network(
+                alignment: Alignment.topCenter,
                 avatarUrl!,
                 fit: BoxFit.cover,
               )
             : sex == "homme"
                 ? Image.asset(
+                    alignment: Alignment.topCenter,
                     'assets/img/avatar_man.png',
                     fit: BoxFit.cover,
                   )
                 : Image.asset(
+                    alignment: Alignment.topCenter,
                     'assets/img/avatar_women.png',
                     fit: BoxFit.cover,
                   ));
