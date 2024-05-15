@@ -46,8 +46,8 @@ class AdminApi {
         return fullName;
       }
     } on DioException catch (e) {
-      final errorMessage = e.response?.data['message'];
-      throw Exception(errorMessage);
+      final errorMessage = e.response?.data['error'];
+      throw errorMessage;
     }
     return null;
   }
@@ -69,8 +69,9 @@ class AdminApi {
         return stays;
       }
     } on DioException catch (e) {
-      final errorMessage = e.response?.data['message'];
-      throw Exception(errorMessage);
+      final errorMessage =
+          e.response?.data['error'] ?? e.response?.data['message'];
+      throw errorMessage;
     }
     return null;
   }
@@ -93,8 +94,9 @@ class AdminApi {
         return doctors;
       }
     } on DioException catch (e) {
-      final errorMessage = e.response?.data['message'];
-      throw Exception(errorMessage);
+      final errorMessage =
+          e.response?.data['error'] ?? e.response?.data['message'];
+      throw errorMessage;
     }
     return null;
   }
@@ -142,8 +144,9 @@ class AdminApi {
 
       return "success";
     } on DioException catch (e) {
-      final errorMessage = e.response?.data['message'];
-      throw Exception(errorMessage);
+      final errorMessage =
+          e.response?.data['error'] ?? e.response?.data['message'];
+      throw errorMessage;
     }
   }
 
@@ -162,8 +165,9 @@ class AdminApi {
         return "success";
       }
     } on DioException catch (e) {
-      final errorMessage = e.response?.data['message'];
-      throw Exception(errorMessage);
+      final errorMessage =
+          e.response?.data['error'] ?? e.response?.data['message'];
+      throw errorMessage;
     }
     return null;
   }
@@ -186,8 +190,9 @@ class AdminApi {
         return agendas;
       }
     } on DioException catch (e) {
-      final errorMessage = e.response?.data['message'];
-      throw Exception(errorMessage);
+      final errorMessage =
+          e.response?.data['error'] ?? e.response?.data['message'];
+      throw errorMessage;
     }
     return null;
   }
@@ -228,8 +233,9 @@ class AdminApi {
         };
       }
     } on DioException catch (e) {
-      final errorMessage = e.response?.data['message'];
-      throw Exception(errorMessage);
+      final errorMessage =
+          e.response?.data['error'] ?? e.response?.data['message'];
+      throw errorMessage;
     }
     return null;
   }
@@ -260,8 +266,9 @@ class AdminApi {
         }
       }
     } on DioException catch (e) {
-      final errorMessage = e.response?.data['message'];
-      throw Exception(errorMessage);
+      final errorMessage =
+          e.response?.data['error'] ?? e.response?.data['message'];
+      throw errorMessage;
     }
     return null;
   }
@@ -272,7 +279,6 @@ class AdminApi {
     try {
       // Data construction for the request
       final Map<String, dynamic> appointmentJson = appointment.toJson();
-      print(appointmentJson);
 
       // Sending the request to create an appointment
       final response = await dio.post(
@@ -281,11 +287,12 @@ class AdminApi {
         options: await _generateOptions(),
       );
     } on DioException catch (e) {
-      final errorMessage = e.response?.data;
+      final errorMessage =
+          e.response?.data['error'] ?? "Veuillez réessayer ultérieurement";
       if (kDebugMode) {
         print('Error in createAppointment: $errorMessage');
       }
-      throw Exception(errorMessage);
+      throw errorMessage;
     }
   }
 
@@ -367,8 +374,9 @@ class AdminApi {
         return demandsCount;
       }
     } on DioException catch (e) {
-      final errorMessage = e.response?.data['error'];
-      throw Exception(errorMessage);
+      final errorMessage =
+          e.response?.data['error'] ?? e.response?.data['message'];
+      throw errorMessage;
     }
     return null;
   }
