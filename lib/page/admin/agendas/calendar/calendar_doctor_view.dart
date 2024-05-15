@@ -189,6 +189,8 @@ class CalendarDoctorView extends StatelessWidget {
                                     controller.updateSelectedStayDates,
                                 onCreateEventCalendar:
                                     controller.createEventCalendar,
+                                hasOverlapping:
+                                    controller.hasOverlappingAppointments(),
                               ),
                               // Second tab - For other doctors
                               DoctorStaysList(
@@ -198,6 +200,8 @@ class CalendarDoctorView extends StatelessWidget {
                                     controller.updateSelectedStayDates,
                                 onCreateEventCalendar:
                                     controller.createEventCalendar,
+                                hasOverlapping:
+                                    controller.hasOverlappingAppointments(),
                               ),
                             ],
                           ),

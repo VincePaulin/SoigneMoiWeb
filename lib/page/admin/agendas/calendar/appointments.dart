@@ -137,6 +137,35 @@ class AppointmentsController extends State<Appointments> {
     });
   }
 
+  bool hasOverlappingAppointments() {
+    // Counting the number of hours worked for each day between startDate and endDate inclusive
+    int overlappingCount = 0;
+    final staySelected = this.staySelected;
+    if (staySelected != null) {
+      for (var date = staySelected.startDate;
+          date.isBefore(staySelected.endDate);
+          date = date.add(const Duration(days: 1))) {
+        // Counting the number of jobs for the selected day
+        final appointmentsForDay = agenda?.appointments
+            .where((appointment) =>
+                isSameDay(appointment.startDate, date) ||
+                isSameDay(appointment.endDate, date) ||
+                (appointment.startDate.isBefore(date) &&
+                    appointment.endDate.isAfter(date)))
+            .toList();
+
+        // If the number of shifts for this day is already 5, increment the overlap counter.
+        if (appointmentsForDay != null && appointmentsForDay.length >= 5) {
+          overlappingCount++;
+        }
+      }
+    } else {
+      return false;
+    }
+    // Si le compteur de chevauchement est supérieur à zéro, cela signifie qu'il y a au moins un jour avec 5 rendez-vous
+    return overlappingCount > 0;
+  }
+
   // Function to create appointment
   Future<void> createEventCalendar(
       DateTime startDateTime, DateTime endDateTime) async {

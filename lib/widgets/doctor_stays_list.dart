@@ -7,6 +7,7 @@ class DoctorStaysList extends StatelessWidget {
   final DateFormat dateFormat = DateFormat('dd/MM');
   final List<Stay> stays;
   final Stay? selectedStay;
+  final bool hasOverlapping;
   final Function(Stay) onStaySelected;
   final Future<void> Function(DateTime, DateTime) onCreateEventCalendar;
 
@@ -14,6 +15,7 @@ class DoctorStaysList extends StatelessWidget {
     super.key,
     required this.stays,
     this.selectedStay,
+    required this.hasOverlapping,
     required this.onStaySelected,
     required this.onCreateEventCalendar,
   });
@@ -52,11 +54,25 @@ class DoctorStaysList extends StatelessWidget {
                   style: const TextStyle(color: Colors.white),
                 ),
                 trailing: isSelected
-                    ? ElevatedButton(
-                        onPressed: () =>
-                            onCreateEventCalendar(stay.startDate, stay.endDate),
-                        child: Text('Poser sur cet agenda'),
-                      )
+                    ? hasOverlapping
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              const Icon(
+                                Icons.warning,
+                                color: Colors.red,
+                              ),
+                              Text(
+                                'Limite atteinte',
+                                style: robotoTextStyle(color: Colors.red),
+                              )
+                            ],
+                          )
+                        : ElevatedButton(
+                            onPressed: () => onCreateEventCalendar(
+                                stay.startDate, stay.endDate),
+                            child: Text('Poser sur cet agenda'),
+                          )
                     : Text(
                         stay.type,
                         style: robotoTextStyle(color: Colors.white),
