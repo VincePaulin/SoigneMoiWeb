@@ -199,7 +199,8 @@ class AdminApi {
 
     try {
       final response = await dio.get(
-        '/admin/stay-not-programed',
+        '/admin/stay-not-programed-by-speciality',
+        queryParameters: {'matricule': matricule},
         options: await _generateOptions(),
       );
 
@@ -265,12 +266,13 @@ class AdminApi {
     return null;
   }
 
-  Future<String?> createAppointment(Appointment appointment) async {
+  Future<void> createAppointment(Appointment appointment) async {
     dio.options.baseUrl = AppConfig.baseUrl;
 
     try {
       // Data construction for the request
       final Map<String, dynamic> appointmentJson = appointment.toJson();
+      print(appointmentJson);
 
       // Sending the request to create an appointment
       final response = await dio.post(
@@ -278,15 +280,11 @@ class AdminApi {
         data: appointmentJson,
         options: await _generateOptions(),
       );
-
-      if (response.statusCode == 200) {
-        return "success";
-      }
     } on DioException catch (e) {
-      final errorMessage = e.response?.data['message'];
+      final errorMessage = e.response?.data;
+      print('Error in createAppointment: $errorMessage');
       throw Exception(errorMessage);
     }
-    return null;
   }
 
   // Function to retrieve future appointments

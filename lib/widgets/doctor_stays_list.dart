@@ -8,7 +8,7 @@ class DoctorStaysList extends StatelessWidget {
   final List<Stay> stays;
   final Stay? selectedStay;
   final Function(Stay) onStaySelected;
-  final Function(DateTime, DateTime) onCreateEventCalendar;
+  final Future<void> Function(DateTime, DateTime) onCreateEventCalendar;
 
   DoctorStaysList({
     super.key,
@@ -53,12 +53,14 @@ class DoctorStaysList extends StatelessWidget {
                 ),
                 trailing: isSelected
                     ? ElevatedButton(
-                        onPressed: () {
-                          onCreateEventCalendar(stay.startDate, stay.endDate);
-                        },
+                        onPressed: () =>
+                            onCreateEventCalendar(stay.startDate, stay.endDate),
                         child: Text('Poser sur cet agenda'),
                       )
-                    : null, // Do not display anything on the right if the item is not selected
+                    : Text(
+                        stay.type,
+                        style: robotoTextStyle(color: Colors.white),
+                      ),
                 onTap: () {
                   onStaySelected(stay);
                 },
