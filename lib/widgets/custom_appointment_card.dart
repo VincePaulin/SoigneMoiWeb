@@ -33,9 +33,7 @@ class CustomAppointmentCard extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.blue
-                ),
+                    shape: BoxShape.circle, color: Colors.blue),
                 child: Center(
                   child: Text(
                     appointmentIndex.toString(),
