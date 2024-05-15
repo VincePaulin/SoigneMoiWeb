@@ -282,7 +282,9 @@ class AdminApi {
       );
     } on DioException catch (e) {
       final errorMessage = e.response?.data;
-      print('Error in createAppointment: $errorMessage');
+      if (kDebugMode) {
+        print('Error in createAppointment: $errorMessage');
+      }
       throw Exception(errorMessage);
     }
   }
