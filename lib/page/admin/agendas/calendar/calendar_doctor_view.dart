@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:soigne_moi_web/page/admin/agendas/calendar/appointments.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
+import 'package:soigne_moi_web/widgets/doctor_stays_list.dart';
 
 import 'calendar_appointments.dart';
 
@@ -134,102 +135,22 @@ class CalendarDoctorView extends StatelessWidget {
                           child: TabBarView(
                             children: [
                               // First tab - For this doctor
-                              SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    if (controller.staysOfHisDoc.isEmpty)
-                                      Text(
-                                        "Il n'y a pas de séjour demandé pour cette onglet",
-                                        style: robotoTextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount:
-                                          controller.staysOfHisDoc.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        final stay =
-                                            controller.staysOfHisDoc[index];
-                                        final String startDateFormatted =
-                                            dateFormat.format(stay.startDate);
-                                        final String endDateFormatted =
-                                            dateFormat.format(stay.endDate);
-                                        final isSelected =
-                                            controller.staySelected == stay;
-                                        return ListTile(
-                                          selected: isSelected,
-                                          title: Text(
-                                            stay.motif,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          subtitle: Text(
-                                            'Du $startDateFormatted au $endDateFormatted',
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                          onTap: () {
-                                            controller
-                                                .updateSelectedStayDates(stay);
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
+                              DoctorStaysList(
+                                stays: controller.staysOfHisDoc,
+                                selectedStay: controller.staySelected,
+                                onStaySelected:
+                                    controller.updateSelectedStayDates,
+                                onCreateEventCalendar:
+                                    controller.createEventCalendar,
                               ),
                               // Second tab - For other doctors
-                              SingleChildScrollView(
-                                child: Column(
-                                  children: [
-                                    if (controller.staysOfOtherDoc.isEmpty)
-                                      Text(
-                                        "Il n'y a pas de séjour demandé pour cette onglet",
-                                        style: robotoTextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ListView.builder(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemCount:
-                                          controller.staysOfOtherDoc.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        final stay =
-                                            controller.staysOfOtherDoc[index];
-                                        final String startDateFormatted =
-                                            dateFormat.format(stay.startDate);
-                                        final String endDateFormatted =
-                                            dateFormat.format(stay.endDate);
-                                        final isSelected =
-                                            controller.staySelected == stay;
-                                        return ListTile(
-                                          selected: isSelected,
-                                          title: Text(
-                                            stay.motif,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          subtitle: Text(
-                                            'Du $startDateFormatted au $endDateFormatted',
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          ),
-                                          onTap: () {
-                                            controller
-                                                .updateSelectedStayDates(stay);
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
+                              DoctorStaysList(
+                                stays: controller.staysOfOtherDoc,
+                                selectedStay: controller.staySelected,
+                                onStaySelected:
+                                    controller.updateSelectedStayDates,
+                                onCreateEventCalendar:
+                                    controller.createEventCalendar,
                               ),
                             ],
                           ),

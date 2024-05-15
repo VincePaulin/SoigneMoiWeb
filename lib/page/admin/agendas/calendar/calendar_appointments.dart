@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:soigne_moi_web/page/admin/agendas/calendar/appointments.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
-import 'package:soigne_moi_web/widgets/appointment_dialog.dart';
+import 'package:soigne_moi_web/utils/marker_builder.dart';
 import 'package:soigne_moi_web/widgets/custom_avatar.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -83,7 +83,6 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
                 final isPastDay = date.isBefore(DateTime.now());
                 final isFutureDay = date.isAfter(DateTime.now());
                 String formattedDate = DateFormat('yyyy-MM-dd').format(date);
-                String classicDate = DateFormat('dd/MM/yyyy').format(date);
                 final isStaySelected =
                     widget.controller.selectedStayDates.isNotEmpty;
                 final isStayDate = isStaySelected
@@ -118,26 +117,7 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
                   return InkWell(
                     hoverColor: Colors.grey.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(8),
-                    onTap: () {
-                      if (isStaySelected) {
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AppointmentDialog(
-                              formattedDate: formattedDate,
-                              classicDate: classicDate,
-                              controller: widget.controller,
-                              onAppointmentCreated:
-                                  (startDateTime, endDateTime) =>
-                                      widget.controller.createEventCalendar(
-                                          startDateTime, endDateTime),
-                            );
-                          },
-                        );
-                      } else {
-                        widget.controller.showAppointmentsForDay(date);
-                      }
-                    },
+                    onTap: () => widget.controller.showAppointmentsForDay(date),
                     child: Container(
                       margin: const EdgeInsets.all(4.0),
                       decoration: decoration,
@@ -167,28 +147,8 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
                 }
               },
               markerBuilder: (context, date, events) {
-                final appointmentsForCurrentDate = widget
-                    .controller.agenda?.appointments
-                    .where(
-                        (appointment) => isSameDay(appointment.startDate, date))
-                    .toList();
-
-                final isComplete = appointmentsForCurrentDate?.length == 5;
-                if (appointmentsForCurrentDate!.isNotEmpty) {
-                  return CircleAvatar(
-                    backgroundColor: isComplete ? Colors.red : Colors.green,
-                    radius: 10,
-                    child: Text(
-                      '${appointmentsForCurrentDate.length}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 10,
-                      ),
-                    ),
-                  );
-                } else {
-                  return null;
-                }
+                return CustomMarkerBuilder.buildMarker(
+                    widget.controller.agenda!.appointments, date);
               },
             ),
             daysOfWeekVisible: true,
@@ -212,7 +172,7 @@ class _CalendarDoctorWidgetState extends State<CalendarDoctorWidget> {
               });
             },
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.resolveWith((states) {
+        backgroundColor: WidgetStateProperty.resolveWith((states) {
           return isSelected ? Colors.blue : Colors.grey.withOpacity(0.3);
         }),
       ),

@@ -177,26 +177,34 @@ class AppointmentsController extends State<Appointments> {
 
   Future<void> showAppointmentsForDay(DateTime date) async {
     final appointmentsForDay = agenda?.appointments
-        .where((appointment) => isSameDay(appointment.startDate, date))
+        .where((appointment) =>
+            appointment.startDate.isBefore(date) &&
+                appointment.endDate.isAfter(date) ||
+            (isSameDay(appointment.startDate, date) &&
+                isSameDay(appointment.endDate, date)))
         .toList();
 
     List<Widget> appointmentCards = [];
-
+    int count = 0;
     if (appointmentsForDay != null && appointmentsForDay.isNotEmpty) {
       // Retrieve the full name of each user in parallel
       await Future.forEach(appointmentsForDay, (appointment) async {
         String? fullName =
             await AdminApi().getUserFullName(appointment.patientId);
+        count += 1;
 
         appointmentCards.add(
-          CustomAppointmentCard(appointment: appointment, fullName: fullName),
+          CustomAppointmentCard(
+              appointmentIndex: count,
+              appointment: appointment,
+              fullName: fullName),
         );
       });
     }
 
     setState(() {
       appointmentToSelectedDate = appointmentCards;
-      dateSelected = DateFormat('dd/mm/yyyy').format(date);
+      dateSelected = DateFormat('dd/MM/yyyy').format(date); // Fixed date format
     });
   }
 

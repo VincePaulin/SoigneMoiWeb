@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:soigne_moi_web/model/agenda.dart';
 import 'package:soigne_moi_web/utils/app_fonts.dart';
 
 class CustomAppointmentCard extends StatelessWidget {
   final Appointment appointment;
   final String? fullName;
+  final int appointmentIndex;
 
   const CustomAppointmentCard({
     super.key,
     required this.appointment,
     this.fullName,
+    required this.appointmentIndex,
   });
 
   @override
@@ -27,27 +28,24 @@ class CustomAppointmentCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // First column for dates
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    DateFormat('HH:mm').format(appointment.startDate),
+              // First column for appointment number
+              Container(
+                width: 40,
+                height: 40,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.blue
+                ),
+                child: Center(
+                  child: Text(
+                    appointmentIndex.toString(),
                     style: robotoTextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
+                      color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    DateFormat('HH:mm').format(appointment.endDate),
-                    style: robotoTextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                      color: Colors.grey,
-                    ),
-                  ),
-                ],
+                ),
               ),
               // Vertical line to separate columns
               const VerticalDivider(

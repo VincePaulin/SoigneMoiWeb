@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:soigne_moi_web/utils/marker_builder.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:soigne_moi_web/model/agenda.dart';
 
@@ -88,26 +89,8 @@ class _CalendarWidgetState extends State<CalendarDoctorListWidget> {
           );
         },
         markerBuilder: (context, date, events) {
-          final appointmentsForCurrentDate = widget.agenda.appointments
-              .where((appointment) => isSameDay(appointment.startDate, date))
-              .toList();
-
-          final isComplete = appointmentsForCurrentDate.length == 5;
-          if (appointmentsForCurrentDate.isNotEmpty) {
-            return CircleAvatar(
-              backgroundColor: isComplete ? Colors.red : Colors.green,
-              radius: 10,
-              child: Text(
-                '${appointmentsForCurrentDate.length}',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                ),
-              ),
-            );
-          } else {
-            return null;
-          }
+          return CustomMarkerBuilder.buildMarker(
+              widget.agenda.appointments, date);
         },
       ),
     );
