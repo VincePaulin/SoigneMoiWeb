@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:soigne_moi_web/model/stay.dart';
 
 class StayHistoryCard extends StatelessWidget {
@@ -34,8 +35,13 @@ class StayHistoryCard extends StatelessWidget {
               itemCount: stays.length,
               itemBuilder: (context, index) {
                 final stay = stays[index];
+                final formattedStartDate =
+                    DateFormat('dd/MM/yyyy').format(stay.startDate);
+                final formattedEndDate =
+                    DateFormat('dd/MM/yyyy').format(stay.endDate);
                 return ListTile(
-                  title: Text('Séjour du ${stay.startDate} au ${stay.endDate}'),
+                  title: Text(
+                      'Séjour du $formattedStartDate au $formattedEndDate'),
                   subtitle: Text('Motif: ${stay.motif}'),
                 );
               },
