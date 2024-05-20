@@ -4,10 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:soigne_moi_web/page/admin/admin_view.dart';
+import 'package:soigne_moi_web/page/admin/doctors/create_doctor.dart';
+import 'package:soigne_moi_web/page/admin/agendas/calendar/calendar_doctor_view.dart';
 import 'package:soigne_moi_web/page/login/login.dart';
 import 'package:soigne_moi_web/page/dashboard_body.dart';
 import 'package:soigne_moi_web/page/register/register.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
+
+import '../page/admin/agendas/calendar/appointments.dart';
 
 abstract class AppRoutes {
   // Method to check if the user is logged in
@@ -18,7 +23,16 @@ abstract class AppRoutes {
     // Check connection
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     final token = await secureStorage.read(key: 'access_token');
-    if (token != null) return '/dashboard';
+    final role =
+        await secureStorage.read(key: 'role'); // Ajout de la lecture du rôle
+
+    if (token != null) {
+      if (role != null && role == 'admin') {
+        return '/admin'; // Redirect to administration page if user is an administrator
+      } else {
+        return '/dashboard'; // Redirect to dashboard if user is a normal user
+      }
+    }
     return null;
   }
 
@@ -67,6 +81,55 @@ abstract class AppRoutes {
         const DashboardPage(),
       ),
       redirect: loggedOutRedirect,
+    ),
+    GoRoute(
+      path: '/admin',
+      pageBuilder: (context, state) {
+        final int? pageRefresh = state.extra as int?;
+        if (pageRefresh != null) {
+          return defaultPageBuilder(
+            context,
+            state,
+            AdminView(
+              key: UniqueKey(),
+              index: pageRefresh,
+            ),
+          );
+        } else {
+          return defaultPageBuilder(
+            context,
+            state,
+            const AdminView(),
+          );
+        }
+        ;
+      },
+      redirect: loggedOutRedirect,
+      routes: [
+        GoRoute(
+          path: 'doctors/create',
+          pageBuilder: (context, state) => defaultPageBuilder(
+            context,
+            state,
+            CreateDoctorPage(),
+          ),
+          redirect: loggedOutRedirect,
+        ),
+        GoRoute(
+          path: 'doctor-planning/:doctor',
+          pageBuilder: (context, state) {
+            final doctor = state.pathParameters['doctor'] ?? '';
+            return defaultPageBuilder(
+              context,
+              state,
+              Appointments(
+                matricule: doctor,
+              ),
+            );
+          },
+          redirect: loggedOutRedirect,
+        ),
+      ],
     ),
   ];
 

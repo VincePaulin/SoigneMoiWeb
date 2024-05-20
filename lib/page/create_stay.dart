@@ -58,7 +58,7 @@ class _CreateStayPageState extends State<CreateStayPage> {
       ));
     } else {
       for (Doctor doctor in doctors) {
-        if (doctor.medicalSections.contains(_selectedType)) {
+        if (doctor.specialty.contains(_selectedType)) {
           items.add(DropdownMenuItem<String>(
             value: doctor.matricule.toString(),
             child: Text(doctor.fullName),

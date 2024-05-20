@@ -5,6 +5,7 @@ class User {
   final String email;
   final DateTime? emailVerifiedAt;
   final String? address;
+  final String role;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -13,6 +14,7 @@ class User {
     required this.name,
     required this.firstName,
     required this.email,
+    required this.role,
     this.emailVerifiedAt,
     this.address,
     required this.createdAt,
@@ -25,6 +27,7 @@ class User {
       name: json['name'],
       firstName: json['first_name'],
       email: json['email'],
+      role: json['role'] ?? "user",
       emailVerifiedAt: json['email_verified_at'] != null
           ? DateTime.parse(json['email_verified_at'])
           : null,

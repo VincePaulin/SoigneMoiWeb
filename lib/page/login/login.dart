@@ -93,6 +93,12 @@ class LoginController extends State<Login> {
         await secureStorage.write(
             key: 'access_token', value: responseData['token']);
 
+        // Store user role securely
+        await secureStorage.write(
+          key: 'role',
+          value: responseData['user']['role'],
+        );
+
         if (mounted) context.go('/');
       }
     } on DioException catch (e) {
