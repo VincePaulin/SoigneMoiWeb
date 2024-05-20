@@ -152,8 +152,7 @@ class CalendarDoctorView extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text(controller
-                                      .agenda!.doctor.specialty),
+                                  Text(controller.agenda!.doctor.specialty),
                                   const SizedBox(
                                     width: 2.0,
                                   ),

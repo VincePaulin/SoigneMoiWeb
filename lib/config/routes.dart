@@ -10,6 +10,7 @@ import 'package:soigne_moi_web/page/admin/agendas/calendar/calendar_doctor_view.
 import 'package:soigne_moi_web/page/login/login.dart';
 import 'package:soigne_moi_web/page/dashboard_body.dart';
 import 'package:soigne_moi_web/page/register/register.dart';
+import 'package:soigne_moi_web/page/welcome/welcome_page.dart';
 import 'package:soigne_moi_web/utils/screen_size.dart';
 
 import '../page/admin/agendas/calendar/appointments.dart';
@@ -43,7 +44,7 @@ abstract class AppRoutes {
     // Check connection
     FlutterSecureStorage secureStorage = const FlutterSecureStorage();
     final token = await secureStorage.read(key: 'access_token');
-    if (token == null) return '/login';
+    if (token == null) return '/welcome';
 
     return null;
   }
@@ -53,7 +54,16 @@ abstract class AppRoutes {
   static final List<RouteBase> routes = [
     GoRoute(
       path: '/',
-      redirect: (context, state) => '/login',
+      redirect: (context, state) => '/welcome',
+    ),
+    GoRoute(
+      path: '/welcome',
+      pageBuilder: (context, state) => defaultPageBuilder(
+        context,
+        state,
+        const WelcomePage(),
+      ),
+      redirect: loggedInRedirect,
     ),
     GoRoute(
       path: '/login',
