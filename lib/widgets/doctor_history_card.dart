@@ -26,7 +26,7 @@ class _DoctorHistoryCardState extends State<DoctorHistoryCard> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Docteurs vus',
+              'Mes praticiens',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),

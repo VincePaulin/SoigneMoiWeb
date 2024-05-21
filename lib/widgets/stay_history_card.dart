@@ -21,7 +21,7 @@ class StayHistoryCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Text(
-              'Historique de séjours',
+              'Historique',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),

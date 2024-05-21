@@ -160,7 +160,7 @@ class _CreateStayPageState extends State<CreateStayPage> {
                     children: [
                       Expanded(
                         child: Text(
-                          'Date: ${_formatDate(_startDate)}',
+                          'Date de début: ${_formatDate(_startDate)}',
                           style: robotoTextStyle(),
                         ),
                       ),
@@ -188,7 +188,7 @@ class _CreateStayPageState extends State<CreateStayPage> {
                     children: [
                       Expanded(
                         child: Text(
-                          'Fin le: ${_formatDate(_endDate)}',
+                          'Date de fin: ${_formatDate(_endDate)}',
                           style: robotoTextStyle(),
                         ),
                       ),

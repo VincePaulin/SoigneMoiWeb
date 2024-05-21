@@ -142,7 +142,7 @@ class _CreateDoctorPageState extends State<CreateDoctorPage> {
                 Icon(Icons.camera_alt, color: Colors.white),
                 SizedBox(width: 10),
                 Text(
-                  'Mettre une photo de profile',
+                  'Mettre une photo de profil',
                   style: TextStyle(color: Colors.white),
                 ),
               ],

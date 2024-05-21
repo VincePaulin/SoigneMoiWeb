@@ -32,7 +32,7 @@ class _DashboardPageState extends State<DashboardPage> {
       case 1:
         return "Réservation d'un séjour";
       case 2:
-        return 'Profile';
+        return 'Profil';
       case 3:
         return 'Settings';
       default:
