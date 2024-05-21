@@ -47,10 +47,10 @@ class ProfileCard extends StatelessWidget {
                 "$numberOfStays Séjours",
                 style: const TextStyle(fontSize: 18),
               ),
-              Text(
-                "$numberOfPrescriptions Prescriptions",
-                style: const TextStyle(fontSize: 18),
-              ),
+              // Text(
+              //   "$numberOfPrescriptions Prescriptions",
+              //   style: const TextStyle(fontSize: 18),
+              // ),
             ],
           ),
         ],
