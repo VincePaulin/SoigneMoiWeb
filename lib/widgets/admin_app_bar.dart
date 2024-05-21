@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:soigne_moi_web/config/app_config.dart';
+import 'package:soigne_moi_web/utils/app_colors.dart';
 
 class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? trailing;
@@ -12,7 +13,7 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.green,
+      color: AppColors.accentColor,
       child: PreferredSize(
         preferredSize: const Size.fromHeight(80),
         child: Padding(
@@ -65,20 +66,6 @@ class AdminAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ],
                 ),
-              ),
-              Spacer(), // Flexible space for separating elements
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Nom de l\'utilisateur'),
-                  const SizedBox(
-                    width: 6.0,
-                  ),
-                  CircleAvatar(
-                    // Avatar
-                    radius: 20,
-                  ),
-                ],
               ),
             ],
           ),
