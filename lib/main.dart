@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:soigne_moi_web/utils/app_colors.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: kDebugMode ?true :false,
       title: 'Soigne Moi',
       routerConfig: router,
       theme: buildAppTheme(),
